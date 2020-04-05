@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>【Electron / TypeScript】 ElectronでTypeScript | たくさんの備忘録 |
+        備忘録</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="JavaScript,Electron,TypeScript,Node.js">
+    <meta name="description" content="次Electronでなにか作る時はTypeScript使おっかなー。 本題TypeScriptってのをあんまり触ったこと無いけど型が決められるとかなんとか。 参考にしましたhttps:&#x2F;&#x2F;github.com&#x2F;electron&#x2F;electron-quick-start-typescript ここを真似してやる。 package.jsonつくるNode.js入れておいてね。npm versionは6">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【Electron &#x2F; TypeScript】 ElectronでTypeScript">
+<meta property="og:url" content="https://takusan23.github.io/Bibouroku/2020/04/06/Electron%20TypeScript/index.html">
+<meta property="og:site_name" content="たくさんの備忘録">
+<meta property="og:description" content="次Electronでなにか作る時はTypeScript使おっかなー。 本題TypeScriptってのをあんまり触ったこと無いけど型が決められるとかなんとか。 参考にしましたhttps:&#x2F;&#x2F;github.com&#x2F;electron&#x2F;electron-quick-start-typescript ここを真似してやる。 package.jsonつくるNode.js入れておいてね。npm versionは6">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:image" content="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/409918/185fc1f6-72ec-00aa-b75d-503663a4696c.png">
+<meta property="og:image" content="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/409918/9c327da2-1e15-6c66-b1fd-226fb39458c9.png">
+<meta property="og:image" content="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/409918/41d52c79-08b5-8177-1df2-3616c4d74a7c.png">
+<meta property="article:published_time" content="2020-04-05T16:27:15.269Z">
+<meta property="article:modified_time" content="2020-04-05T16:39:45.180Z">
+<meta property="article:author" content="takusan23">
+<meta property="article:tag" content="JavaScript">
+<meta property="article:tag" content="Electron">
+<meta property="article:tag" content="TypeScript">
+<meta property="article:tag" content="Node.js">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/409918/185fc1f6-72ec-00aa-b75d-503663a4696c.png">
+    
+    <link rel="shortcut icon" href="/img/favicon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <link rel="stylesheet" href="/css/fonts/custom/css/custom.css">
+    <script>window.lazyScripts = []</script>
+
+    <!-- custom head -->
+    
+
+
+    <style>
+        body {
+            font-family: "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro", "メイリオ", Meiryo, Osaka, "ＭＳ Ｐゴシック", "MS PGothic", sans-serif;
+            color: #630;
+            line-height: 25px;
+            font-size: 0.95em;
+        }
+    </style>
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.gif">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">takusan23</h5>
+          <a href="mailto:takusan_0913@yahoo.co.jp" title="takusan_0913@yahoo.co.jp" class="mail">takusan_0913@yahoo.co.jp</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                Home
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/takusan23" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://best-friends.chat/@takusan_23" target="_blank" rel="noopener"  >
+                <i class="icon icon-lg icon-link"></i>
+                Mastodon
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">【Electron / TypeScript】 ElectronでTypeScript</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="検索">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">【Electron / TypeScript】 ElectronでTypeScript</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2020-04-05T16:27:15.269Z" itemprop="datePublished" class="page-time">
+  2020年04月06日 01時27分15秒
+</time>
+
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#本題"><span class="post-toc-number">1.</span> <span class="post-toc-text">本題</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#参考にしました"><span class="post-toc-number">2.</span> <span class="post-toc-text">参考にしました</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#package-jsonつくる"><span class="post-toc-number">3.</span> <span class="post-toc-text">package.jsonつくる</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#TypeScript入れる"><span class="post-toc-number">4.</span> <span class="post-toc-text">TypeScript入れる</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#package-jsonを書き換える"><span class="post-toc-number">5.</span> <span class="post-toc-text">package.jsonを書き換える</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#tsconfig-json-作成"><span class="post-toc-number">6.</span> <span class="post-toc-text">tsconfig.json 作成</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#HTMLとTypeScriptかく"><span class="post-toc-number">7.</span> <span class="post-toc-text">HTMLとTypeScriptかく</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#実行してみる"><span class="post-toc-number">8.</span> <span class="post-toc-text">実行してみる</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#レンダラープロセスもTypeScriptで"><span class="post-toc-number">9.</span> <span class="post-toc-text">レンダラープロセスもTypeScriptで</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#まずはHTMLを変えて"><span class="post-toc-number">9.1.</span> <span class="post-toc-text">まずはHTMLを変えて</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#renderer-ts-作成"><span class="post-toc-number">9.2.</span> <span class="post-toc-text">renderer.ts 作成</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#ソースコード"><span class="post-toc-number">9.2.1.</span> <span class="post-toc-text">ソースコード</span></a></li></ol></li></ol></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-Electron TypeScript"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">【Electron / TypeScript】 ElectronでTypeScript</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2020年04月06日 01時27分15秒 01:27:15" datetime="2020-04-05T16:27:15.269Z"  itemprop="datePublished">2020年04月06日 01時27分15秒</time>
+
+            
+
+
+            
+<!-- <span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span> -->
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p>次Electronでなにか作る時はTypeScript使おっかなー。</p>
+<h1 id="本題"><a href="#本題" class="headerlink" title="本題"></a>本題</h1><p>TypeScriptってのをあんまり触ったこと無いけど型が決められるとかなんとか。</p>
+<h1 id="参考にしました"><a href="#参考にしました" class="headerlink" title="参考にしました"></a>参考にしました</h1><p><a href="https://github.com/electron/electron-quick-start-typescript" target="_blank" rel="noopener">https://github.com/electron/electron-quick-start-typescript</a></p>
+<p>ここを真似してやる。</p>
+<h1 id="package-jsonつくる"><a href="#package-jsonつくる" class="headerlink" title="package.jsonつくる"></a>package.jsonつくる</h1><p>Node.js入れておいてね。<br>npm versionは6.4.1です。</p>
+<p>適当にフォルダを作成し、ターミナルで以下のコードを。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm init -y</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><figcaption><span>が作成されていれば成功です。</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"># Electron入れる</span><br><span class="line"></span><br><span class="line">ターミナルで</span><br><span class="line"></span><br><span class="line">&#96;&#96;&#96;terminal</span><br><span class="line">npm install --save electron</span><br></pre></td></tr></table></figure>
+
+<h1 id="TypeScript入れる"><a href="#TypeScript入れる" class="headerlink" title="TypeScript入れる"></a>TypeScript入れる</h1><p>ターミナルで</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g typescript</span><br></pre></td></tr></table></figure>
+
+<h1 id="package-jsonを書き換える"><a href="#package-jsonを書き換える" class="headerlink" title="package.jsonを書き換える"></a>package.jsonを書き換える</h1><p>package.jsonを開いて、”scripts”{}を書き換えます。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&quot;scripts&quot;: &#123;</span><br><span class="line">  &quot;build&quot;: &quot;tsc&quot;,</span><br><span class="line">  &quot;start&quot;: &quot;npm run build &amp;&amp; electron .&#x2F;js&#x2F;main.js&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>あとmainのところも変えます</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&quot;main&quot;: &quot;js&#x2F;main.js&quot;,</span><br></pre></td></tr></table></figure>
+
+
+<h1 id="tsconfig-json-作成"><a href="#tsconfig-json-作成" class="headerlink" title="tsconfig.json 作成"></a>tsconfig.json 作成</h1><p>ターミナルで</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tsc --init</span><br></pre></td></tr></table></figure>
+
+<p>と入力してください。<br>tsconfig.jsonが生成されていれば成功です。</p>
+<p>ファイルの中身は公式通りに書き換えておきましょう。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;compilerOptions&quot;: &#123;</span><br><span class="line">    &quot;module&quot;: &quot;commonjs&quot;,</span><br><span class="line">    &quot;noImplicitAny&quot;: true,</span><br><span class="line">    &quot;sourceMap&quot;: true,</span><br><span class="line">    &quot;outDir&quot;: &quot;js&quot;,</span><br><span class="line">    &quot;baseUrl&quot;: &quot;.&quot;,</span><br><span class="line">    &quot;paths&quot;: &#123;</span><br><span class="line">      &quot;*&quot;: [&quot;node_modules&#x2F;*&quot;]</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;include&quot;: [</span><br><span class="line">    &quot;src&#x2F;**&#x2F;*&quot;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>本家ではoutDirがdistになってますが、Electron Builderの出力と被りそうなので変えときました。(ドキュメント見れば変えられそう。)</p>
+<h1 id="HTMLとTypeScriptかく"><a href="#HTMLとTypeScriptかく" class="headerlink" title="HTMLとTypeScriptかく"></a>HTMLとTypeScriptかく</h1><p>srcフォルダを作成して、</p>
+<p>index.html と main.ts を作成してください。</p>
+<p><img src="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/409918/185fc1f6-72ec-00aa-b75d-503663a4696c.png" alt="image.png"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html lang&#x3D;&quot;en&quot;&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;meta charset&#x3D;&quot;UTF-8&quot;&gt;</span><br><span class="line">    &lt;meta name&#x3D;&quot;viewport&quot; content&#x3D;&quot;width&#x3D;device-width, initial-scale&#x3D;1.0&quot;&gt;</span><br><span class="line">    &lt;meta http-equiv&#x3D;&quot;X-UA-Compatible&quot; content&#x3D;&quot;ie&#x3D;edge&quot;&gt;</span><br><span class="line">    &lt;title&gt;TypeScript&lt;&#x2F;title&gt;</span><br><span class="line">&lt;&#x2F;head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">    &lt;h1&gt;TypeScriptですー&lt;&#x2F;h1&gt;</span><br><span class="line">&lt;&#x2F;body&gt;</span><br><span class="line">&lt;&#x2F;html&gt;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line">import &#123; app, BrowserWindow &#125; from &quot;electron&quot;;</span><br><span class="line">import * as path from &quot;path&quot;;</span><br><span class="line"></span><br><span class="line">let mainWindow: Electron.BrowserWindow;</span><br><span class="line"></span><br><span class="line">function createWindow() &#123;</span><br><span class="line">    &#x2F;&#x2F; Create the browser window.</span><br><span class="line">    mainWindow &#x3D; new BrowserWindow(&#123;</span><br><span class="line">        height: 600,</span><br><span class="line">        webPreferences: &#123;</span><br><span class="line">            nodeIntegration: true &#x2F;&#x2F;trueにしておく。preload使ってもいいけど今回はパス。</span><br><span class="line">        &#125;,</span><br><span class="line">        width: 800,</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; and load the index.html of the app.</span><br><span class="line">    mainWindow.loadFile(path.join(__dirname, &quot;..&#x2F;src&#x2F;index.html&quot;));　&#x2F;&#x2F;index.htmlはsrcフォルダ（main.jsはjsフォルダ）なのでパス気をつけて。</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; Open the DevTools.</span><br><span class="line">    mainWindow.webContents.openDevTools();</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; Emitted when the window is closed.</span><br><span class="line">    mainWindow.on(&quot;closed&quot;, () &#x3D;&gt; &#123;</span><br><span class="line">        &#x2F;&#x2F; Dereference the window object, usually you would store windows</span><br><span class="line">        &#x2F;&#x2F; in an array if your app supports multi windows, this is the time</span><br><span class="line">        &#x2F;&#x2F; when you should delete the corresponding element.</span><br><span class="line">        mainWindow &#x3D; null;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; This method will be called when Electron has finished</span><br><span class="line">&#x2F;&#x2F; initialization and is ready to create browser windows.</span><br><span class="line">&#x2F;&#x2F; Some APIs can only be used after this event occurs.</span><br><span class="line">app.on(&quot;ready&quot;, createWindow);</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; Quit when all windows are closed.</span><br><span class="line">app.on(&quot;window-all-closed&quot;, () &#x3D;&gt; &#123;</span><br><span class="line">    &#x2F;&#x2F; On OS X it is common for applications and their menu bar</span><br><span class="line">    &#x2F;&#x2F; to stay active until the user quits explicitly with Cmd + Q</span><br><span class="line">    if (process.platform !&#x3D;&#x3D; &quot;darwin&quot;) &#123;</span><br><span class="line">        app.quit();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">app.on(&quot;activate&quot;, () &#x3D;&gt; &#123;</span><br><span class="line">    &#x2F;&#x2F; On OS X it&quot;s common to re-create a window in the app when the</span><br><span class="line">    &#x2F;&#x2F; dock icon is clicked and there are no other windows open.</span><br><span class="line">    if (mainWindow &#x3D;&#x3D;&#x3D; null) &#123;</span><br><span class="line">        createWindow();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; In this file you can include the rest of your app&quot;s specific main process</span><br><span class="line">&#x2F;&#x2F; code. You can also put them in separate files and require them here.</span><br></pre></td></tr></table></figure>
+
+<p>main.tsは参考どおり（ちょっと変えたけど）です→<a href="https://github.com/electron/electron-quick-start-typescript/blob/master/src/main.ts" target="_blank" rel="noopener">https://github.com/electron/electron-quick-start-typescript/blob/master/src/main.ts</a></p>
+<h1 id="実行してみる"><a href="#実行してみる" class="headerlink" title="実行してみる"></a>実行してみる</h1><p>ターミナルで</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm start</span><br></pre></td></tr></table></figure>
+
+<p>と入力すると起動するはずです。</p>
+<p><img src="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/409918/9c327da2-1e15-6c66-b1fd-226fb39458c9.png" alt="image.png"></p>
+<p>実行するとTypeScriptがJavaScriptに変換されて、jsフォルダの中に入ってると思います。</p>
+<h1 id="レンダラープロセスもTypeScriptで"><a href="#レンダラープロセスもTypeScriptで" class="headerlink" title="レンダラープロセスもTypeScriptで"></a>レンダラープロセスもTypeScriptで</h1><p>レンダラープロセスとメインプロセスがよくわらんって方、<br>console.log()がデベロッパーツールの方に出ればレンダラープロセス、<br>ターミナルの方に出力されればメインプロセスです。<br>あとはalert()はレンダラープロセスからしか使えないのでそんな感じで。</p>
+<h2 id="まずはHTMLを変えて"><a href="#まずはHTMLを変えて" class="headerlink" title="まずはHTMLを変えて"></a>まずはHTMLを変えて</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html lang&#x3D;&quot;en&quot;&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;meta charset&#x3D;&quot;UTF-8&quot;&gt;</span><br><span class="line">    &lt;meta name&#x3D;&quot;viewport&quot; content&#x3D;&quot;width&#x3D;device-width, initial-scale&#x3D;1.0&quot;&gt;</span><br><span class="line">    &lt;meta http-equiv&#x3D;&quot;X-UA-Compatible&quot; content&#x3D;&quot;ie&#x3D;edge&quot;&gt;</span><br><span class="line">    &lt;title&gt;TypeScript&lt;&#x2F;title&gt;</span><br><span class="line">&lt;&#x2F;head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">    &lt;h1&gt;TypeScriptですー&lt;&#x2F;h1&gt;</span><br><span class="line">    &lt;input type&#x3D;&quot;button&quot; value&#x3D;&quot;ダイアログ&quot; id&#x3D;&quot;button&quot;&gt;</span><br><span class="line">    &lt;!-- srcには変換後のJS指定しておく --&gt;</span><br><span class="line">    &lt;script src&#x3D;&quot;..&#x2F;js&#x2F;renderer.js&quot;&gt;&lt;&#x2F;script&gt;</span><br><span class="line">&lt;&#x2F;body&gt;</span><br><span class="line">&lt;&#x2F;html&gt;</span><br></pre></td></tr></table></figure>
+
+<h2 id="renderer-ts-作成"><a href="#renderer-ts-作成" class="headerlink" title="renderer.ts 作成"></a>renderer.ts 作成</h2><p>今回はダイアログを出してみましょう。<br>申し訳程度のTypeScript要素</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;レンダラープロセスなのでremoteつける</span><br><span class="line">const &#123; dialog &#125; &#x3D; require(&#39;electron&#39;).remote</span><br><span class="line"></span><br><span class="line">const button: HTMLElement &#x3D; document.getElementById(&#39;button&#39;)</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;ダイアログの選択肢とか</span><br><span class="line">const dialogList: string[] &#x3D; [&quot;🍜&quot;, &quot;🍣&quot;, &quot;🥞&quot;]</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;押した時</span><br><span class="line">button.onclick &#x3D; function () &#123;</span><br><span class="line">    dialog.showMessageBox(null, &#123;</span><br><span class="line">        type: &quot;info&quot;,</span><br><span class="line">        message: &quot;TypeScriptだぞ&quot;,</span><br><span class="line">        buttons: dialogList</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>これで実行してボタンを押すとダイアログが表示されると思います。</p>
+<p><img src="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/409918/41d52c79-08b5-8177-1df2-3616c4d74a7c.png" alt="image.png"></p>
+<p>以上です。</p>
+<h3 id="ソースコード"><a href="#ソースコード" class="headerlink" title="ソースコード"></a>ソースコード</h3><p><a href="https://github.com/takusan23/ElectronTypeScriptSample" target="_blank" rel="noopener">https://github.com/takusan23/ElectronTypeScriptSample</a></p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最終更新：<time datetime="2020-04-05T16:39:45.180Z" itemprop="dateUpdated">2020年04月06日 01時39分45秒 01:39:45</time>
+</span><br>
+
+
+        
+         
+        
+    </div>
+    
+    <footer>
+        <a href="https://takusan23.github.io/Bibouroku">
+            <img src="/img/avatar.gif" alt="takusan23">
+            takusan23
+        </a>
+    </footer>
+</blockquote>
+
+        
+<!-- <div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div> -->
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Electron/" rel="tag">Electron</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Node-js/" rel="tag">Node.js</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/TypeScript/" rel="tag">TypeScript</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://takusan23.github.io/Bibouroku/2020/04/06/Electron%20TypeScript/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《【Electron / TypeScript】 ElectronでTypeScript》 — たくさんの備忘録&url=https://takusan23.github.io/Bibouroku/2020/04/06/Electron%20TypeScript/&via=https://takusan23.github.io/Bibouroku" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="line share-sns" target="_blank" href="https://social-plugins.line.me/lineit/share?text=《【Electron / TypeScript】 ElectronでTypeScript》 — たくさんの備忘録&url=https://takusan23.github.io/Bibouroku/2020/04/06/Electron%20TypeScript/&via=https://takusan23.github.io/Bibouroku" data-title=" LINE">
+          <i class="icon custom-icon-line"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2020/04/06/MaterialDesign/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">【Android】 Material Components のバージョンを 1.0.0 から 1.1.0-alpha08 にして、Theme.MaterialComponentsと戦った話。</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2020/04/06/hello/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">hello</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/" alt="打赏二维码">
+        </div>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <!-- <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        総サイトユーザー：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        総サイトアクセス：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+            <span> </span>
+        </p>
+    </div> -->
+    <div class="bottom">
+        <p><span>takusan23 &copy; 2020</span>
+            <span>
+                
+                Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://takusan23.github.io/Bibouroku/2020/04/06/Electron%20TypeScript/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《【Electron / TypeScript】 ElectronでTypeScript》 — たくさんの備忘録&url=https://takusan23.github.io/Bibouroku/2020/04/06/Electron%20TypeScript/&via=https://takusan23.github.io/Bibouroku" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="line share-sns" target="_blank" href="https://social-plugins.line.me/lineit/share?text=《【Electron / TypeScript】 ElectronでTypeScript》 — たくさんの備忘録&url=https://takusan23.github.io/Bibouroku/2020/04/06/Electron%20TypeScript/&via=https://takusan23.github.io/Bibouroku" data-title=" LINE">
+          <i class="icon custom-icon-line"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>

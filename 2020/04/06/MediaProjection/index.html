@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>【Android / MediaProjection / Kotlin】Androidで画面録画をする | たくさんの備忘録 |
+        備忘録</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="Android,Kotlin,MediaProjection,画面録画,AndroidQ">
+    <meta name="description" content="どうもこんばんは。テスト期間つらい。今回は画面を録画できるアプリを作ってみようと思います。 画面録画の歴史？ここではRoot化で利用できる画面録画はなしの方向で。Root取れば内部音声が取れるって聞いたことある。あと外部出力端子を利用して録画する話もなしの方向で。私が知ってる限りでは Xperia Z3 &#x2F; Z3 Compact でスクリーンレコーダーが搭載された（4.4）。（ですがいつの間にかス">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【Android &#x2F; MediaProjection &#x2F; Kotlin】Androidで画面録画をする">
+<meta property="og:url" content="https://takusan23.github.io/Bibouroku/2020/04/06/MediaProjection/index.html">
+<meta property="og:site_name" content="たくさんの備忘録">
+<meta property="og:description" content="どうもこんばんは。テスト期間つらい。今回は画面を録画できるアプリを作ってみようと思います。 画面録画の歴史？ここではRoot化で利用できる画面録画はなしの方向で。Root取れば内部音声が取れるって聞いたことある。あと外部出力端子を利用して録画する話もなしの方向で。私が知ってる限りでは Xperia Z3 &#x2F; Z3 Compact でスクリーンレコーダーが搭載された（4.4）。（ですがいつの間にかス">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:image" content="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/409918/f504e4f1-57ae-e459-8f51-eb96af80bfea.png">
+<meta property="og:image" content="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/409918/ebe8ef29-bd69-3afc-6aec-100a92f9322f.png">
+<meta property="og:image" content="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/409918/8942a6c6-0950-3c74-128a-a0fed4934bab.png">
+<meta property="og:image" content="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/409918/174fed18-0694-8111-6287-94f26c3bfd7b.png">
+<meta property="og:image" content="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/409918/62653173-7209-4a74-9ff6-63f8eb695d83.png">
+<meta property="article:published_time" content="2020-04-05T16:27:15.406Z">
+<meta property="article:modified_time" content="2020-04-05T16:40:39.228Z">
+<meta property="article:author" content="takusan23">
+<meta property="article:tag" content="Android">
+<meta property="article:tag" content="Kotlin">
+<meta property="article:tag" content="MediaProjection">
+<meta property="article:tag" content="画面録画">
+<meta property="article:tag" content="AndroidQ">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/409918/f504e4f1-57ae-e459-8f51-eb96af80bfea.png">
+    
+    <link rel="shortcut icon" href="/img/favicon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <link rel="stylesheet" href="/css/fonts/custom/css/custom.css">
+    <script>window.lazyScripts = []</script>
+
+    <!-- custom head -->
+    
+
+
+    <style>
+        body {
+            font-family: "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro", "メイリオ", Meiryo, Osaka, "ＭＳ Ｐゴシック", "MS PGothic", sans-serif;
+            color: #630;
+            line-height: 25px;
+            font-size: 0.95em;
+        }
+    </style>
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.gif">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">takusan23</h5>
+          <a href="mailto:takusan_0913@yahoo.co.jp" title="takusan_0913@yahoo.co.jp" class="mail">takusan_0913@yahoo.co.jp</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                Home
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/takusan23" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://best-friends.chat/@takusan_23" target="_blank" rel="noopener"  >
+                <i class="icon icon-lg icon-link"></i>
+                Mastodon
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">【Android / MediaProjection / Kotlin】Androidで画面録画をする</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="検索">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">【Android / MediaProjection / Kotlin】Androidで画面録画をする</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2020-04-05T16:27:15.406Z" itemprop="datePublished" class="page-time">
+  2020年04月06日 01時27分15秒
+</time>
+
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#画面録画の歴史？"><span class="post-toc-number">1.</span> <span class="post-toc-text">画面録画の歴史？</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#端末紹介"><span class="post-toc-number">2.</span> <span class="post-toc-text">端末紹介</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#作るもの"><span class="post-toc-number">3.</span> <span class="post-toc-text">作るもの</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#実装"><span class="post-toc-number"></span> <span class="post-toc-text">実装</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Android-10でも動くように"><span class="post-toc-number">1.</span> <span class="post-toc-text">Android 10でも動くように</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#流れ"><span class="post-toc-number">2.</span> <span class="post-toc-text">流れ</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#レイアウト"><span class="post-toc-number">3.</span> <span class="post-toc-text">レイアウト</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Manifest"><span class="post-toc-number">4.</span> <span class="post-toc-text">Manifest</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#権限をもらう"><span class="post-toc-number">5.</span> <span class="post-toc-text">権限をもらう</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#画面録画をするServiceを起動させる"><span class="post-toc-number">6.</span> <span class="post-toc-text">画面録画をするServiceを起動させる</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Service作成"><span class="post-toc-number">7.</span> <span class="post-toc-text">Service作成</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#画面録画"><span class="post-toc-number">8.</span> <span class="post-toc-text">画面録画</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#完成！"><span class="post-toc-number">9.</span> <span class="post-toc-text">完成！</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Pixel-3-XL-で遭遇した問題"><span class="post-toc-number">10.</span> <span class="post-toc-text">Pixel 3 XL で遭遇した問題</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#動画の大きさがおかしい問題"><span class="post-toc-number">10.1.</span> <span class="post-toc-text">動画の大きさがおかしい問題</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#内部音声は取れないの？"><span class="post-toc-number">11.</span> <span class="post-toc-text">内部音声は取れないの？</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#終わりに"><span class="post-toc-number">12.</span> <span class="post-toc-text">終わりに</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#GitHub"><span class="post-toc-number">13.</span> <span class="post-toc-text">GitHub</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-MediaProjection"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">【Android / MediaProjection / Kotlin】Androidで画面録画をする</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2020年04月06日 01時27分15秒 01:27:15" datetime="2020-04-05T16:27:15.406Z"  itemprop="datePublished">2020年04月06日 01時27分15秒</time>
+
+            
+
+
+            
+<!-- <span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span> -->
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p>どうもこんばんは。テスト期間つらい。<br>今回は画面を録画できるアプリを作ってみようと思います。</p>
+<h2 id="画面録画の歴史？"><a href="#画面録画の歴史？" class="headerlink" title="画面録画の歴史？"></a>画面録画の歴史？</h2><p>ここではRoot化で利用できる画面録画はなしの方向で。Root取れば内部音声が取れるって聞いたことある。<br>あと外部出力端子を利用して録画する話もなしの方向で。<br>私が知ってる限りでは</p>
+<p>Xperia Z3 / Z3 Compact でスクリーンレコーダーが搭載された（4.4）。<br>（ですがいつの間にかスクリーンレコーダー機能はなくなったそうです。（Xperia 1で復活したらしい））<br>（あとスモールアプリとかどこ行ったの？）<br>↓<br>5.0で「MediaProjection API」が追加されてサードパーティアプリでも録画ができるようになった。<br>Google Play ゲームで画面録画機能が追加されたりした。<br>しかしこの手の画面録画アプリは音声をマイクから撮っているので端末の音以外が入ってしまう。<br>↓<br>（Samsungとかが内部音声が取れるアプリを独自で追加しているらしい？）<br>↓<br>10.0で端末の内部音声を取れる「AudioPlaybackCapture API」が追加された。<br>今回は触れません。というか実装方法がわからなかった。残念。😥</p>
+<h2 id="端末紹介"><a href="#端末紹介" class="headerlink" title="端末紹介"></a>端末紹介</h2><table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>端末</td>
+<td>Pixel 3 XL</td>
+</tr>
+<tr>
+<td>Androidバージョン</td>
+<td>10</td>
+</tr>
+<tr>
+<td>compileSdkVersion</td>
+<td>29</td>
+</tr>
+</tbody></table>
+<h2 id="作るもの"><a href="#作るもの" class="headerlink" title="作るもの"></a>作るもの</h2><p>画面録画してmp4で保存する。<br>音声はマイクから取ることにする。</p>
+<h1 id="実装"><a href="#実装" class="headerlink" title="実装"></a>実装</h1><p>本題です。ここまで長かったね。</p>
+<h2 id="Android-10でも動くように"><a href="#Android-10でも動くように" class="headerlink" title="Android 10でも動くように"></a>Android 10でも動くように</h2><p>保存先を対象範囲別ストレージにする。<br>ServiceにAndroid 10から追加された属性「foregroundServiceType」を書き足す。</p>
+<h2 id="流れ"><a href="#流れ" class="headerlink" title="流れ"></a>流れ</h2><p>権限があるか確認する（マイクの録音）<br>↓<br>画面録画していいか聞く。<br>↓<br>許可が得られたらServiceを起動する。<br>↓<br>Serviceの中で画面録画を行う。</p>
+<p>Serviceが終了すると同時に録画も終了させる。</p>
+<h2 id="レイアウト"><a href="#レイアウト" class="headerlink" title="レイアウト"></a>レイアウト</h2><p>ActivityはMainActivityだけです。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">LinearLayout</span> <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">xmlns:app</span>=<span class="string">"http://schemas.android.com/apk/res-auto"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">xmlns:tools</span>=<span class="string">"http://schemas.android.com/tools"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:layout_height</span>=<span class="string">"match_parent"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:gravity</span>=<span class="string">"center"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:orientation</span>=<span class="string">"vertical"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">tools:context</span>=<span class="string">".MainActivity"</span>&gt;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">Button</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:id</span>=<span class="string">"@+id/rec_button"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:text</span>=<span class="string">"録画"</span> /&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">Button</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:id</span>=<span class="string">"@+id/stop_button"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:text</span>=<span class="string">"停止"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">LinearLayout</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="Manifest"><a href="#Manifest" class="headerlink" title="Manifest"></a>Manifest</h2><p>必要な権限は</p>
+<table>
+<thead>
+<tr>
+<th>権限</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>FOREGROUND_SERVICE</td>
+<td>サービスの実行に必要</td>
+</tr>
+<tr>
+<td>RECORD_AUDIO</td>
+<td>マイクを使うのに必要</td>
+</tr>
+</tbody></table>
+<p>この段階では「ScreenRecordService」は作成してないので赤くなるけど後で作るのでおｋ。<br><strong>android:foregroundServiceType=”mediaProjection”</strong>を忘れずに</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version&#x3D;&quot;1.0&quot; encoding&#x3D;&quot;utf-8&quot;?&gt;</span><br><span class="line">&lt;manifest xmlns:android&#x3D;&quot;http:&#x2F;&#x2F;schemas.android.com&#x2F;apk&#x2F;res&#x2F;android&quot;</span><br><span class="line">    package&#x3D;&quot;io.github.takusan23.screenrecordsample&quot;&gt;</span><br><span class="line"></span><br><span class="line">    &lt;uses-permission android:name&#x3D;&quot;android.permission.FOREGROUND_SERVICE&quot;&#x2F;&gt;</span><br><span class="line">    &lt;uses-permission android:name&#x3D;&quot;android.permission.RECORD_AUDIO&quot;&#x2F;&gt;</span><br><span class="line"></span><br><span class="line">    &lt;application</span><br><span class="line">        android:allowBackup&#x3D;&quot;true&quot;</span><br><span class="line">        android:icon&#x3D;&quot;@mipmap&#x2F;ic_launcher&quot;</span><br><span class="line">        android:label&#x3D;&quot;@string&#x2F;app_name&quot;</span><br><span class="line">        android:roundIcon&#x3D;&quot;@mipmap&#x2F;ic_launcher_round&quot;</span><br><span class="line">        android:supportsRtl&#x3D;&quot;true&quot;</span><br><span class="line">        android:theme&#x3D;&quot;@style&#x2F;AppTheme&quot;&gt;</span><br><span class="line">        &lt;activity android:name&#x3D;&quot;.MainActivity&quot;&gt;</span><br><span class="line">            &lt;intent-filter&gt;</span><br><span class="line">                &lt;action android:name&#x3D;&quot;android.intent.action.MAIN&quot; &#x2F;&gt;</span><br><span class="line"></span><br><span class="line">                &lt;category android:name&#x3D;&quot;android.intent.category.LAUNCHER&quot; &#x2F;&gt;</span><br><span class="line">            &lt;&#x2F;intent-filter&gt;</span><br><span class="line">        &lt;&#x2F;activity&gt;</span><br><span class="line">        &lt;service android:name&#x3D;&quot;.ScreenRecordService&quot; android:foregroundServiceType&#x3D;&quot;mediaProjection&quot;&#x2F;&gt;</span><br><span class="line">    &lt;&#x2F;application&gt;</span><br><span class="line"></span><br><span class="line">&lt;&#x2F;manifest&gt;</span><br></pre></td></tr></table></figure>
+
+<h2 id="権限をもらう"><a href="#権限をもらう" class="headerlink" title="権限をもらう"></a>権限をもらう</h2><p>録画のボタンを押したらまずマイクへのアクセス権があるか確認します。<br>ない場合は権限をリクエストするダイアログを表示させます。</p>
+<p>権限がある場合は録画を開始するダイアログを表示させます。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;リクエストの結果</span><br><span class="line">val code &#x3D; 512</span><br><span class="line">val permissionCode &#x3D; 810</span><br><span class="line">lateinit var projectionManager: MediaProjectionManager</span><br><span class="line"></span><br><span class="line">override fun onCreate(savedInstanceState: Bundle?) &#123;</span><br><span class="line">    super.onCreate(savedInstanceState)</span><br><span class="line">    setContentView(R.layout.activity_main)</span><br><span class="line"></span><br><span class="line">    projectionManager &#x3D;</span><br><span class="line">        getSystemService(Context.MEDIA_PROJECTION_SERVICE) as MediaProjectionManager</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F;画面録画をしてもいいか聞く</span><br><span class="line">    rec_button.setOnClickListener &#123;</span><br><span class="line">        &#x2F;&#x2F;その前にマイクへアクセスしていいか尋ねる</span><br><span class="line">        if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO)</span><br><span class="line">            !&#x3D; PackageManager.PERMISSION_GRANTED</span><br><span class="line">        ) &#123;</span><br><span class="line">            requestPermissions(arrayOf(Manifest.permission.RECORD_AUDIO), permissionCode)</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            &#x2F;&#x2F;マイクの権限があるので画面録画リクエスト</span><br><span class="line">            &#x2F;&#x2F;ダイアログを出す</span><br><span class="line">            startActivityForResult(projectionManager.createScreenCaptureIntent(), code)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    &#x2F;&#x2F;停止ボタンで止められるように</span><br><span class="line">    stop_button.setOnClickListener &#123;</span><br><span class="line">        val intent &#x3D; Intent(this, ScreenRecordService::class.java)</span><br><span class="line">        stopService(intent)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;権限の結果受け取る</span><br><span class="line">override fun onRequestPermissionsResult(</span><br><span class="line">    requestCode: Int,</span><br><span class="line">    permissions: Array&lt;out String&gt;,</span><br><span class="line">    grantResults: IntArray</span><br><span class="line">) &#123;</span><br><span class="line">    super.onRequestPermissionsResult(requestCode, permissions, grantResults)</span><br><span class="line">    if (requestCode &#x3D;&#x3D; permissionCode) &#123;</span><br><span class="line">        &#x2F;&#x2F;マイクへアクセス権げっと</span><br><span class="line">        Toast.makeText(this, &quot;権限が付与されました。&quot;, Toast.LENGTH_SHORT).show()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="画面録画をするServiceを起動させる"><a href="#画面録画をするServiceを起動させる" class="headerlink" title="画面録画をするServiceを起動させる"></a>画面録画をするServiceを起動させる</h2><p>ところでAndroidの画面録画をするコードとかをいろいろ参考にしたわけですが、Android 10で追加された属性「foregroundServiceType」のせいかActivityでは画面録画が出来ないっぽいんですよね。<br>なので仕方なくServiceで。まあServiceで実装したほうが広く使えそうだもんね。</p>
+<p>MainActivity.ktに「onActivityResult」を追加します。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;画面録画の合否を受け取る</span><br><span class="line">override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) &#123;</span><br><span class="line">    super.onActivityResult(requestCode, resultCode, data)</span><br><span class="line">    &#x2F;&#x2F;成功＋結果が画面録画の物か</span><br><span class="line">    if (resultCode &#x3D;&#x3D; Activity.RESULT_OK &amp;&amp; requestCode &#x3D;&#x3D; code) &#123;</span><br><span class="line">        &#x2F;&#x2F;Service起動</span><br><span class="line">        &#x2F;&#x2F;Manifestに「android:foregroundServiceType&#x3D;&quot;mediaProjection&quot;」を付け足しておく</span><br><span class="line">        val intent &#x3D; Intent(this, ScreenRecordService::class.java)</span><br><span class="line">        intent.putExtra(&quot;code&quot;, resultCode) &#x2F;&#x2F;必要なのは結果。startActivityForResultのrequestCodeではない。</span><br><span class="line">        intent.putExtra(&quot;data&quot;, data)</span><br><span class="line">        &#x2F;&#x2F;画面の大きさも一緒に入れる</span><br><span class="line">        val metrics &#x3D; resources.displayMetrics;</span><br><span class="line">        intent.putExtra(&quot;height&quot;, metrics.heightPixels)</span><br><span class="line">        intent.putExtra(&quot;width&quot;, metrics.widthPixels)</span><br><span class="line">        intent.putExtra(&quot;dpi&quot;, metrics.densityDpi)</span><br><span class="line"></span><br><span class="line">        startForegroundService(intent)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Service作成"><a href="#Service作成" class="headerlink" title="Service作成"></a>Service作成</h2><p>それから「ScreenRecordService.kt」を作成して下さい。<br>作成したら以下のように。<br>setSmallIconが赤くなると思います。これはベクターアセットから追加したためです。<br>なので画像のようにして見つけて下さい。<br><img src="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/409918/f504e4f1-57ae-e459-8f51-eb96af80bfea.png" alt="image.png"></p>
+<p><img src="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/409918/ebe8ef29-bd69-3afc-6aec-100a92f9322f.png" alt="image.png"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><span class="line">class ScreenRecordService : Service() &#123;</span><br><span class="line">    &#x2F;&#x2F;Intentに詰めたデータを受け取る</span><br><span class="line">    var data: Intent? &#x3D; null</span><br><span class="line">    var code &#x3D; Activity.RESULT_OK</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F;画面録画で使う</span><br><span class="line">    lateinit var mediaRecorder: MediaRecorder</span><br><span class="line">    lateinit var projectionManager: MediaProjectionManager</span><br><span class="line">    lateinit var projection: MediaProjection</span><br><span class="line">    lateinit var virtualDisplay: VirtualDisplay</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F;画面の大きさ</span><br><span class="line">    &#x2F;&#x2F;Pixel 3 XLだとなんかおかしくなる</span><br><span class="line">    var height &#x3D; 2800</span><br><span class="line">    var width &#x3D; 1400</span><br><span class="line">    var dpi &#x3D; 1000</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    override fun onBind(p0: Intent?): IBinder? &#123;</span><br><span class="line">        return null</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int &#123;</span><br><span class="line"></span><br><span class="line">        &#x2F;&#x2F;データ受け取る</span><br><span class="line">        data &#x3D; intent?.getParcelableExtra(&quot;data&quot;)</span><br><span class="line">        code &#x3D; intent?.getIntExtra(&quot;code&quot;, Activity.RESULT_OK) ?: Activity.RESULT_OK</span><br><span class="line"></span><br><span class="line">        &#x2F;&#x2F;画面の大きさ</span><br><span class="line">        &#x2F;&#x2F;   height &#x3D; intent?.getIntExtra(&quot;height&quot;, 1000) ?: 1000</span><br><span class="line">        &#x2F;&#x2F;   width &#x3D; intent?.getIntExtra(&quot;width&quot;, 1000) ?: 1000</span><br><span class="line">        dpi &#x3D; intent?.getIntExtra(&quot;dpi&quot;, 1000) ?: 1000</span><br><span class="line"></span><br><span class="line">        &#x2F;&#x2F;通知を出す。</span><br><span class="line">        val notificationManager &#x3D;</span><br><span class="line">            getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager</span><br><span class="line">        &#x2F;&#x2F;通知チャンネル</span><br><span class="line">        val channelID &#x3D; &quot;rec_notify&quot;</span><br><span class="line">        &#x2F;&#x2F;通知チャンネルが存在しないときは登録する</span><br><span class="line">        if (notificationManager.getNotificationChannel(channelID) &#x3D;&#x3D; null) &#123;</span><br><span class="line">            val channel &#x3D;</span><br><span class="line">                NotificationChannel(channelID, &quot;録画サービス起動中通知&quot;, NotificationManager.IMPORTANCE_HIGH)</span><br><span class="line">            notificationManager.createNotificationChannel(channel)</span><br><span class="line">        &#125;</span><br><span class="line">        &#x2F;&#x2F;通知作成</span><br><span class="line">        val notification &#x3D; Notification.Builder(applicationContext, channelID)</span><br><span class="line">            .setContentText(&quot;録画中です。&quot;)</span><br><span class="line">            .setContentTitle(&quot;画面録画&quot;)</span><br><span class="line">            .setSmallIcon(R.drawable.ic_cast_black_24dp)    &#x2F;&#x2F;アイコンはベクターアセットから</span><br><span class="line">            .build()</span><br><span class="line"></span><br><span class="line">        startForeground(1, notification)</span><br><span class="line"></span><br><span class="line">        &#x2F;&#x2F;録画開始</span><br><span class="line">        startRec()</span><br><span class="line"></span><br><span class="line">        return START_NOT_STICKY</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F;Service終了と同時に録画終了</span><br><span class="line">    override fun onDestroy() &#123;</span><br><span class="line">        super.onDestroy()</span><br><span class="line">        stopRec()</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="画面録画"><a href="#画面録画" class="headerlink" title="画面録画"></a>画面録画</h2><p>ScreenRecordService.ktに付け足してください。<br>ここはよくわからんのであまり言えませんが、「setVideoEncodingBitRate」を高くすれば画質アップ＆ファイルサイズアップです。<br>ファイル名は数字.mp4になります。<code>${System.currentTimeMillis()}.mp4</code>の部分がファイル名になっているので変えたい場合はどうぞ。<br>保存先は<strong>Android/data/io.github.takusan23.screenrecordsample/file</strong>の中です。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;録画開始</span><br><span class="line">fun startRec() &#123;</span><br><span class="line">    if (data !&#x3D; null) &#123;</span><br><span class="line">        projectionManager &#x3D;</span><br><span class="line">            getSystemService(Context.MEDIA_PROJECTION_SERVICE) as MediaProjectionManager</span><br><span class="line">        &#x2F;&#x2F;codeはActivity.RESULT_OKとかが入る。</span><br><span class="line">        projection &#x3D;</span><br><span class="line">            projectionManager.getMediaProjection(code, data!!)</span><br><span class="line"></span><br><span class="line">        mediaRecorder &#x3D; MediaRecorder()</span><br><span class="line">        mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC)</span><br><span class="line">        mediaRecorder.setVideoSource(MediaRecorder.VideoSource.SURFACE)</span><br><span class="line">        mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)</span><br><span class="line">        mediaRecorder.setVideoEncoder(MediaRecorder.VideoEncoder.H264)</span><br><span class="line">        mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB)</span><br><span class="line">        mediaRecorder.setVideoEncodingBitRate(1080 * 10000) &#x2F;&#x2F;1080は512ぐらいにしといたほうが小さくできる</span><br><span class="line">        mediaRecorder.setVideoFrameRate(30)</span><br><span class="line">        mediaRecorder.setVideoSize(width, height)</span><br><span class="line">        mediaRecorder.setAudioSamplingRate(44100)</span><br><span class="line">        mediaRecorder.setOutputFile(getFilePath())</span><br><span class="line">        mediaRecorder.prepare()</span><br><span class="line"></span><br><span class="line">        virtualDisplay &#x3D; projection.createVirtualDisplay(</span><br><span class="line">            &quot;recode&quot;,</span><br><span class="line">            width,</span><br><span class="line">            height,</span><br><span class="line">            dpi,</span><br><span class="line">            DisplayManager.VIRTUAL_DISPLAY_FLAG_AUTO_MIRROR,</span><br><span class="line">            mediaRecorder.surface,</span><br><span class="line">            null,</span><br><span class="line">            null</span><br><span class="line">        )</span><br><span class="line"></span><br><span class="line">        &#x2F;&#x2F;開始</span><br><span class="line">        mediaRecorder.start()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;録画止める</span><br><span class="line">fun stopRec() &#123;</span><br><span class="line">    mediaRecorder.stop()</span><br><span class="line">    mediaRecorder.release()</span><br><span class="line">    virtualDisplay.release()</span><br><span class="line">    projection.stop()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;保存先取得。今回は対象範囲別ストレージに保存する</span><br><span class="line">fun getFilePath(): File &#123;</span><br><span class="line">    &#x2F;&#x2F;ScopedStorageで作られるサンドボックスへのぱす</span><br><span class="line">    val scopedStoragePath &#x3D; getExternalFilesDir(null)</span><br><span class="line">    &#x2F;&#x2F;写真ファイル作成</span><br><span class="line">    val file &#x3D; File(&quot;$&#123;scopedStoragePath?.path&#125;&#x2F;$&#123;System.currentTimeMillis()&#125;.mp4&quot;)</span><br><span class="line">    return file</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="完成！"><a href="#完成！" class="headerlink" title="完成！"></a>完成！</h2><p>開始ボタン押した。<br><img src="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/409918/8942a6c6-0950-3c74-128a-a0fed4934bab.png" alt="Screenshot_20191010-200940.png"></p>
+<p>「今すぐ開始」を押した。<br>ステータスバーのバイブアイコンの隣にキャスト中のアイコンが出てますね。<br><img src="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/409918/174fed18-0694-8111-6287-94f26c3bfd7b.png" alt="Screenshot_20191010-200946.png"></p>
+<p>停止ボタンを押して作成した動画ファイルを見た<br><img src="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/409918/62653173-7209-4a74-9ff6-63f8eb695d83.png" alt="Screenshot_20191010-201017.png"></p>
+<h2 id="Pixel-3-XL-で遭遇した問題"><a href="#Pixel-3-XL-で遭遇した問題" class="headerlink" title="Pixel 3 XL で遭遇した問題"></a>Pixel 3 XL で遭遇した問題</h2><h3 id="動画の大きさがおかしい問題"><a href="#動画の大きさがおかしい問題" class="headerlink" title="動画の大きさがおかしい問題"></a>動画の大きさがおかしい問題</h3><p>よくわからないので以下のように書き換えておきました。<br>本来はこの値を固定するべきでは無いと思いますがPixel 3 XLでしか動かさないので別にいいや。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"> &#x2F;&#x2F;画面の大きさ</span><br><span class="line"> &#x2F;&#x2F;Pixel 3 XLだとなんかおかしくなる</span><br><span class="line"> var height &#x3D; 2800</span><br><span class="line"> var width &#x3D; 1400</span><br><span class="line"> var dpi &#x3D; 1000</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;以下省略</span><br><span class="line"></span><br><span class="line"> override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int &#123;</span><br><span class="line"></span><br><span class="line">     &#x2F;&#x2F;データ受け取る</span><br><span class="line">     data &#x3D; intent?.getParcelableExtra(&quot;data&quot;)</span><br><span class="line">     code &#x3D; intent?.getIntExtra(&quot;code&quot;, Activity.RESULT_OK) ?: Activity.RESULT_OK</span><br><span class="line"></span><br><span class="line">     &#x2F;&#x2F;画面の大きさ</span><br><span class="line">     &#x2F;&#x2F;   height &#x3D; intent?.getIntExtra(&quot;height&quot;, 1000) ?: 1000</span><br><span class="line">     &#x2F;&#x2F;   width &#x3D; intent?.getIntExtra(&quot;width&quot;, 1000) ?: 1000</span><br><span class="line">     dpi &#x3D; intent?.getIntExtra(&quot;dpi&quot;, 1000) ?: 1000</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F;以下省略</span><br></pre></td></tr></table></figure>
+
+<h2 id="内部音声は取れないの？"><a href="#内部音声は取れないの？" class="headerlink" title="内部音声は取れないの？"></a>内部音声は取れないの？</h2><p>Android 10から「AudioPlaybackCapture API」が追加されましたが<br>内部音声はMediaRecorderではなくAudioRecordを使わないと録音できない。残念。<br>AudioRecordの保存とかどうやるんだろう。<br>きっとそのうち出てくると思うのでしばらく待つことにする。</p>
+<h2 id="終わりに"><a href="#終わりに" class="headerlink" title="終わりに"></a>終わりに</h2><p>Rootなしで内部音声が取れるのは期待ですね。<br>この記事を書いてるときに思い出しましたが、Android Q Beta 3ぐらいのときAndroidに標準で画面録画が搭載されそうになった（開発者オプションの機能フラグで有効にしないといけない）。<br>Beta版の段階では電源ボタン長押しで表示されるスクリーンショットを取るボタンを長押しすれば利用できたそう。（残念ながら私の環境では落ちて使えなかった。）<br>けど正式版では実装されなかった。ぜひ標準で欲しい機能なんだけどなあ。</p>
+<p>それと<br>Pixel 4　と　docomo の発表会が楽しみですね！</p>
+<p>書きたいことは多分全部書いたので、<br>以上です。おつ。８８８８８８８８８８８８８８８８８８</p>
+<h2 id="GitHub"><a href="#GitHub" class="headerlink" title="GitHub"></a>GitHub</h2><p><a href="https://github.com/takusan23/ScreenRecordSample" target="_blank" rel="noopener">https://github.com/takusan23/ScreenRecordSample</a><br>試してみたい方どうぞ～</p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最終更新：<time datetime="2020-04-05T16:40:39.228Z" itemprop="dateUpdated">2020年04月06日 01時40分39秒 01:40:39</time>
+</span><br>
+
+
+        
+         
+        
+    </div>
+    
+    <footer>
+        <a href="https://takusan23.github.io/Bibouroku">
+            <img src="/img/avatar.gif" alt="takusan23">
+            takusan23
+        </a>
+    </footer>
+</blockquote>
+
+        
+<!-- <div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div> -->
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/" rel="tag">Android</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/AndroidQ/" rel="tag">AndroidQ</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Kotlin/" rel="tag">Kotlin</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MediaProjection/" rel="tag">MediaProjection</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%94%BB%E9%9D%A2%E9%8C%B2%E7%94%BB/" rel="tag">画面録画</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://takusan23.github.io/Bibouroku/2020/04/06/MediaProjection/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《【Android / MediaProjection / Kotlin】Androidで画面録画をする》 — たくさんの備忘録&url=https://takusan23.github.io/Bibouroku/2020/04/06/MediaProjection/&via=https://takusan23.github.io/Bibouroku" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="line share-sns" target="_blank" href="https://social-plugins.line.me/lineit/share?text=《【Android / MediaProjection / Kotlin】Androidで画面録画をする》 — たくさんの備忘録&url=https://takusan23.github.io/Bibouroku/2020/04/06/MediaProjection/&via=https://takusan23.github.io/Bibouroku" data-title=" LINE">
+          <i class="icon custom-icon-line"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2020/04/06/NavigationDrawer/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">【Android / Kotlin】 ナビゲーションドロワーのつくりかた</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2020/04/06/MaterialDesign/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">【Android】 Material Components のバージョンを 1.0.0 から 1.1.0-alpha08 にして、Theme.MaterialComponentsと戦った話。</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/" alt="打赏二维码">
+        </div>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <!-- <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        総サイトユーザー：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        総サイトアクセス：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+            <span> </span>
+        </p>
+    </div> -->
+    <div class="bottom">
+        <p><span>takusan23 &copy; 2020</span>
+            <span>
+                
+                Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://takusan23.github.io/Bibouroku/2020/04/06/MediaProjection/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《【Android / MediaProjection / Kotlin】Androidで画面録画をする》 — たくさんの備忘録&url=https://takusan23.github.io/Bibouroku/2020/04/06/MediaProjection/&via=https://takusan23.github.io/Bibouroku" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="line share-sns" target="_blank" href="https://social-plugins.line.me/lineit/share?text=《【Android / MediaProjection / Kotlin】Androidで画面録画をする》 — たくさんの備忘録&url=https://takusan23.github.io/Bibouroku/2020/04/06/MediaProjection/&via=https://takusan23.github.io/Bibouroku" data-title=" LINE">
+          <i class="icon custom-icon-line"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>

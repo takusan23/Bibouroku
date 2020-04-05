@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>【Android】 Material Components のバージョンを 1.0.0 から 1.1.0-alpha08 にして、Theme.MaterialComponentsと戦った話。 | たくさんの備忘録 |
+        備忘録</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="Android,Kotlin,MaterialDesign">
+    <meta name="description" content="こんばんは。虫（蛾？かどうかもわからん）が家に入ってきて怖いです。今回はタイトル通りMaterial Componentsのバージョンアップをして見る話です。 なぜアップデートしようとしたのかA. Snackbarの位置をFloating Action Buttonの上に表示させたかったから。SnackbarsのガイドラインのSnackbars and floating action button">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【Android】 Material Components のバージョンを 1.0.0 から 1.1.0-alpha08 にして、Theme.MaterialComponentsと戦った話。">
+<meta property="og:url" content="https://takusan23.github.io/Bibouroku/2020/04/06/MaterialDesign/index.html">
+<meta property="og:site_name" content="たくさんの備忘録">
+<meta property="og:description" content="こんばんは。虫（蛾？かどうかもわからん）が家に入ってきて怖いです。今回はタイトル通りMaterial Componentsのバージョンアップをして見る話です。 なぜアップデートしようとしたのかA. Snackbarの位置をFloating Action Buttonの上に表示させたかったから。SnackbarsのガイドラインのSnackbars and floating action button">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:image" content="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/409918/c8961ea9-1823-0c05-938a-be07d81428de.png">
+<meta property="og:image" content="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/409918/f2a18f6c-513e-0537-e91c-356ca25407aa.png">
+<meta property="og:image" content="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/409918/58fff32c-b13c-7284-7f0c-38bb292ab384.png">
+<meta property="article:published_time" content="2020-04-05T16:27:15.335Z">
+<meta property="article:modified_time" content="2020-04-05T16:40:02.099Z">
+<meta property="article:author" content="takusan23">
+<meta property="article:tag" content="Android">
+<meta property="article:tag" content="Kotlin">
+<meta property="article:tag" content="MaterialDesign">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/409918/c8961ea9-1823-0c05-938a-be07d81428de.png">
+    
+    <link rel="shortcut icon" href="/img/favicon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <link rel="stylesheet" href="/css/fonts/custom/css/custom.css">
+    <script>window.lazyScripts = []</script>
+
+    <!-- custom head -->
+    
+
+
+    <style>
+        body {
+            font-family: "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro", "メイリオ", Meiryo, Osaka, "ＭＳ Ｐゴシック", "MS PGothic", sans-serif;
+            color: #630;
+            line-height: 25px;
+            font-size: 0.95em;
+        }
+    </style>
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.gif">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">takusan23</h5>
+          <a href="mailto:takusan_0913@yahoo.co.jp" title="takusan_0913@yahoo.co.jp" class="mail">takusan_0913@yahoo.co.jp</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                Home
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/takusan23" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://best-friends.chat/@takusan_23" target="_blank" rel="noopener"  >
+                <i class="icon icon-lg icon-link"></i>
+                Mastodon
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">【Android】 Material Components のバージョンを 1.0.0 から 1.1.0-alpha08 にして、Theme.MaterialComponentsと戦った話。</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="検索">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">【Android】 Material Components のバージョンを 1.0.0 から 1.1.0-alpha08 にして、Theme.MaterialComponentsと戦った話。</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2020-04-05T16:27:15.335Z" itemprop="datePublished" class="page-time">
+  2020年04月06日 01時27分15秒
+</time>
+
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#なぜアップデートしようとしたのか"><span class="post-toc-number">1.</span> <span class="post-toc-text">なぜアップデートしようとしたのか</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#ところで最新バージョンはどこで知れるのか？"><span class="post-toc-number">2.</span> <span class="post-toc-text">ところで最新バージョンはどこで知れるのか？</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#build-gradleを書き換える"><span class="post-toc-number">3.</span> <span class="post-toc-text">build.gradleを書き換える</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#解決策その１：レイアウト（xml）ファイルで親のレイアウトの中にandroid-theme-quot-style-Theme-MaterialComponents-quot-を書き足す。"><span class="post-toc-number">3.0.0.1.</span> <span class="post-toc-text">解決策その１：レイアウト（xml）ファイルで親のレイアウトの中にandroid:theme&#x3D;&quot;@style&#x2F;Theme.MaterialComponents&quot;を書き足す。</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#メリット"><span class="post-toc-number">3.0.0.1.1.</span> <span class="post-toc-text">メリット</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#解決策その２：styles-xmlを書き換える。"><span class="post-toc-number">3.0.0.2.</span> <span class="post-toc-text">解決策その２：styles.xmlを書き換える。</span></a></li></ol></li></ol></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Theme-MaterialComponents-にして変わったところ。"><span class="post-toc-number">4.</span> <span class="post-toc-text">Theme.MaterialComponents にして変わったところ。</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#良かったところ"><span class="post-toc-number">4.1.</span> <span class="post-toc-text">良かったところ</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#直す必要があったところ"><span class="post-toc-number">4.2.</span> <span class="post-toc-text">直す必要があったところ</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#BottonにBackgroundが設定されてしまう問題の解決方法"><span class="post-toc-number">4.2.1.</span> <span class="post-toc-text">BottonにBackgroundが設定されてしまう問題の解決方法</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#お疲れさまです"><span class="post-toc-number">5.</span> <span class="post-toc-text">お疲れさまです</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-MaterialDesign"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">【Android】 Material Components のバージョンを 1.0.0 から 1.1.0-alpha08 にして、Theme.MaterialComponentsと戦った話。</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2020年04月06日 01時27分15秒 01:27:15" datetime="2020-04-05T16:27:15.335Z"  itemprop="datePublished">2020年04月06日 01時27分15秒</time>
+
+            
+
+
+            
+<!-- <span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span> -->
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p>こんばんは。<br>虫（蛾？かどうかもわからん）が家に入ってきて怖いです。<br>今回はタイトル通りMaterial Componentsのバージョンアップをして見る話です。</p>
+<h1 id="なぜアップデートしようとしたのか"><a href="#なぜアップデートしようとしたのか" class="headerlink" title="なぜアップデートしようとしたのか"></a>なぜアップデートしようとしたのか</h1><p>A. Snackbarの位置をFloating Action Buttonの上に表示させたかったから。<br><a href="https://material.io/design/components/snackbars.html#placement" target="_blank" rel="noopener">Snackbarsのガイドライン</a>の<br>Snackbars and floating action buttons (FABs)<br>でFABの上に表示させるのが正しいらしい。<br>それで真似ようと思ったのですが、古いのか<code>setAnchorView（どのViewの上に表示させるか？）</code>が見つからなかったのでアップデートしようというのが理由。</p>
+<h1 id="ところで最新バージョンはどこで知れるのか？"><a href="#ところで最新バージョンはどこで知れるのか？" class="headerlink" title="ところで最新バージョンはどこで知れるのか？"></a>ところで最新バージョンはどこで知れるのか？</h1><p>これ？<br><a href="https://github.com/material-components/material-components-android/releases" target="_blank" rel="noopener">https://github.com/material-components/material-components-android/releases</a></p>
+<p>作成日時では1.1.0-alpha08が最新ですので入れてみようと思います。<br>最悪GitHubのちから？を借りて戻せばいいので挑戦です。</p>
+<h1 id="build-gradleを書き換える"><a href="#build-gradleを書き換える" class="headerlink" title="build.gradleを書き換える"></a>build.gradleを書き換える</h1><figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//implementation 'com.google.android.material:material:1.0.0'</span></span><br><span class="line">implementation <span class="string">'com.google.android.material:material:1.1.0-alpha08'</span></span><br></pre></td></tr></table></figure>
+<p>##出会った問題</p>
+<p>###レイアウトのエラー<br>下の方に書いてあった。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Caused by: java.lang.IllegalArgumentException: The style on this component requires your app theme to be Theme.MaterialComponents (or a descendant).</span><br></pre></td></tr></table></figure>
+
+<p>調べるとテーマがTheme.MaterialComponents系を使わないとだめだよ！ってことらしいです。<br>これを解決する方法は2つ。</p>
+<h4 id="解決策その１：レイアウト（xml）ファイルで親のレイアウトの中にandroid-theme-quot-style-Theme-MaterialComponents-quot-を書き足す。"><a href="#解決策その１：レイアウト（xml）ファイルで親のレイアウトの中にandroid-theme-quot-style-Theme-MaterialComponents-quot-を書き足す。" class="headerlink" title="解決策その１：レイアウト（xml）ファイルで親のレイアウトの中にandroid:theme=&quot;@style/Theme.MaterialComponents&quot;を書き足す。"></a>解決策その１：レイアウト（xml）ファイルで親のレイアウトの中に<code>android:theme=&quot;@style/Theme.MaterialComponents&quot;</code>を書き足す。</h4><p>こんな感じに</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">LinearLayout</span> <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">xmlns:app</span>=<span class="string">"http://schemas.android.com/apk/res-auto"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">xmlns:tools</span>=<span class="string">"http://schemas.android.com/tools"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:layout_height</span>=<span class="string">"match_parent"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:theme</span>=<span class="string">"@style/Theme.MaterialComponents"</span>&gt;</span> <span class="comment">&lt;!--この行を付け足す。--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">com.google.android.material.textfield.TextInputLayout</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:id</span>=<span class="string">"@+id/name_TextInputLayout"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">style</span>=<span class="string">"@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">EditText</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:id</span>=<span class="string">"@+id/name_editText"</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:importantForAutofill</span>=<span class="string">"no"</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:inputType</span>=<span class="string">"textMultiLine"</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:singleLine</span>=<span class="string">"true"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">com.google.android.material.textfield.TextInputLayout</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">LinearLayout</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>これで一応通るようになる。TextInputLayoutだけ使いたい！！！とかのときはTextInputLayoutの中に<code>android:theme=&quot;@style/Theme.MaterialComponents&quot;</code>を書き足せば大丈夫です。</p>
+<h5 id="メリット"><a href="#メリット" class="headerlink" title="メリット"></a>メリット</h5><p>かんたん。TextInputLayoutだけ使いたいなんかはこれでいい気がする。<br>改善した方でもう満足した方はお疲れさまです。</p>
+<h4 id="解決策その２：styles-xmlを書き換える。"><a href="#解決策その２：styles-xmlを書き換える。" class="headerlink" title="解決策その２：styles.xmlを書き換える。"></a>解決策その２：styles.xmlを書き換える。</h4><p>stack overflowなんかではこっちが多いね。でも<strong>この方法は結構きつい。</strong>ちなみに私はこっちを使った。<br>なぜならアプリの外観を結構変えることになる。<br>書き換える場所はparentのところ。こうする<code>parent=&quot;Theme.MaterialComponents.Light.DarkActionBar&quot;</code>。<br>以下例です。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- Base application theme. --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">style</span> <span class="attr">name</span>=<span class="string">"AppTheme"</span> <span class="attr">parent</span>=<span class="string">"Theme.MaterialComponents.Light.DarkActionBar"</span>&gt;</span></span><br><span class="line"><span class="xml">    <span class="comment">&lt;!-- Customize your theme here. --&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;<span class="name">item</span> <span class="attr">name</span>=<span class="string">"colorPrimary"</span>&gt;</span>@color/colorPrimary<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;<span class="name">item</span> <span class="attr">name</span>=<span class="string">"colorPrimaryDark"</span>&gt;</span>@color/colorPrimary<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;<span class="name">item</span> <span class="attr">name</span>=<span class="string">"colorAccent"</span>&gt;</span>@color/colorPrimaryDark<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span></span><br><span class="line"><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>どうでしょう。結構変わったと思いますよ？</p>
+<p>で、ここからは<strong>Theme.MaterialComponents</strong>との戦いです。</p>
+<h1 id="Theme-MaterialComponents-にして変わったところ。"><a href="#Theme-MaterialComponents-にして変わったところ。" class="headerlink" title="Theme.MaterialComponents にして変わったところ。"></a>Theme.MaterialComponents にして変わったところ。</h1><h2 id="良かったところ"><a href="#良かったところ" class="headerlink" title="良かったところ"></a>良かったところ</h2><ul>
+<li>Snackbarの表示方法が変わった<ul>
+<li>下からすーっと表示？→ふわっと表示？する感じに（自分で見たほうがはやい）</li>
+<li>スペースができるようになった。（下に空間ができるようになった）</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/409918/c8961ea9-1823-0c05-938a-be07d81428de.png" alt="Screenshot_20190726-033304_Material_Test.png"></p>
+<p>ほかにもあるかもだけど今回は時間無いので飛ばします。</p>
+<h2 id="直す必要があったところ"><a href="#直す必要があったところ" class="headerlink" title="直す必要があったところ"></a>直す必要があったところ</h2><h3 id="BottonにBackgroundが設定されてしまう問題の解決方法"><a href="#BottonにBackgroundが設定されてしまう問題の解決方法" class="headerlink" title="BottonにBackgroundが設定されてしまう問題の解決方法"></a>BottonにBackgroundが設定されてしまう問題の解決方法</h3><p>参考<br><a href="https://stackoverflow.com/questions/52743190/when-use-theme-materialcomponents-light-noactionbar-style-set-button-background" target="_blank" rel="noopener">https://stackoverflow.com/questions/52743190/when-use-theme-materialcomponents-light-noactionbar-style-set-button-background</a></p>
+<p>ButtonはButtonでも<code>androidx.appcompat.widget.AppCompatButton</code>に変えてあげれば解決です。<br>修正前</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">Button</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_width</span>=<span class="string">"wrap_content"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:text</span>=<span class="string">"snackbar"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:id</span>=<span class="string">"@+id/snackbar_button"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>修正後</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">androidx.appcompat.widget.AppCompatButton</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_width</span>=<span class="string">"wrap_content"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:text</span>=<span class="string">"snackbar"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:id</span>=<span class="string">"@+id/snackbar_button"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>ちなみに私はBackgroundにボタンの枠ができる用に設定してたんですけど・・</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">を指定すれば枠がつくので私はstyleを書き足す形で対応しました。これだと押した時に波紋も出るのでいい感じ。</span><br><span class="line"></span><br><span class="line">![Screenshot_20190726-033945_Material_Test.png](https:&#x2F;&#x2F;qiita-image-store.s3.ap-northeast-1.amazonaws.com&#x2F;0&#x2F;409918&#x2F;1885d4f0-9209-6fa8-bb9c-7cf767fb838a.png)</span><br><span class="line"></span><br><span class="line">### AlertDialogのボタンがおかしくなる問題の解決方法</span><br><span class="line">参考にしました。</span><br><span class="line">https:&#x2F;&#x2F;stackoverflow.com&#x2F;questions&#x2F;52829954&#x2F;materialcomponents-theme-alert-dialog-buttons</span><br><span class="line"></span><br><span class="line">この様になってる場合は</span><br><span class="line">![Screenshot_20190726-034620_Material_Test.png](https:&#x2F;&#x2F;qiita-image-store.s3.ap-northeast-1.amazonaws.com&#x2F;0&#x2F;409918&#x2F;64e01862-f158-3d59-2c7f-73f72d50fee9.png)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">インポートの部分から&#96;&#96;&#96;import android.app.AlertDialog&#96;&#96;&#96;を見つけてきてそれを&#96;&#96;&#96;import androidx.appcompat.app.AlertDialog&#96;&#96;&#96;に書き換えれば直ります。</span><br><span class="line"></span><br><span class="line">&#96;&#96;&#96;kotlin</span><br><span class="line">&#x2F;&#x2F;import android.app.AlertDialog</span><br><span class="line">import androidx.appcompat.app.AlertDialog</span><br></pre></td></tr></table></figure>
+
+<p>これで大丈夫そうですね。<br><img src="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/409918/f2a18f6c-513e-0537-e91c-356ca25407aa.png" alt="Screenshot_20190726-035018_Material_Test.png"></p>
+<p>今のところはこんな感じですね。</p>
+<h1 id="お疲れさまです"><a href="#お疲れさまです" class="headerlink" title="お疲れさまです"></a>お疲れさまです</h1><p>最後に私のやりたかったFABの上にSnackbarを出すやり方を書いて終わろうと思います。<br>やり方は普通にSnackbarを作り、<code>setAnchorView</code>のカッコの中にFABやSnackbarの下になるViewを入れてあげればおっけーです。<br>例です。</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> : <span class="type">AppCompatActivity</span></span>() &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onCreate</span><span class="params">(savedInstanceState: <span class="type">Bundle</span>?)</span></span> &#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState)</span><br><span class="line">        setContentView(R.layout.activity_main)</span><br><span class="line"></span><br><span class="line">        snackbar_button.setOnClickListener &#123;</span><br><span class="line">            Snackbar.make(findViewById(android.R.id.content), <span class="string">"すなっくばー！"</span>, Snackbar.LENGTH_LONG).show()</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        alert_dialog.setOnClickListener &#123;</span><br><span class="line">            AlertDialog.Builder(<span class="keyword">this</span>)</span><br><span class="line">                .setTitle(<span class="string">"ボタンが"</span>)</span><br><span class="line">                .setMessage(<span class="string">"おかしくない！！！"</span>)</span><br><span class="line">                .setPositiveButton(<span class="string">"これでいい"</span>) &#123; dialogInterface: DialogInterface, i: <span class="built_in">Int</span> -&gt;</span><br><span class="line"></span><br><span class="line">                &#125;</span><br><span class="line">                .setNegativeButton(<span class="string">"だいじょうぶ"</span>, <span class="literal">null</span>)</span><br><span class="line">                .show();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        fab.setOnClickListener &#123;</span><br><span class="line">            <span class="keyword">val</span> snackbar = Snackbar.make(fab,<span class="string">"ボタンの上からこんにちは"</span>,Snackbar.LENGTH_LONG)</span><br><span class="line">            snackbar.anchorView = fab</span><br><span class="line">            snackbar.show()</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>レイアウト</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">androidx.coordinatorlayout.widget.CoordinatorLayout</span></span></span><br><span class="line"><span class="tag">        <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">xmlns:tools</span>=<span class="string">"http://schemas.android.com/tools"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">xmlns:app</span>=<span class="string">"http://schemas.android.com/apk/res-auto"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_height</span>=<span class="string">"match_parent"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">tools:context</span>=<span class="string">".MainActivity"</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">LinearLayout</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:gravity</span>=<span class="string">"center"</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:layout_height</span>=<span class="string">"match_parent"</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:orientation</span>=<span class="string">"vertical"</span>&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="tag">&lt;<span class="name">Button</span></span></span><br><span class="line"><span class="tag">                <span class="attr">style</span>=<span class="string">"@style/Widget.MaterialComponents.Button.OutlinedButton"</span></span></span><br><span class="line"><span class="tag">                <span class="attr">android:layout_width</span>=<span class="string">"wrap_content"</span></span></span><br><span class="line"><span class="tag">                <span class="attr">android:text</span>=<span class="string">"snackbar"</span></span></span><br><span class="line"><span class="tag">                <span class="attr">android:id</span>=<span class="string">"@+id/snackbar_button"</span></span></span><br><span class="line"><span class="tag">                <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span>/&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="tag">&lt;<span class="name">Button</span></span></span><br><span class="line"><span class="tag">                <span class="attr">style</span>=<span class="string">"@style/Widget.MaterialComponents.Button.OutlinedButton"</span></span></span><br><span class="line"><span class="tag">                <span class="attr">android:layout_width</span>=<span class="string">"wrap_content"</span></span></span><br><span class="line"><span class="tag">                <span class="attr">android:text</span>=<span class="string">"AlertDialog"</span></span></span><br><span class="line"><span class="tag">                <span class="attr">android:id</span>=<span class="string">"@+id/alert_dialog"</span></span></span><br><span class="line"><span class="tag">                <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span>/&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;/<span class="name">LinearLayout</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">com.google.android.material.floatingactionbutton.FloatingActionButton</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:id</span>=<span class="string">"@+id/fab"</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:layout_width</span>=<span class="string">"wrap_content"</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:layout_gravity</span>=<span class="string">"bottom|end"</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:layout_margin</span>=<span class="string">"16dp"</span></span></span><br><span class="line"><span class="tag">            <span class="attr">app:srcCompat</span>=<span class="string">"@drawable/ic_laptop_windows_black_24dp"</span>/&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">androidx.coordinatorlayout.widget.CoordinatorLayout</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>実行するとこんな感じ<br><img src="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/409918/58fff32c-b13c-7284-7f0c-38bb292ab384.png" alt="Screenshot_20190726-035632_Material_Test.png"></p>
+<p>お疲れさまでした！<br>どうでもいいですが書いてる途中でサブ機の中古レッツノートくんがいきなりよくわからん画面になりましたが再起動したら直りました。</p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最終更新：<time datetime="2020-04-05T16:40:02.099Z" itemprop="dateUpdated">2020年04月06日 01時40分02秒 01:40:02</time>
+</span><br>
+
+
+        
+         
+        
+    </div>
+    
+    <footer>
+        <a href="https://takusan23.github.io/Bibouroku">
+            <img src="/img/avatar.gif" alt="takusan23">
+            takusan23
+        </a>
+    </footer>
+</blockquote>
+
+        
+<!-- <div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div> -->
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/" rel="tag">Android</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Kotlin/" rel="tag">Kotlin</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MaterialDesign/" rel="tag">MaterialDesign</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://takusan23.github.io/Bibouroku/2020/04/06/MaterialDesign/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《【Android】 Material Components のバージョンを 1.0.0 から 1.1.0-alpha08 にして、Theme.MaterialComponentsと戦った話。》 — たくさんの備忘録&url=https://takusan23.github.io/Bibouroku/2020/04/06/MaterialDesign/&via=https://takusan23.github.io/Bibouroku" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="line share-sns" target="_blank" href="https://social-plugins.line.me/lineit/share?text=《【Android】 Material Components のバージョンを 1.0.0 から 1.1.0-alpha08 にして、Theme.MaterialComponentsと戦った話。》 — たくさんの備忘録&url=https://takusan23.github.io/Bibouroku/2020/04/06/MaterialDesign/&via=https://takusan23.github.io/Bibouroku" data-title=" LINE">
+          <i class="icon custom-icon-line"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2020/04/06/MediaProjection/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">【Android / MediaProjection / Kotlin】Androidで画面録画をする</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2020/04/06/Electron%20TypeScript/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">【Electron / TypeScript】 ElectronでTypeScript</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/" alt="打赏二维码">
+        </div>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <!-- <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        総サイトユーザー：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        総サイトアクセス：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+            <span> </span>
+        </p>
+    </div> -->
+    <div class="bottom">
+        <p><span>takusan23 &copy; 2020</span>
+            <span>
+                
+                Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://takusan23.github.io/Bibouroku/2020/04/06/MaterialDesign/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《【Android】 Material Components のバージョンを 1.0.0 から 1.1.0-alpha08 にして、Theme.MaterialComponentsと戦った話。》 — たくさんの備忘録&url=https://takusan23.github.io/Bibouroku/2020/04/06/MaterialDesign/&via=https://takusan23.github.io/Bibouroku" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="line share-sns" target="_blank" href="https://social-plugins.line.me/lineit/share?text=《【Android】 Material Components のバージョンを 1.0.0 から 1.1.0-alpha08 にして、Theme.MaterialComponentsと戦った話。》 — たくさんの備忘録&url=https://takusan23.github.io/Bibouroku/2020/04/06/MaterialDesign/&via=https://takusan23.github.io/Bibouroku" data-title=" LINE">
+          <i class="icon custom-icon-line"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>

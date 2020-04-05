@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>【Android】 台風に備えて気圧を測れるアプリを作る | たくさんの備忘録 |
+        備忘録</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="Android,台風,Kotlin">
+    <meta name="description" content="こんにちは。中間テスト終わりました。今回はやばい台風が来るそうなので気圧が測れるアプリを作りたいと思います。 スマホにはいろんなセンサーがついているせっかくなので使いましょう。というのは建前で本当は この記事 でやってることAndroidでも作れるのではと思ったのが本当の理由。 紹介        端末 Pixel 3 XL   Android バージョン Android 10   最低バージョン">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【Android】 台風に備えて気圧を測れるアプリを作る">
+<meta property="og:url" content="https://takusan23.github.io/Bibouroku/2020/04/06/Android%E3%81%A7%E6%B0%97%E5%9C%A7%E8%A8%88/index.html">
+<meta property="og:site_name" content="たくさんの備忘録">
+<meta property="og:description" content="こんにちは。中間テスト終わりました。今回はやばい台風が来るそうなので気圧が測れるアプリを作りたいと思います。 スマホにはいろんなセンサーがついているせっかくなので使いましょう。というのは建前で本当は この記事 でやってることAndroidでも作れるのではと思ったのが本当の理由。 紹介        端末 Pixel 3 XL   Android バージョン Android 10   最低バージョン">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:image" content="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/409918/0afb2d9f-c99b-dafd-1086-a8ae4c51dee9.png">
+<meta property="og:image" content="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/409918/de5824b5-5099-f8ba-f406-691f77d36027.png">
+<meta property="article:published_time" content="2020-04-05T16:27:15.614Z">
+<meta property="article:modified_time" content="2020-04-05T16:37:44.880Z">
+<meta property="article:author" content="takusan23">
+<meta property="article:tag" content="Android">
+<meta property="article:tag" content="台風">
+<meta property="article:tag" content="Kotlin">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/409918/0afb2d9f-c99b-dafd-1086-a8ae4c51dee9.png">
+    
+    <link rel="shortcut icon" href="/img/favicon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <link rel="stylesheet" href="/css/fonts/custom/css/custom.css">
+    <script>window.lazyScripts = []</script>
+
+    <!-- custom head -->
+    
+
+
+    <style>
+        body {
+            font-family: "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro", "メイリオ", Meiryo, Osaka, "ＭＳ Ｐゴシック", "MS PGothic", sans-serif;
+            color: #630;
+            line-height: 25px;
+            font-size: 0.95em;
+        }
+    </style>
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.gif">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">takusan23</h5>
+          <a href="mailto:takusan_0913@yahoo.co.jp" title="takusan_0913@yahoo.co.jp" class="mail">takusan_0913@yahoo.co.jp</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                Home
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/takusan23" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://best-friends.chat/@takusan_23" target="_blank" rel="noopener"  >
+                <i class="icon icon-lg icon-link"></i>
+                Mastodon
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">【Android】 台風に備えて気圧を測れるアプリを作る</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="検索">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">【Android】 台風に備えて気圧を測れるアプリを作る</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2020-04-05T16:27:15.614Z" itemprop="datePublished" class="page-time">
+  2020年04月06日 01時27分15秒
+</time>
+
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#スマホにはいろんなセンサーがついている"><span class="post-toc-number">1.</span> <span class="post-toc-text">スマホにはいろんなセンサーがついている</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#紹介"><span class="post-toc-number">2.</span> <span class="post-toc-text">紹介</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#実装"><span class="post-toc-number">3.</span> <span class="post-toc-text">実装</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#レイアウト"><span class="post-toc-number">3.1.</span> <span class="post-toc-text">レイアウト</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#コード"><span class="post-toc-number">3.2.</span> <span class="post-toc-text">コード</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#小数点を消す"><span class="post-toc-number">3.3.</span> <span class="post-toc-text">小数点を消す</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-Androidで気圧計"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">【Android】 台風に備えて気圧を測れるアプリを作る</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2020年04月06日 01時27分15秒 01:27:15" datetime="2020-04-05T16:27:15.614Z"  itemprop="datePublished">2020年04月06日 01時27分15秒</time>
+
+            
+
+
+            
+<!-- <span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span> -->
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p>こんにちは。中間テスト終わりました。<br>今回はやばい台風が来るそうなので気圧が測れるアプリを作りたいと思います。</p>
+<h2 id="スマホにはいろんなセンサーがついている"><a href="#スマホにはいろんなセンサーがついている" class="headerlink" title="スマホにはいろんなセンサーがついている"></a>スマホにはいろんなセンサーがついている</h2><p>せっかくなので使いましょう。<br>というのは建前で本当は <a href="https://qiita.com/bellx2/items/fc1de7197f583001ca59" target="_blank" rel="noopener">この記事</a> でやってることAndroidでも作れるのではと思ったのが本当の理由。</p>
+<h2 id="紹介"><a href="#紹介" class="headerlink" title="紹介"></a>紹介</h2><table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>端末</td>
+<td>Pixel 3 XL</td>
+</tr>
+<tr>
+<td>Android バージョン</td>
+<td>Android 10</td>
+</tr>
+<tr>
+<td>最低バージョン</td>
+<td>ろりぽっぷ</td>
+</tr>
+<tr>
+<td>言語</td>
+<td>Kotlin</td>
+</tr>
+</tbody></table>
+<h2 id="実装"><a href="#実装" class="headerlink" title="実装"></a>実装</h2><h3 id="レイアウト"><a href="#レイアウト" class="headerlink" title="レイアウト"></a>レイアウト</h3><p>真ん中にTextViewを置いただけのものとする。<br>面倒なのでConstraintLayoutをそのまま使うことにする。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version&#x3D;&quot;1.0&quot; encoding&#x3D;&quot;utf-8&quot;?&gt;</span><br><span class="line">&lt;androidx.constraintlayout.widget.ConstraintLayout xmlns:android&#x3D;&quot;http:&#x2F;&#x2F;schemas.android.com&#x2F;apk&#x2F;res&#x2F;android&quot;</span><br><span class="line">    xmlns:app&#x3D;&quot;http:&#x2F;&#x2F;schemas.android.com&#x2F;apk&#x2F;res-auto&quot;</span><br><span class="line">    xmlns:tools&#x3D;&quot;http:&#x2F;&#x2F;schemas.android.com&#x2F;tools&quot;</span><br><span class="line">    android:layout_width&#x3D;&quot;match_parent&quot;</span><br><span class="line">    android:layout_height&#x3D;&quot;match_parent&quot;</span><br><span class="line">    tools:context&#x3D;&quot;.MainActivity&quot;&gt;</span><br><span class="line"></span><br><span class="line">    &lt;TextView</span><br><span class="line">        android:layout_width&#x3D;&quot;wrap_content&quot;</span><br><span class="line">        android:layout_height&#x3D;&quot;wrap_content&quot;</span><br><span class="line">        android:textSize&#x3D;&quot;50dp&quot;</span><br><span class="line">        android:id&#x3D;&quot;@+id&#x2F;barometer_tv&quot;</span><br><span class="line">        android:text&#x3D;&quot;Hello World!&quot;</span><br><span class="line">        app:layout_constraintBottom_toBottomOf&#x3D;&quot;parent&quot;</span><br><span class="line">        app:layout_constraintLeft_toLeftOf&#x3D;&quot;parent&quot;</span><br><span class="line">        app:layout_constraintRight_toRightOf&#x3D;&quot;parent&quot;</span><br><span class="line">        app:layout_constraintTop_toTopOf&#x3D;&quot;parent&quot; &#x2F;&gt;</span><br><span class="line"></span><br><span class="line">&lt;&#x2F;androidx.constraintlayout.widget.ConstraintLayout&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="コード"><a href="#コード" class="headerlink" title="コード"></a>コード</h3><p>Sensor.TYPE_PRESSUREが気圧計になります。<br>onDestroy()で登録を解除しています。<br>受け取るセンサーがほかにもあるときは<code>event?.sensor?.type</code>を利用して分けましょう。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">lateinit var sensorManager: SensorManager</span><br><span class="line">lateinit var sensorEventListener: SensorEventListener</span><br><span class="line">override fun onCreate(savedInstanceState: Bundle?) &#123;</span><br><span class="line">    super.onCreate(savedInstanceState)</span><br><span class="line">    setContentView(R.layout.activity_main)</span><br><span class="line"></span><br><span class="line">    sensorManager &#x3D; getSystemService(Context.SENSOR_SERVICE) as SensorManager</span><br><span class="line">    &#x2F;&#x2F;今回は気圧計</span><br><span class="line">    val sensorList &#x3D; sensorManager.getSensorList(Sensor.TYPE_PRESSURE)</span><br><span class="line">    &#x2F;&#x2F;受け取る</span><br><span class="line">    sensorEventListener &#x3D; object : SensorEventListener &#123;</span><br><span class="line">        override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) &#123;</span><br><span class="line">            &#x2F;&#x2F;つかわん</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        override fun onSensorChanged(event: SensorEvent?) &#123;</span><br><span class="line">            &#x2F;&#x2F;値はここで受けとる</span><br><span class="line">            &#x2F;&#x2F;今回は気圧計のみだからいいけどほかにも登録するときは分岐してね</span><br><span class="line">            if(event?.sensor?.type &#x3D;&#x3D; Sensor.TYPE_PRESSURE)&#123;</span><br><span class="line">                &#x2F;&#x2F;気圧計の値</span><br><span class="line">                val barometer &#x3D; event.values[0]</span><br><span class="line">                &#x2F;&#x2F;TextViewに設定</span><br><span class="line">                barometer_tv.text &#x3D; &quot;$barometer hPa&quot;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    &#x2F;&#x2F;登録</span><br><span class="line">    sensorManager.registerListener(</span><br><span class="line">        sensorEventListener,</span><br><span class="line">        sensorList[0],  &#x2F;&#x2F;配列のいっこめ。気圧計</span><br><span class="line">        SensorManager.SENSOR_DELAY_NORMAL  &#x2F;&#x2F;更新頻度</span><br><span class="line">     )</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">override fun onDestroy() &#123;</span><br><span class="line">    super.onDestroy()</span><br><span class="line">    sensorManager.unregisterListener(sensorEventListener)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>これでTextViewに気圧が表示されてると思います。</p>
+<p><img src="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/409918/0afb2d9f-c99b-dafd-1086-a8ae4c51dee9.png" alt="Screenshot_20191011-112836.png"></p>
+<h3 id="小数点を消す"><a href="#小数点を消す" class="headerlink" title="小数点を消す"></a>小数点を消す</h3><figure class="highlight plain"><figcaption><span>できれいになります。</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">&#96;&#96;&#96;kotlin</span><br><span class="line">                &#x2F;&#x2F;値はここで受けとる</span><br><span class="line">                &#x2F;&#x2F;今回は気圧計のみだからいいけどほかにも登録するときは分岐してね</span><br><span class="line">                if(event?.sensor?.type &#x3D;&#x3D; Sensor.TYPE_PRESSURE)&#123;</span><br><span class="line">                    &#x2F;&#x2F;気圧計の値</span><br><span class="line">                    val barometer &#x3D; event.values[0]</span><br><span class="line">                    &#x2F;&#x2F;整数に</span><br><span class="line">                    val barometerInt &#x3D; barometer.roundToInt()</span><br><span class="line">                    &#x2F;&#x2F;TextViewに設定</span><br><span class="line">                    barometer_tv.text &#x3D; &quot;$barometerInt hPa\n($barometer hPa)&quot;</span><br><span class="line">                &#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/409918/de5824b5-5099-f8ba-f406-691f77d36027.png" alt="Screenshot_20191011-113656.png"></p>
+<p>以上です。<br>お疲れ様です。８８８８８</p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最終更新：<time datetime="2020-04-05T16:37:44.880Z" itemprop="dateUpdated">2020年04月06日 01時37分44秒 01:37:44</time>
+</span><br>
+
+
+        
+         
+        
+    </div>
+    
+    <footer>
+        <a href="https://takusan23.github.io/Bibouroku">
+            <img src="/img/avatar.gif" alt="takusan23">
+            takusan23
+        </a>
+    </footer>
+</blockquote>
+
+        
+<!-- <div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div> -->
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/" rel="tag">Android</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Kotlin/" rel="tag">Kotlin</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8F%B0%E9%A2%A8/" rel="tag">台風</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://takusan23.github.io/Bibouroku/2020/04/06/Android%E3%81%A7%E6%B0%97%E5%9C%A7%E8%A8%88/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《【Android】 台風に備えて気圧を測れるアプリを作る》 — たくさんの備忘録&url=https://takusan23.github.io/Bibouroku/2020/04/06/Android%E3%81%A7%E6%B0%97%E5%9C%A7%E8%A8%88/&via=https://takusan23.github.io/Bibouroku" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="line share-sns" target="_blank" href="https://social-plugins.line.me/lineit/share?text=《【Android】 台風に備えて気圧を測れるアプリを作る》 — たくさんの備忘録&url=https://takusan23.github.io/Bibouroku/2020/04/06/Android%E3%81%A7%E6%B0%97%E5%9C%A7%E8%A8%88/&via=https://takusan23.github.io/Bibouroku" data-title=" LINE">
+          <i class="icon custom-icon-line"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2020/04/06/Android%E3%81%AE%E3%83%8E%E3%83%83%E3%83%81%E9%A0%98%E5%9F%9F%E3%81%AB%E4%BE%B5%E7%95%A5/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">【Android / Kotlin】 ノッチ（ディスプレイカット / 切り欠き）の部分も表示する方法</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2020/04/06/Android11%E3%81%A8%E3%81%8B/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">Android11とか</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/" alt="打赏二维码">
+        </div>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <!-- <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        総サイトユーザー：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        総サイトアクセス：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+            <span> </span>
+        </p>
+    </div> -->
+    <div class="bottom">
+        <p><span>takusan23 &copy; 2020</span>
+            <span>
+                
+                Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://takusan23.github.io/Bibouroku/2020/04/06/Android%E3%81%A7%E6%B0%97%E5%9C%A7%E8%A8%88/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《【Android】 台風に備えて気圧を測れるアプリを作る》 — たくさんの備忘録&url=https://takusan23.github.io/Bibouroku/2020/04/06/Android%E3%81%A7%E6%B0%97%E5%9C%A7%E8%A8%88/&via=https://takusan23.github.io/Bibouroku" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="line share-sns" target="_blank" href="https://social-plugins.line.me/lineit/share?text=《【Android】 台風に備えて気圧を測れるアプリを作る》 — たくさんの備忘録&url=https://takusan23.github.io/Bibouroku/2020/04/06/Android%E3%81%A7%E6%B0%97%E5%9C%A7%E8%A8%88/&via=https://takusan23.github.io/Bibouroku" data-title=" LINE">
+          <i class="icon custom-icon-line"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>

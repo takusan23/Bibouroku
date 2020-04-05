@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>Electronで雑にアプリを作ってWindowsのポータブルアプリとして動くまでやる。 2020/02/28追記 | たくさんの備忘録 |
+        備忘録</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="JavaScript,Electron">
+    <meta name="description" content="久しぶりにElectronについてお話します。 exeファイルにして動かしたい。しかし2015年とか2016年の記事がおおい。つらい。令和だぞ。 というわけで今回はElectronで適当にアプリを作ってポータブルアプリとしてすぐ使えるようにするところを目標に作っていこうと思います。&#x3D;&#x3D;インストール不要で動かす！ 何作る。marqueeタグで🍣を流すだけのアプリ。かんたん。 作り方セットアップ n">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Electronで雑にアプリを作ってWindowsのポータブルアプリとして動くまでやる。 2020&#x2F;02&#x2F;28追記">
+<meta property="og:url" content="https://takusan23.github.io/Bibouroku/2020/04/06/Electron%20Builder/index.html">
+<meta property="og:site_name" content="たくさんの備忘録">
+<meta property="og:description" content="久しぶりにElectronについてお話します。 exeファイルにして動かしたい。しかし2015年とか2016年の記事がおおい。つらい。令和だぞ。 というわけで今回はElectronで適当にアプリを作ってポータブルアプリとしてすぐ使えるようにするところを目標に作っていこうと思います。&#x3D;&#x3D;インストール不要で動かす！ 何作る。marqueeタグで🍣を流すだけのアプリ。かんたん。 作り方セットアップ n">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:image" content="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/409918/50f257ab-2fac-e705-a5ca-235e207c2496.png">
+<meta property="og:image" content="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/409918/d2ef021e-e0b8-de7c-38fb-74ca80adf223.png">
+<meta property="og:image" content="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/409918/01f43431-50e5-9aba-9fbe-0322af15944a.png">
+<meta property="og:image" content="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/409918/50abd5ca-91a3-2152-e577-5b82e9b24296.png">
+<meta property="og:image" content="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/409918/9fdcb99d-00ab-b83d-71d7-1f1d9d7d90bb.png">
+<meta property="og:image" content="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/409918/f0d114e3-99ed-fb82-441e-19ac8a9097f8.png">
+<meta property="og:image" content="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/409918/226b19ef-9f95-0116-fb30-471e25eb2d0f.png">
+<meta property="og:image" content="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/409918/b41f1f15-2800-b2ce-b128-7b24c7a9c839.png">
+<meta property="article:published_time" content="2020-04-05T16:27:15.739Z">
+<meta property="article:modified_time" content="2020-04-05T16:39:24.716Z">
+<meta property="article:author" content="takusan23">
+<meta property="article:tag" content="JavaScript">
+<meta property="article:tag" content="Electron">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/409918/50f257ab-2fac-e705-a5ca-235e207c2496.png">
+    
+    <link rel="shortcut icon" href="/img/favicon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <link rel="stylesheet" href="/css/fonts/custom/css/custom.css">
+    <script>window.lazyScripts = []</script>
+
+    <!-- custom head -->
+    
+
+
+    <style>
+        body {
+            font-family: "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro", "メイリオ", Meiryo, Osaka, "ＭＳ Ｐゴシック", "MS PGothic", sans-serif;
+            color: #630;
+            line-height: 25px;
+            font-size: 0.95em;
+        }
+    </style>
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.gif">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">takusan23</h5>
+          <a href="mailto:takusan_0913@yahoo.co.jp" title="takusan_0913@yahoo.co.jp" class="mail">takusan_0913@yahoo.co.jp</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                Home
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/takusan23" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://best-friends.chat/@takusan_23" target="_blank" rel="noopener"  >
+                <i class="icon icon-lg icon-link"></i>
+                Mastodon
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">Electronで雑にアプリを作ってWindowsのポータブルアプリとして動くまでやる。 2020/02/28追記</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="検索">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">Electronで雑にアプリを作ってWindowsのポータブルアプリとして動くまでやる。 2020/02/28追記</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2020-04-05T16:27:15.739Z" itemprop="datePublished" class="page-time">
+  2020年04月06日 01時27分15秒
+</time>
+
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#exeファイルにして動かしたい。"><span class="post-toc-number">1.</span> <span class="post-toc-text">exeファイルにして動かしたい。</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#何作る。"><span class="post-toc-number">2.</span> <span class="post-toc-text">何作る。</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#作り方"><span class="post-toc-number">3.</span> <span class="post-toc-text">作り方</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#セットアップ-npm-init"><span class="post-toc-number">3.1.</span> <span class="post-toc-text">セットアップ npm init</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#セットアップ-npm-install-–save-dev-electron"><span class="post-toc-number">3.2.</span> <span class="post-toc-text">セットアップ npm install –save-dev electron</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#セットアップ-好きなエディタを開いて"><span class="post-toc-number">3.3.</span> <span class="post-toc-text">セットアップ 好きなエディタを開いて</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#electron-builderをいれる"><span class="post-toc-number">3.4.</span> <span class="post-toc-text">electron-builderをいれる</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#package-jsonに書き足す"><span class="post-toc-number">3.5.</span> <span class="post-toc-text">package.jsonに書き足す</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#追記"><span class="post-toc-number">3.6.</span> <span class="post-toc-text">追記</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#更に追記-2020-02-28"><span class="post-toc-number">3.7.</span> <span class="post-toc-text">更に追記　2020&#x2F;02&#x2F;28</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#おわりに"><span class="post-toc-number">3.7.1.</span> <span class="post-toc-text">おわりに</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#参考にしました。"><span class="post-toc-number">3.8.</span> <span class="post-toc-text">参考にしました。</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-Electron Builder"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">Electronで雑にアプリを作ってWindowsのポータブルアプリとして動くまでやる。 2020/02/28追記</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2020年04月06日 01時27分15秒 01:27:15" datetime="2020-04-05T16:27:15.739Z"  itemprop="datePublished">2020年04月06日 01時27分15秒</time>
+
+            
+
+
+            
+<!-- <span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span> -->
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p>久しぶりにElectronについて<strong>お話します。</strong></p>
+<h1 id="exeファイルにして動かしたい。"><a href="#exeファイルにして動かしたい。" class="headerlink" title="exeファイルにして動かしたい。"></a>exeファイルにして動かしたい。</h1><p>しかし2015年とか2016年の記事がおおい。つらい。<del>令和だぞ。</del></p>
+<p>というわけで今回はElectronで適当にアプリを作ってポータブルアプリとしてすぐ使えるようにするところを目標に作っていこうと思います。==インストール不要で動かす！</p>
+<h1 id="何作る。"><a href="#何作る。" class="headerlink" title="何作る。"></a>何作る。</h1><p>marqueeタグで🍣を流すだけのアプリ。かんたん。</p>
+<h1 id="作り方"><a href="#作り方" class="headerlink" title="作り方"></a>作り方</h1><h2 id="セットアップ-npm-init"><a href="#セットアップ-npm-init" class="headerlink" title="セットアップ npm init"></a>セットアップ npm init</h2><p>セットアップは自分が書いた過去の記事と同じことしてます。<a href="https://qiita.com/takusan_23/items/eca19b4111109616bbfa" target="_blank" rel="noopener">ここ</a>。</p>
+<p>適当にフォルダを作成する。</p>
+<p>作ったフォルダの中で<code>Shift+右クリック</code>で<code>PowerShell ウィンドウをここに開く</code>か<code>コマンド ウィンドウをここで開く</code>を押します。（Win10は前者。それ以外は後者）。</p>
+<p>開いたら中で以下の文を入力します。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm init -y</span><br><span class="line">&#96;</span><br></pre></td></tr></table></figure>
+
+<p>これで<code>package.json</code>が作成できていれば成功です。</p>
+<p>そしたらpackage.jsonを開いて、少し書き換えます。</p>
+<figure class="highlight plain"><figcaption><span>: "index.js",```</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">↓</span><br><span class="line">&#96;&#96;&#96;&quot;main&quot;: &quot;.&#x2F;src&#x2F;main.js&quot;,</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&quot;scripts&quot;: &#123;</span><br><span class="line">    &quot;test&quot;: &quot;echo \&quot;Error: no test specified\&quot; &amp;&amp; exit 1&quot;</span><br><span class="line">  &#125;,</span><br></pre></td></tr></table></figure>
+<p>↓</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&quot;scripts&quot;: &#123;</span><br><span class="line">   &quot;start&quot;: &quot;electron .&quot;</span><br><span class="line"> &#125;,</span><br></pre></td></tr></table></figure>
+
+<h2 id="セットアップ-npm-install-–save-dev-electron"><a href="#セットアップ-npm-install-–save-dev-electron" class="headerlink" title="セットアップ npm install –save-dev electron"></a>セットアップ npm install –save-dev electron</h2><p>PowerShellまたはコマンドプロンプトの画面はそのまま、次の文を入力しましょう。</p>
+<figure class="highlight console"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install --save-dev electron</span><br></pre></td></tr></table></figure>
+
+<h2 id="セットアップ-好きなエディタを開いて"><a href="#セットアップ-好きなエディタを開いて" class="headerlink" title="セットアップ 好きなエディタを開いて"></a>セットアップ 好きなエディタを開いて</h2><p>最初に作ったフォルダの中にsrcフォルダを作成してください。（スクリーンショットにicon.icoがありますが気にせず。）<br><img src="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/409918/50f257ab-2fac-e705-a5ca-235e207c2496.png" alt="image.png"></p>
+<p>作成したら中に。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#96;&#96;&#96;index.html</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">それぞれ</span><br><span class="line"></span><br><span class="line">&#96;&#96;&#96;json:package.json</span><br><span class="line">&#123;</span><br><span class="line">    &quot;main&quot;: &quot;main.js&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html lang&#x3D;&quot;ja&quot;&gt;</span><br><span class="line"></span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;meta charset&#x3D;&quot;UTF-8&quot;&gt;</span><br><span class="line">    &lt;meta name&#x3D;&quot;viewport&quot; content&#x3D;&quot;width&#x3D;device-width, initial-scale&#x3D;1.0&quot;&gt;</span><br><span class="line">    &lt;meta http-equiv&#x3D;&quot;X-UA-Compatible&quot; content&#x3D;&quot;ie&#x3D;edge&quot;&gt;</span><br><span class="line">    &lt;title&gt;寿司が流れるだけのアプリ&lt;&#x2F;title&gt;</span><br><span class="line">&lt;&#x2F;head&gt;</span><br><span class="line"></span><br><span class="line">&lt;body style&#x3D;&quot;-webkit-app-region: drag;background-color: rgba(157, 204, 224	, .7)&quot;&gt;</span><br><span class="line">    &lt;!-- 寿司が流れるだけ --&gt;</span><br><span class="line">    &lt;div style&#x3D;&quot;padding: 20px&quot; class&#x3D;&quot;center&quot;&gt;</span><br><span class="line">        &lt;marquee id&#x3D;&quot;marquee&quot; scrollamount&#x3D;&quot;25&quot;&gt;</span><br><span class="line">            &lt;font id&#x3D;&quot;text&quot; size&#x3D;&quot;7&quot;&gt;🍣&lt;&#x2F;font&gt;</span><br><span class="line">        &lt;&#x2F;marquee&gt;</span><br><span class="line">    &lt;&#x2F;div&gt;</span><br><span class="line">&lt;&#x2F;body&gt;</span><br><span class="line"></span><br><span class="line">&lt;&#x2F;html&gt;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; Modules to control application life and create native browser window</span><br><span class="line">const &#123; app, BrowserWindow, Menu &#125; &#x3D; require(&#39;electron&#39;)</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; Keep a global reference of the window object, if you don&#39;t, the window will</span><br><span class="line">&#x2F;&#x2F; be closed automatically when the JavaScript object is garbage collected.</span><br><span class="line">let mainWindow</span><br><span class="line"></span><br><span class="line">function createWindow() &#123;</span><br><span class="line">    &#x2F;&#x2F; Create the browser window.</span><br><span class="line">    mainWindow &#x3D; new BrowserWindow(&#123;</span><br><span class="line">        width: 300,         &#x2F;&#x2F;横</span><br><span class="line">        height: 150,        &#x2F;&#x2F;縦</span><br><span class="line">        frame: false,       &#x2F;&#x2F;フレームなくす</span><br><span class="line">        transparent: true,   &#x2F;&#x2F;背景透明化</span><br><span class="line">        alwaysOnTop: true,         &#x2F;&#x2F;最前面</span><br><span class="line">        webPreferences: &#123;</span><br><span class="line">            nodeIntegration: true   &#x2F;&#x2F;これ書く。</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; and load the index.html of the app.</span><br><span class="line">    mainWindow.loadFile(&#39;.&#x2F;src&#x2F;index.html&#39;)</span><br><span class="line">    &#x2F;&#x2F;メニューバー削除</span><br><span class="line">    Menu.setApplicationMenu(null)</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; Open the DevTools.</span><br><span class="line">    &#x2F;&#x2F; mainWindow.webContents.openDevTools()</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; Emitted when the window is closed.</span><br><span class="line">    mainWindow.on(&#39;closed&#39;, function () &#123;</span><br><span class="line">        &#x2F;&#x2F; Dereference the window object, usually you would store windows</span><br><span class="line">        &#x2F;&#x2F; in an array if your app supports multi windows, this is the time</span><br><span class="line">        &#x2F;&#x2F; when you should delete the corresponding element.</span><br><span class="line">        mainWindow &#x3D; null</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; This method will be called when Electron has finished</span><br><span class="line">&#x2F;&#x2F; initialization and is ready to create browser windows.</span><br><span class="line">&#x2F;&#x2F; Some APIs can only be used after this event occurs.</span><br><span class="line">app.on(&#39;ready&#39;, createWindow)</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; Quit when all windows are closed.</span><br><span class="line">app.on(&#39;window-all-closed&#39;, function () &#123;</span><br><span class="line">    &#x2F;&#x2F; On macOS it is common for applications and their menu bar</span><br><span class="line">    &#x2F;&#x2F; to stay active until the user quits explicitly with Cmd + Q</span><br><span class="line">    if (process.platform !&#x3D;&#x3D; &#39;darwin&#39;) app.quit()</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">app.on(&#39;activate&#39;, function () &#123;</span><br><span class="line">    &#x2F;&#x2F; On macOS it&#39;s common to re-create a window in the app when the</span><br><span class="line">    &#x2F;&#x2F; dock icon is clicked and there are no other windows open.</span><br><span class="line">    if (mainWindow &#x3D;&#x3D;&#x3D; null) createWindow()</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; In this file you can include the rest of your app&#39;s specific main process</span><br><span class="line">&#x2F;&#x2F; code. You can also put them in separate files and require them here.</span><br></pre></td></tr></table></figure>
+
+<p>このまま実行すると半透明で小さくてどのウィンドウより前に出るただ🍣が流れるウィンドウができてるはずです。<br><img src="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/409918/d2ef021e-e0b8-de7c-38fb-74ca80adf223.png" alt="SnapCrab_NoName_2019-8-22_0-1-26_No-00.png"></p>
+<p>ちなみに右クリックすることで閉じたり最大化できます。<br><img src="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/409918/01f43431-50e5-9aba-9fbe-0322af15944a.png" alt="SnapCrab_寿司が流れるだけのアプリ_2019-8-21_23-58-10_No-00.png"></p>
+<p>とってもいらないアプリが完成しました。</p>
+<h2 id="electron-builderをいれる"><a href="#electron-builderをいれる" class="headerlink" title="electron-builderをいれる"></a>electron-builderをいれる</h2><p>これはyarnをインストールする必要があります。インストーラーに沿ってやればできます。<br>ちゃんとインストールできたかどうかは以下の文をいれてバージョンが出ればおｋです。</p>
+<figure class="highlight console"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yarn -v</span><br></pre></td></tr></table></figure>
+
+<p>そしたら以下の文をいれて<code>electron-builder</code>をインストールします。</p>
+<figure class="highlight console"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yarn global add electron-builder</span><br></pre></td></tr></table></figure>
+
+<h2 id="package-jsonに書き足す"><a href="#package-jsonに書き足す" class="headerlink" title="package.jsonに書き足す"></a>package.jsonに書き足す</h2><p>どっちのpackage.jsonか？srcじゃない方。npm initで作成したほう。<br>開いてみて明らかに下の中身と違う場合は開くの間違えてます。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;name&quot;: &quot;sushi_portable&quot;,</span><br><span class="line">  &quot;version&quot;: &quot;1.0.0&quot;,</span><br><span class="line">  &quot;description&quot;: &quot;寿司の絵文字を眺めるアプリ。&quot;,</span><br><span class="line">  &quot;main&quot;: &quot;.&#x2F;src&#x2F;main.js&quot;,</span><br><span class="line">  &quot;scripts&quot;: &#123;</span><br><span class="line">    &quot;start&quot;: &quot;electron .&quot;</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;keywords&quot;: [],</span><br><span class="line">  &quot;author&quot;: &quot;sushi&quot;,</span><br><span class="line">  &quot;license&quot;: &quot;ISC&quot;,</span><br><span class="line">  &quot;devDependencies&quot;: &#123;</span><br><span class="line">    &quot;electron&quot;: &quot;^6.0.3&quot;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>そしてすこし書き足します。buildから増えました。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;name&quot;: &quot;sushi_portable&quot;,</span><br><span class="line">  &quot;version&quot;: &quot;1.0.0&quot;,</span><br><span class="line">  &quot;description&quot;: &quot;寿司の絵文字を眺めるアプリ。&quot;,</span><br><span class="line">  &quot;main&quot;: &quot;.&#x2F;src&#x2F;main.js&quot;,</span><br><span class="line">  &quot;scripts&quot;: &#123;</span><br><span class="line">    &quot;start&quot;: &quot;electron .&quot;</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;keywords&quot;: [],</span><br><span class="line">  &quot;author&quot;: &quot;sushi&quot;,</span><br><span class="line">  &quot;license&quot;: &quot;ISC&quot;,</span><br><span class="line">  &quot;devDependencies&quot;: &#123;</span><br><span class="line">    &quot;electron&quot;: &quot;^6.0.3&quot;</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;build&quot;: &#123;</span><br><span class="line">    &quot;productName&quot;: &quot;寿司の絵文字眺めるやつ&quot;,</span><br><span class="line">    &quot;appId&quot;: &quot;sushi.emoji&quot;,</span><br><span class="line">    &quot;win&quot;: &#123;</span><br><span class="line">      &quot;target&quot;: &quot;portable&quot;,</span><br><span class="line">      &quot;icon&quot;: &quot;.&#x2F;src&#x2F;icon.ico&quot;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>productNameが名前、appIdはアプリケーションID（Application User Model ID）らしいです？</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#96;&#96;&#96;nsis&#96;&#96;&#96;にすればインストール形式になるそうです？。（要検証）</span><br><span class="line">&#96;&#96;&#96;icon&#96;&#96;&#96;はアイコン画像のパスです。srcの中に入れればいいのですが、拡張子がicoなので画像ファイルを何らかの方法でicoに変換する必要があります。ただし、一つ条件があって画像サイズを256×256にする必要があるようです。</span><br><span class="line"></span><br><span class="line">## ポータブルアプリ作成</span><br><span class="line">ターミナル（PowerShell・コマンドプロンプト）で以下の文を入力。</span><br><span class="line"></span><br><span class="line">&#96;&#96;&#96;console</span><br><span class="line">electron-builder build --win</span><br></pre></td></tr></table></figure>
+
+<p>あとは終わるまで待ちましょう。<br><img src="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/409918/50abd5ca-91a3-2152-e577-5b82e9b24296.png" alt="image.png"></p>
+<p>おわると<code>dist</code>という名前のフォルダができてるのでその中のにあるexeファイルをダブルクリックして少し待てばウィンドウが出てきます。</p>
+<p><img src="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/409918/9fdcb99d-00ab-b83d-71d7-1f1d9d7d90bb.png" alt="SnapCrab_NoName_2019-8-22_0-30-47_No-00.png"></p>
+<p><strong>完成です！！！</strong></p>
+<h2 id="追記"><a href="#追記" class="headerlink" title="追記"></a>追記</h2><p><img src="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/409918/f0d114e3-99ed-fb82-441e-19ac8a9097f8.png" alt="SnapCrab_NoName_2019-8-22_0-39-35_No-00.png"></p>
+<p>ソースコードです→<a href="https://github.com/takusan23/SushiPortable" target="_blank" rel="noopener">https://github.com/takusan23/SushiPortable</a></p>
+<h2 id="更に追記-2020-02-28"><a href="#更に追記-2020-02-28" class="headerlink" title="更に追記　2020/02/28"></a>更に追記　2020/02/28</h2><p>コメントでelectron-builderが見つからんってあったので調べたら<a href="https://www.electron.build/" target="_blank" rel="noopener">公式サイト</a>と導入方法が違ったので追記しておきます。</p>
+<p>ちなみにyarnのバージョンは1.22.0です。</p>
+<p>とりあえずelectron-builderを消しましょう。</p>
+<figure class="highlight console"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yarn global remove electron-builder</span><br></pre></td></tr></table></figure>
+
+<p>消せたら以下の文を入力してなにもないことを確認します</p>
+<figure class="highlight console"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yarn global list --depth=0</span><br></pre></td></tr></table></figure>
+<p><img src="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/409918/226b19ef-9f95-0116-fb30-471e25eb2d0f.png" alt="image.png"></p>
+<p>次に公式と同じ方法でelectron-builderを入れます。</p>
+<figure class="highlight console"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yarn add electron-builder --dev</span><br></pre></td></tr></table></figure>
+
+<p>成功すれば<code>package.json</code>のdevDependenciesの中に</p>
+<figure class="highlight plain"><figcaption><span>"^22.3.2"```が追加されているはずです。</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">ちなみにelectron-builderと入力しても無いって言われるだけです。</span><br><span class="line">![image.png](https:&#x2F;&#x2F;qiita-image-store.s3.ap-northeast-1.amazonaws.com&#x2F;0&#x2F;409918&#x2F;b0192e15-4f4b-915d-4bef-0bfaa01386e6.png)</span><br><span class="line"></span><br><span class="line">次にpackage.jsonに書き足してなければ、</span><br><span class="line">[package.jsonに書き足す](https:&#x2F;&#x2F;qiita.com&#x2F;takusan_23&#x2F;items&#x2F;0ae82e0a4a1ea6469bbd#packagejson%E3%81%AB%E6%9B%B8%E3%81%8D%E8%B6%B3%E3%81%99)で書き足してきてください。ここは同じ。</span><br><span class="line"></span><br><span class="line">最後に以下のコマンドを入力すれば処理が始まるはずです。</span><br><span class="line"></span><br><span class="line">&#96;&#96;&#96;console</span><br><span class="line">yarn electron-builder --win</span><br></pre></td></tr></table></figure>
+
+<p>electron-builderがうまく動かない場合は試してみてください。（私はどちらでも動いたのですが；；）</p>
+<p><img src="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/409918/b41f1f15-2800-b2ce-b128-7b24c7a9c839.png" alt="image.png"></p>
+<p>あと一応<code>package.json</code>置いときますね</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;name&quot;: &quot;ElectronBuilderSample&quot;,</span><br><span class="line">  &quot;version&quot;: &quot;1.0.0&quot;,</span><br><span class="line">  &quot;description&quot;: &quot;&quot;,</span><br><span class="line">  &quot;main&quot;: &quot;src&#x2F;main.js&quot;,</span><br><span class="line">  &quot;scripts&quot;: &#123;</span><br><span class="line">    &quot;test&quot;: &quot;echo \&quot;Error: no test specified\&quot; &amp;&amp; exit 1&quot;</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;keywords&quot;: [],</span><br><span class="line">  &quot;author&quot;: &quot;takusan23&quot;,</span><br><span class="line">  &quot;license&quot;: &quot;ISC&quot;,</span><br><span class="line">  &quot;devDependencies&quot;: &#123;</span><br><span class="line">    &quot;electron&quot;: &quot;^8.0.2&quot;,</span><br><span class="line">    &quot;electron-builder&quot;: &quot;^22.3.2&quot;</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;build&quot;: &#123;</span><br><span class="line">    &quot;productName&quot;: &quot;てすと&quot;,</span><br><span class="line">    &quot;appId&quot;: &quot;aiueo.test&quot;,</span><br><span class="line">    &quot;win&quot;: &#123;</span><br><span class="line">      &quot;target&quot;: &quot;portable&quot;,</span><br><span class="line">      &quot;icon&quot;: &quot;src&#x2F;icon.ico&quot;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="おわりに"><a href="#おわりに" class="headerlink" title="おわりに"></a>おわりに</h3><p>exeダブルクリックから数秒～数十秒かかるのは仕様？わからん！</p>
+<h2 id="参考にしました。"><a href="#参考にしました。" class="headerlink" title="参考にしました。"></a>参考にしました。</h2><p><a href="https://qiita.com/SallyAcolyte/items/94ed26ab62b8b32b1b2c" target="_blank" rel="noopener">https://qiita.com/SallyAcolyte/items/94ed26ab62b8b32b1b2c</a><br><a href="http://var.blog.jp/archives/78877702.html" target="_blank" rel="noopener">http://var.blog.jp/archives/78877702.html</a></p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最終更新：<time datetime="2020-04-05T16:39:24.716Z" itemprop="dateUpdated">2020年04月06日 01時39分24秒 01:39:24</time>
+</span><br>
+
+
+        
+         
+        
+    </div>
+    
+    <footer>
+        <a href="https://takusan23.github.io/Bibouroku">
+            <img src="/img/avatar.gif" alt="takusan23">
+            takusan23
+        </a>
+    </footer>
+</blockquote>
+
+        
+<!-- <div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div> -->
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Electron/" rel="tag">Electron</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://takusan23.github.io/Bibouroku/2020/04/06/Electron%20Builder/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Electronで雑にアプリを作ってWindowsのポータブルアプリとして動くまでやる。 2020/02/28追記》 — たくさんの備忘録&url=https://takusan23.github.io/Bibouroku/2020/04/06/Electron%20Builder/&via=https://takusan23.github.io/Bibouroku" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="line share-sns" target="_blank" href="https://social-plugins.line.me/lineit/share?text=《Electronで雑にアプリを作ってWindowsのポータブルアプリとして動くまでやる。 2020/02/28追記》 — たくさんの備忘録&url=https://takusan23.github.io/Bibouroku/2020/04/06/Electron%20Builder/&via=https://takusan23.github.io/Bibouroku" data-title=" LINE">
+          <i class="icon custom-icon-line"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between flex-row-reverse">
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2020/04/06/ARCore/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">【Android / Kotlin / ARCore】ARCoreでTextViewを出す</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/" alt="打赏二维码">
+        </div>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <!-- <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        総サイトユーザー：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        総サイトアクセス：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+            <span> </span>
+        </p>
+    </div> -->
+    <div class="bottom">
+        <p><span>takusan23 &copy; 2020</span>
+            <span>
+                
+                Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://takusan23.github.io/Bibouroku/2020/04/06/Electron%20Builder/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Electronで雑にアプリを作ってWindowsのポータブルアプリとして動くまでやる。 2020/02/28追記》 — たくさんの備忘録&url=https://takusan23.github.io/Bibouroku/2020/04/06/Electron%20Builder/&via=https://takusan23.github.io/Bibouroku" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="line share-sns" target="_blank" href="https://social-plugins.line.me/lineit/share?text=《Electronで雑にアプリを作ってWindowsのポータブルアプリとして動くまでやる。 2020/02/28追記》 — たくさんの備忘録&url=https://takusan23.github.io/Bibouroku/2020/04/06/Electron%20Builder/&via=https://takusan23.github.io/Bibouroku" data-title=" LINE">
+          <i class="icon custom-icon-line"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>

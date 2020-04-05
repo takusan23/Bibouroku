@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>【Android / Kotlin】 ナビゲーションドロワーのつくりかた | たくさんの備忘録 |
+        備忘録</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="Android,Kotlin,MaterialDesign,NavigationDrawer">
+    <meta name="description" content="どうも。こんばんわ なにがあったのか この画面からナビゲーションドロワーを作成すると前と違ってめっちゃフォルダ・ファイルが作成されるようになった。どゆこと  しかもbuild.gradleに書き足さないとエラーが出るってなんだよ。 1Cannot inline bytecode built with JVM target 1.8 into bytecode that is being built">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【Android &#x2F; Kotlin】 ナビゲーションドロワーのつくりかた">
+<meta property="og:url" content="https://takusan23.github.io/Bibouroku/2020/04/06/NavigationDrawer/index.html">
+<meta property="og:site_name" content="たくさんの備忘録">
+<meta property="og:description" content="どうも。こんばんわ なにがあったのか この画面からナビゲーションドロワーを作成すると前と違ってめっちゃフォルダ・ファイルが作成されるようになった。どゆこと  しかもbuild.gradleに書き足さないとエラーが出るってなんだよ。 1Cannot inline bytecode built with JVM target 1.8 into bytecode that is being built">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:image" content="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/409918/05545e12-a4c7-83ae-31b8-7c63a448b994.png">
+<meta property="og:image" content="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/409918/1d14c929-e9e5-6c41-90a6-47a5044c4241.png">
+<meta property="og:image" content="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/409918/b9133c44-8194-94f1-5589-42a9af9c82b2.png">
+<meta property="og:image" content="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/409918/9808ba04-4b40-3977-f347-2825b549a126.png">
+<meta property="og:image" content="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/409918/3b1bba2d-037c-fce6-5c14-076de0882370.png">
+<meta property="og:image" content="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/409918/663e99a7-dd18-ebac-6278-d89d331e5035.png">
+<meta property="og:image" content="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/409918/6de175c5-27c9-72da-219c-54a99f8edf25.png">
+<meta property="og:image" content="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/409918/a6832bae-4805-f378-cf41-f956f2d839d7.png">
+<meta property="og:image" content="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/409918/373a27b9-695b-babc-472a-ee0743d12acc.png">
+<meta property="og:image" content="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/409918/59b1491b-7923-1ec6-ba3b-a7b4b0318dfd.png">
+<meta property="og:image" content="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/409918/7d06b19b-f2e3-9951-3250-1eaa62883e09.png">
+<meta property="og:image" content="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/409918/7d06b19b-f2e3-9951-3250-1eaa62883e09.png">
+<meta property="og:image" content="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/409918/208826b5-ecd7-75b1-a41e-8f56ef413b4d.png">
+<meta property="og:image" content="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/409918/208826b5-ecd7-75b1-a41e-8f56ef413b4d.png">
+<meta property="og:image" content="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/409918/421e765a-99cf-59ba-053c-374c35a3716c.png">
+<meta property="og:image" content="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/409918/a1e21809-93b5-06bb-a8db-d7d9864a58e0.png">
+<meta property="article:published_time" content="2020-04-05T16:27:15.447Z">
+<meta property="article:modified_time" content="2020-04-05T16:40:59.277Z">
+<meta property="article:author" content="takusan23">
+<meta property="article:tag" content="Android">
+<meta property="article:tag" content="Kotlin">
+<meta property="article:tag" content="MaterialDesign">
+<meta property="article:tag" content="NavigationDrawer">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/409918/05545e12-a4c7-83ae-31b8-7c63a448b994.png">
+    
+    <link rel="shortcut icon" href="/img/favicon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <link rel="stylesheet" href="/css/fonts/custom/css/custom.css">
+    <script>window.lazyScripts = []</script>
+
+    <!-- custom head -->
+    
+
+
+    <style>
+        body {
+            font-family: "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro", "メイリオ", Meiryo, Osaka, "ＭＳ Ｐゴシック", "MS PGothic", sans-serif;
+            color: #630;
+            line-height: 25px;
+            font-size: 0.95em;
+        }
+    </style>
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.gif">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">takusan23</h5>
+          <a href="mailto:takusan_0913@yahoo.co.jp" title="takusan_0913@yahoo.co.jp" class="mail">takusan_0913@yahoo.co.jp</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                Home
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/takusan23" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://best-friends.chat/@takusan_23" target="_blank" rel="noopener"  >
+                <i class="icon icon-lg icon-link"></i>
+                Mastodon
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">【Android / Kotlin】 ナビゲーションドロワーのつくりかた</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="検索">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">【Android / Kotlin】 ナビゲーションドロワーのつくりかた</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2020-04-05T16:27:15.447Z" itemprop="datePublished" class="page-time">
+  2020年04月06日 01時27分15秒
+</time>
+
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#なにがあったのか"><span class="post-toc-number">1.</span> <span class="post-toc-text">なにがあったのか</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#環境"><span class="post-toc-number">2.</span> <span class="post-toc-text">環境</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#本題"><span class="post-toc-number">3.</span> <span class="post-toc-text">本題</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#メニュー用意"><span class="post-toc-number">4.</span> <span class="post-toc-text">メニュー用意</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#メニューに表示させるアイコンを用意する"><span class="post-toc-number">4.1.</span> <span class="post-toc-text">メニューに表示させるアイコンを用意する</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#メニュー項目追加"><span class="post-toc-number">4.2.</span> <span class="post-toc-text">メニュー項目追加</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#レイアウト作成"><span class="post-toc-number">5.</span> <span class="post-toc-text">レイアウト作成</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Android-10でジェスチャーナビゲーション使ってるんですけど開けず戻るになる方へ"><span class="post-toc-number">5.1.</span> <span class="post-toc-text">Android 10でジェスチャーナビゲーション使ってるんですけど開けず戻るになる方へ</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#ハンバーガーメニューをつくる"><span class="post-toc-number">6.</span> <span class="post-toc-text">ハンバーガーメニューをつくる</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#styles-xmlを書き足す"><span class="post-toc-number">6.1.</span> <span class="post-toc-text">styles.xmlを書き足す</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Manifest書き換える"><span class="post-toc-number">6.2.</span> <span class="post-toc-text">Manifest書き換える</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#ツールバーを設置"><span class="post-toc-number">6.3.</span> <span class="post-toc-text">ツールバーを設置</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Toolbarにアイコンを付ける"><span class="post-toc-number">6.4.</span> <span class="post-toc-text">Toolbarにアイコンを付ける</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#ヘッダーを付ける"><span class="post-toc-number">7.</span> <span class="post-toc-text">ヘッダーを付ける</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#ヘッダーのレイアウト作成"><span class="post-toc-number">7.1.</span> <span class="post-toc-text">ヘッダーのレイアウト作成</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#ナビゲーションドロワーにヘッダーを入れる"><span class="post-toc-number">7.2.</span> <span class="post-toc-text">ナビゲーションドロワーにヘッダーを入れる</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#ヘッダーをステータスバーの下まで潜れないの？"><span class="post-toc-number">7.3.</span> <span class="post-toc-text">ヘッダーをステータスバーの下まで潜れないの？</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#メニューを押したときに何かしたい"><span class="post-toc-number">8.</span> <span class="post-toc-text">メニューを押したときに何かしたい</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#終わりに"><span class="post-toc-number">9.</span> <span class="post-toc-text">終わりに</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-NavigationDrawer"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">【Android / Kotlin】 ナビゲーションドロワーのつくりかた</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2020年04月06日 01時27分15秒 01:27:15" datetime="2020-04-05T16:27:15.447Z"  itemprop="datePublished">2020年04月06日 01時27分15秒</time>
+
+            
+
+
+            
+<!-- <span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span> -->
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p>どうも。こんばんわ</p>
+<h1 id="なにがあったのか"><a href="#なにがあったのか" class="headerlink" title="なにがあったのか"></a>なにがあったのか</h1><p><img src="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/409918/05545e12-a4c7-83ae-31b8-7c63a448b994.png" alt="image.png"></p>
+<p>この画面からナビゲーションドロワーを作成すると前と違ってめっちゃフォルダ・ファイルが作成されるようになった。どゆこと</p>
+<p><img src="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/409918/1d14c929-e9e5-6c41-90a6-47a5044c4241.png" alt="image.png"></p>
+<p>しかもbuild.gradleに書き足さないとエラーが出るってなんだよ。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Cannot inline bytecode built with JVM target 1.8 into bytecode that is being built with JVM target 1.6. Please specify proper &#39;-jvm-target&#39; option</span><br></pre></td></tr></table></figure>
+
+<p>このエラーはappフォルダにあるほうの<code>build.gradle</code>を開いて、android{}の波かっこの中に以下の文を書き足すことで動きます。</p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">compileOptions &#123;</span><br><span class="line">    <span class="keyword">sourceCompatibility</span> = <span class="number">1.8</span></span><br><span class="line">    <span class="keyword">targetCompatibility</span> = <span class="number">1.8</span></span><br><span class="line">&#125;</span><br><span class="line">kotlinOptions &#123;</span><br><span class="line">    jvmTarget = <span class="string">"1.8"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>ということで今回は空の状態からナビゲーションドロワーを作っていこうと思います。<br>ViewModelなんて触ったことないので…</p>
+<h1 id="環境"><a href="#環境" class="headerlink" title="環境"></a>環境</h1><table>
+<thead>
+<tr>
+<th>なまえ</th>
+<th>なかみ</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Androidバージョン</td>
+<td>10</td>
+</tr>
+<tr>
+<td>Android Studioバージョン</td>
+<td>3.5</td>
+</tr>
+<tr>
+<td>端末</td>
+<td>Pixel 3 XL</td>
+</tr>
+<tr>
+<td>言語</td>
+<td>Kotlin(なのでfindViewByIdを使いません。)</td>
+</tr>
+</tbody></table>
+<h1 id="本題"><a href="#本題" class="headerlink" title="本題"></a>本題</h1><p>つくれたらappフォルダに入っているbuild.gradleを開いてマテリアルデザインのライブラリを入れます。</p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">implementation <span class="string">'com.google.android.material:material:1.2.0-alpha01'</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="メニュー用意"><a href="#メニュー用意" class="headerlink" title="メニュー用意"></a>メニュー用意</h1><p>ナビゲーションドロワーに入れるメニューですね。</p>
+<p>resディレクトリを右クリックしてフォルダを作成してください。<br>名前を<strong>menu</strong>にしてね。<br><img src="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/409918/b9133c44-8194-94f1-5589-42a9af9c82b2.png" alt="image.png"></p>
+<p>作れたら<strong>menu</strong>フォルダの中に<strong>drawer_menu</strong>って名前で作ってね。（別にわかりやすい名前があるならそれでもいいよ。）<br><img src="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/409918/9808ba04-4b40-3977-f347-2825b549a126.png" alt="image.png"></p>
+<p>そしたらその<strong>drawer_menu.xml</strong>を開いて適当にメニューを作成します。<br>が、その前にアイコンを持ってきましょう。</p>
+<h2 id="メニューに表示させるアイコンを用意する"><a href="#メニューに表示させるアイコンを用意する" class="headerlink" title="メニューに表示させるアイコンを用意する"></a>メニューに表示させるアイコンを用意する</h2><p><img src="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/409918/3b1bba2d-037c-fce6-5c14-076de0882370.png" alt="image.png"></p>
+<p>ベクターアセットからお好みの画像を持ってきてください。<br>今回は適当にドロイド君で<br><img src="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/409918/663e99a7-dd18-ebac-6278-d89d331e5035.png" alt="image.png"></p>
+<h2 id="メニュー項目追加"><a href="#メニュー項目追加" class="headerlink" title="メニュー項目追加"></a>メニュー項目追加</h2><p>drawer_menu.xmlに書いてください。<br>itemを追加するときはtitle(必須)とid(識別に使う)は絶対書いてね。アイコンはいらないかもだけどあったほうがよさげ。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version&#x3D;&quot;1.0&quot; encoding&#x3D;&quot;utf-8&quot;?&gt;</span><br><span class="line">&lt;menu xmlns:app&#x3D;&quot;http:&#x2F;&#x2F;schemas.android.com&#x2F;apk&#x2F;res-auto&quot;</span><br><span class="line">    xmlns:android&#x3D;&quot;http:&#x2F;&#x2F;schemas.android.com&#x2F;apk&#x2F;res&#x2F;android&quot;&gt;</span><br><span class="line">    &lt;group android:checkableBehavior&#x3D;&quot;single&quot;&gt;</span><br><span class="line">        &lt;item android:icon&#x3D;&quot;@drawable&#x2F;ic_android_black_24dp&quot; android:title&#x3D;&quot;Java&quot; android:id&#x3D;&quot;@+id&#x2F;drawer_menu_java&quot; &#x2F;&gt;</span><br><span class="line">        &lt;item android:icon&#x3D;&quot;@drawable&#x2F;ic_android_black_24dp&quot; android:title&#x3D;&quot;Kotlin&quot; android:id&#x3D;&quot;@+id&#x2F;drawer_menu_kotlin&quot;&#x2F;&gt;</span><br><span class="line">        &lt;item android:icon&#x3D;&quot;@drawable&#x2F;ic_android_black_24dp&quot; android:title&#x3D;&quot;JS&quot; android:id&#x3D;&quot;@+id&#x2F;drawer_menu_js&quot;&#x2F;&gt;</span><br><span class="line">    &lt;&#x2F;group&gt;</span><br><span class="line">&lt;&#x2F;menu&gt;</span><br></pre></td></tr></table></figure>
+
+<h1 id="レイアウト作成"><a href="#レイアウト作成" class="headerlink" title="レイアウト作成"></a>レイアウト作成</h1><p>いよいよレイアウトですよ。レイアウト作るの楽しい。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version&#x3D;&quot;1.0&quot; encoding&#x3D;&quot;utf-8&quot;?&gt;</span><br><span class="line">&lt;androidx.constraintlayout.widget.ConstraintLayout xmlns:android&#x3D;&quot;http:&#x2F;&#x2F;schemas.android.com&#x2F;apk&#x2F;res&#x2F;android&quot;</span><br><span class="line">    xmlns:app&#x3D;&quot;http:&#x2F;&#x2F;schemas.android.com&#x2F;apk&#x2F;res-auto&quot;</span><br><span class="line">    xmlns:tools&#x3D;&quot;http:&#x2F;&#x2F;schemas.android.com&#x2F;tools&quot;</span><br><span class="line">    android:layout_width&#x3D;&quot;match_parent&quot;</span><br><span class="line">    android:layout_height&#x3D;&quot;match_parent&quot;</span><br><span class="line">    tools:context&#x3D;&quot;.MainActivity&quot;&gt;</span><br><span class="line"></span><br><span class="line">    &lt;TextView</span><br><span class="line">        android:layout_width&#x3D;&quot;wrap_content&quot;</span><br><span class="line">        android:layout_height&#x3D;&quot;wrap_content&quot;</span><br><span class="line">        android:text&#x3D;&quot;Hello World!&quot;</span><br><span class="line">        app:layout_constraintBottom_toBottomOf&#x3D;&quot;parent&quot;</span><br><span class="line">        app:layout_constraintLeft_toLeftOf&#x3D;&quot;parent&quot;</span><br><span class="line">        app:layout_constraintRight_toRightOf&#x3D;&quot;parent&quot;</span><br><span class="line">        app:layout_constraintTop_toTopOf&#x3D;&quot;parent&quot; &#x2F;&gt;</span><br><span class="line"></span><br><span class="line">&lt;&#x2F;androidx.constraintlayout.widget.ConstraintLayout&gt;</span><br></pre></td></tr></table></figure>
+
+<p>何もしていなければこのままですね。こっからドロワーを追加していきます。</p>
+<p>こう書き換えます。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version&#x3D;&quot;1.0&quot; encoding&#x3D;&quot;utf-8&quot;?&gt;</span><br><span class="line">&lt;androidx.drawerlayout.widget.DrawerLayout xmlns:android&#x3D;&quot;http:&#x2F;&#x2F;schemas.android.com&#x2F;apk&#x2F;res&#x2F;android&quot;</span><br><span class="line">    xmlns:app&#x3D;&quot;http:&#x2F;&#x2F;schemas.android.com&#x2F;apk&#x2F;res-auto&quot;</span><br><span class="line">    xmlns:tools&#x3D;&quot;http:&#x2F;&#x2F;schemas.android.com&#x2F;tools&quot;</span><br><span class="line">    android:layout_width&#x3D;&quot;match_parent&quot;</span><br><span class="line">    android:layout_height&#x3D;&quot;match_parent&quot;</span><br><span class="line">    tools:context&#x3D;&quot;.MainActivity&quot;&gt;</span><br><span class="line"></span><br><span class="line">    &lt;TextView</span><br><span class="line">        android:layout_width&#x3D;&quot;wrap_content&quot;</span><br><span class="line">        android:layout_height&#x3D;&quot;wrap_content&quot;</span><br><span class="line">        android:text&#x3D;&quot;Hello World!&quot;</span><br><span class="line">        app:layout_constraintBottom_toBottomOf&#x3D;&quot;parent&quot;</span><br><span class="line">        app:layout_constraintLeft_toLeftOf&#x3D;&quot;parent&quot;</span><br><span class="line">        app:layout_constraintRight_toRightOf&#x3D;&quot;parent&quot;</span><br><span class="line">        app:layout_constraintTop_toTopOf&#x3D;&quot;parent&quot; &#x2F;&gt;</span><br><span class="line"></span><br><span class="line">    &lt;com.google.android.material.navigation.NavigationView</span><br><span class="line">        android:layout_width&#x3D;&quot;wrap_content&quot;</span><br><span class="line">        android:layout_height&#x3D;&quot;match_parent&quot;</span><br><span class="line">        android:id&#x3D;&quot;@+id&#x2F;navigation_drawer&quot;</span><br><span class="line">        app:menu&#x3D;&quot;@menu&#x2F;drawer_menu&quot;</span><br><span class="line">        android:layout_gravity&#x3D;&quot;start&quot;&#x2F;&gt;</span><br><span class="line"></span><br><span class="line">&lt;&#x2F;androidx.drawerlayout.widget.DrawerLayout&gt;</span><br></pre></td></tr></table></figure>
+
+<p>できたら実行してみてください。この段階ではまだ何もMainActivity.ktに手を付けてません。<br>起動出来たら端から左へスワイプしてみてください。メニューが出ると思います。</p>
+<p><img src="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/409918/6de175c5-27c9-72da-219c-54a99f8edf25.png" alt="Screenshot_20191107-220921.png"></p>
+<h2 id="Android-10でジェスチャーナビゲーション使ってるんですけど開けず戻るになる方へ"><a href="#Android-10でジェスチャーナビゲーション使ってるんですけど開けず戻るになる方へ" class="headerlink" title="Android 10でジェスチャーナビゲーション使ってるんですけど開けず戻るになる方へ"></a>Android 10でジェスチャーナビゲーション使ってるんですけど開けず戻るになる方へ</h2><p>左の端っこを長押しすると少しだけナビゲーションドロワーが出てくるのでそのままスワイプすればいいです。</p>
+<p><img src="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/409918/a6832bae-4805-f378-cf41-f956f2d839d7.png" alt="Screenshot_20191107-220915.png"></p>
+<p>ジェスチャーナビゲーションと相性悪い。ケースとかつけてると開くの大変。</p>
+<h1 id="ハンバーガーメニューをつくる"><a href="#ハンバーガーメニューをつくる" class="headerlink" title="ハンバーガーメニューをつくる"></a>ハンバーガーメニューをつくる</h1><p>この左上にある三本線のアイコンのことです。<br><img src="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/409918/373a27b9-695b-babc-472a-ee0743d12acc.png" alt="Screenshot_20191107-225021.png"></p>
+<p>ハンバーガーメニューはナビゲーションドロワーを開く三本の横線のことです。海を渡るとハンバーガーメニューって呼ばれてるそうです。</p>
+<p>これは少し大変なので頑張っていきましょう。</p>
+<h2 id="styles-xmlを書き足す"><a href="#styles-xmlを書き足す" class="headerlink" title="styles.xmlを書き足す"></a>styles.xmlを書き足す</h2><p>こんな感じに</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&lt;resources&gt;</span><br><span class="line"></span><br><span class="line">    &lt;!-- ドロワー用レイアウト --&gt;</span><br><span class="line">    &lt;style name&#x3D;&quot;DrawerTheme&quot; parent&#x3D;&quot;Theme.AppCompat.Light.DarkActionBar&quot;&gt;</span><br><span class="line"></span><br><span class="line">        &lt;item name&#x3D;&quot;windowActionBar&quot;&gt;false&lt;&#x2F;item&gt;</span><br><span class="line">        &lt;item name&#x3D;&quot;windowNoTitle&quot;&gt;true&lt;&#x2F;item&gt;</span><br><span class="line"></span><br><span class="line">        &lt;item name&#x3D;&quot;colorPrimary&quot;&gt;@color&#x2F;colorPrimary&lt;&#x2F;item&gt;</span><br><span class="line">        &lt;item name&#x3D;&quot;colorPrimaryDark&quot;&gt;@color&#x2F;colorPrimaryDark&lt;&#x2F;item&gt;</span><br><span class="line">        &lt;item name&#x3D;&quot;colorAccent&quot;&gt;@color&#x2F;colorAccent&lt;&#x2F;item&gt;</span><br><span class="line">    &lt;&#x2F;style&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&lt;&#x2F;resources&gt;</span><br></pre></td></tr></table></figure>
+
+<p>元からあるAppThemeは消しません。ナビゲーションドロワーを置いているActivityでのみ使うためです。<br>Activityを追加したときのためにAppThemeを残してあります。</p>
+<h2 id="Manifest書き換える"><a href="#Manifest書き換える" class="headerlink" title="Manifest書き換える"></a>Manifest書き換える</h2><p>AndroidManifest.xmlを開いてね。<br>開けたら以下の一行を探してください。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">android:theme&#x3D;&quot;@style&#x2F;AppTheme&quot;</span><br></pre></td></tr></table></figure>
+
+<p>これをさっき作った<strong>DrawerTheme</strong>へ書き換えます。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">android:theme&#x3D;&quot;@style&#x2F;DrawerTheme&quot;</span><br></pre></td></tr></table></figure>
+
+<h2 id="ツールバーを設置"><a href="#ツールバーを設置" class="headerlink" title="ツールバーを設置"></a>ツールバーを設置</h2><p>ツールバーっていうのはアプリ名が書いてある上のバーのことです。<br>ツールバーはstyles.xmlで消す設定にしたのでレイアウトにツールバーを置く必要があります。</p>
+<p>ということで書き換えます。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version&#x3D;&quot;1.0&quot; encoding&#x3D;&quot;utf-8&quot;?&gt;</span><br><span class="line">&lt;androidx.drawerlayout.widget.DrawerLayout xmlns:android&#x3D;&quot;http:&#x2F;&#x2F;schemas.android.com&#x2F;apk&#x2F;res&#x2F;android&quot;</span><br><span class="line">    xmlns:app&#x3D;&quot;http:&#x2F;&#x2F;schemas.android.com&#x2F;apk&#x2F;res-auto&quot;</span><br><span class="line">    xmlns:tools&#x3D;&quot;http:&#x2F;&#x2F;schemas.android.com&#x2F;tools&quot;</span><br><span class="line">    android:id&#x3D;&quot;@+id&#x2F;drawer_layout&quot;</span><br><span class="line">    android:layout_width&#x3D;&quot;match_parent&quot;</span><br><span class="line">    android:layout_height&#x3D;&quot;match_parent&quot;</span><br><span class="line">    tools:context&#x3D;&quot;.MainActivity&quot;&gt;</span><br><span class="line"></span><br><span class="line">    &lt;LinearLayout</span><br><span class="line">        android:layout_width&#x3D;&quot;match_parent&quot;</span><br><span class="line">        android:layout_height&#x3D;&quot;match_parent&quot;</span><br><span class="line">        android:orientation&#x3D;&quot;vertical&quot;&gt;</span><br><span class="line"></span><br><span class="line">        &lt;androidx.appcompat.widget.Toolbar</span><br><span class="line">            android:id&#x3D;&quot;@+id&#x2F;toolbar&quot;</span><br><span class="line">            android:layout_width&#x3D;&quot;match_parent&quot;</span><br><span class="line">            android:layout_height&#x3D;&quot;wrap_content&quot;</span><br><span class="line">            android:background&#x3D;&quot;?attr&#x2F;colorPrimary&quot;</span><br><span class="line">            android:minHeight&#x3D;&quot;?attr&#x2F;actionBarSize&quot;</span><br><span class="line">            android:theme&#x3D;&quot;?attr&#x2F;actionBarTheme&quot; &#x2F;&gt;</span><br><span class="line">    &lt;&#x2F;LinearLayout&gt;</span><br><span class="line"></span><br><span class="line">    &lt;com.google.android.material.navigation.NavigationView</span><br><span class="line">        android:layout_width&#x3D;&quot;wrap_content&quot;</span><br><span class="line">        android:layout_height&#x3D;&quot;match_parent&quot;</span><br><span class="line">        android:id&#x3D;&quot;@+id&#x2F;navigation_drawer&quot;</span><br><span class="line">        app:menu&#x3D;&quot;@menu&#x2F;drawer_menu&quot;</span><br><span class="line">        android:layout_gravity&#x3D;&quot;start&quot;&#x2F;&gt;</span><br><span class="line"></span><br><span class="line">&lt;&#x2F;androidx.drawerlayout.widget.DrawerLayout&gt;</span><br></pre></td></tr></table></figure>
+
+<p>LinearLayoutの中にToolbarを入れました。</p>
+<h2 id="Toolbarにアイコンを付ける"><a href="#Toolbarにアイコンを付ける" class="headerlink" title="Toolbarにアイコンを付ける"></a>Toolbarにアイコンを付ける</h2><p>ようやくKotlinでコーディングです。<br>ということでMainActivity.ktを開いてください。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">class MainActivity : AppCompatActivity() &#123;</span><br><span class="line"></span><br><span class="line">    override fun onCreate(savedInstanceState: Bundle?) &#123;</span><br><span class="line">        super.onCreate(savedInstanceState)</span><br><span class="line">        setContentView(R.layout.activity_main)</span><br><span class="line"></span><br><span class="line">        &#x2F;&#x2F;Toolbarを登録</span><br><span class="line">        setSupportActionBar(toolbar)</span><br><span class="line"></span><br><span class="line">        &#x2F;&#x2F;ハンバーガーメニューのアイコンを実装</span><br><span class="line">        &#x2F;&#x2F;第４、５引数はアクセシビリティで使うみたい。</span><br><span class="line">        val actionBarDrawerToggle &#x3D; ActionBarDrawerToggle(</span><br><span class="line">            this, drawer_layout, toolbar, R.string.app_name, R.string.app_name</span><br><span class="line">        )</span><br><span class="line">        drawer_layout.addDrawerListener(actionBarDrawerToggle)</span><br><span class="line">        actionBarDrawerToggle.syncState()</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>ActionBarDrawerToggle()の第４、５引数はアクセシビリティで使うみたいです（ドキュメントによると）。<br>今回は適当に入れました。</p>
+<p>出来たら実行してみてください。<br>ハンバーガーメニュー押しても開くし、端っこから左へスワイプでも開く＋だんだんアイコンが変化してくると思います。</p>
+<p><img src="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/409918/59b1491b-7923-1ec6-ba3b-a7b4b0318dfd.png" alt="Screenshot_20191107-224549.png"></p>
+<h1 id="ヘッダーを付ける"><a href="#ヘッダーを付ける" class="headerlink" title="ヘッダーを付ける"></a>ヘッダーを付ける</h1><p>ヘッダーを付けるとメニューの上に何かViewを置くことができます。<br>今回は適当に画像でも置いてみましょう。<br><img src="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/409918/7d06b19b-f2e3-9951-3250-1eaa62883e09.png" alt="Screenshot_20191107-225843.png"></p>
+<h2 id="ヘッダーのレイアウト作成"><a href="#ヘッダーのレイアウト作成" class="headerlink" title="ヘッダーのレイアウト作成"></a>ヘッダーのレイアウト作成</h2><p>layoutフォルダに<strong>drawer_header_layout.xml</strong>でレイアウトファイルを作成してください。<br>画像はプロジェクトに入ってたものを使うことに。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version&#x3D;&quot;1.0&quot; encoding&#x3D;&quot;utf-8&quot;?&gt;</span><br><span class="line">&lt;LinearLayout xmlns:android&#x3D;&quot;http:&#x2F;&#x2F;schemas.android.com&#x2F;apk&#x2F;res&#x2F;android&quot;</span><br><span class="line">    xmlns:app&#x3D;&quot;http:&#x2F;&#x2F;schemas.android.com&#x2F;apk&#x2F;res-auto&quot;</span><br><span class="line">    android:layout_margin&#x3D;&quot;10sp&quot;</span><br><span class="line">    android:layout_width&#x3D;&quot;match_parent&quot;</span><br><span class="line">    android:layout_height&#x3D;&quot;wrap_content&quot;&gt;</span><br><span class="line"></span><br><span class="line">    &lt;ImageView</span><br><span class="line">        android:id&#x3D;&quot;@+id&#x2F;imageView&quot;</span><br><span class="line">        android:layout_width&#x3D;&quot;wrap_content&quot;</span><br><span class="line">        android:layout_height&#x3D;&quot;wrap_content&quot;</span><br><span class="line">        app:srcCompat&#x3D;&quot;@mipmap&#x2F;ic_launcher_round&quot; &#x2F;&gt;</span><br><span class="line"></span><br><span class="line">    &lt;TextView</span><br><span class="line">        android:id&#x3D;&quot;@+id&#x2F;textView&quot;</span><br><span class="line">        android:layout_width&#x3D;&quot;wrap_content&quot;</span><br><span class="line">        android:layout_height&#x3D;&quot;wrap_content&quot;</span><br><span class="line">        android:layout_gravity&#x3D;&quot;center_vertical&quot;</span><br><span class="line">        android:layout_weight&#x3D;&quot;1&quot;</span><br><span class="line">        android:text&#x3D;&quot;ナビゲーションドロワーの練習です&quot; &#x2F;&gt;</span><br><span class="line">&lt;&#x2F;LinearLayout&gt;</span><br></pre></td></tr></table></figure>
+
+<h2 id="ナビゲーションドロワーにヘッダーを入れる"><a href="#ナビゲーションドロワーにヘッダーを入れる" class="headerlink" title="ナビゲーションドロワーにヘッダーを入れる"></a>ナビゲーションドロワーにヘッダーを入れる</h2><p>activity_main.xmlを開いて、NavigationViewにapp:headerLayoutの属性？を付けます。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version&#x3D;&quot;1.0&quot; encoding&#x3D;&quot;utf-8&quot;?&gt;</span><br><span class="line">&lt;androidx.drawerlayout.widget.DrawerLayout xmlns:android&#x3D;&quot;http:&#x2F;&#x2F;schemas.android.com&#x2F;apk&#x2F;res&#x2F;android&quot;</span><br><span class="line">    xmlns:app&#x3D;&quot;http:&#x2F;&#x2F;schemas.android.com&#x2F;apk&#x2F;res-auto&quot;</span><br><span class="line">    xmlns:tools&#x3D;&quot;http:&#x2F;&#x2F;schemas.android.com&#x2F;tools&quot;</span><br><span class="line">    android:id&#x3D;&quot;@+id&#x2F;drawer_layout&quot;</span><br><span class="line">    android:layout_width&#x3D;&quot;match_parent&quot;</span><br><span class="line">    android:layout_height&#x3D;&quot;match_parent&quot;</span><br><span class="line">    tools:context&#x3D;&quot;.MainActivity&quot;&gt;</span><br><span class="line"></span><br><span class="line">    &lt;LinearLayout</span><br><span class="line">        android:layout_width&#x3D;&quot;match_parent&quot;</span><br><span class="line">        android:layout_height&#x3D;&quot;match_parent&quot;</span><br><span class="line">        android:orientation&#x3D;&quot;vertical&quot;&gt;</span><br><span class="line"></span><br><span class="line">        &lt;androidx.appcompat.widget.Toolbar</span><br><span class="line">            android:id&#x3D;&quot;@+id&#x2F;toolbar&quot;</span><br><span class="line">            android:layout_width&#x3D;&quot;match_parent&quot;</span><br><span class="line">            android:layout_height&#x3D;&quot;wrap_content&quot;</span><br><span class="line">            android:background&#x3D;&quot;?attr&#x2F;colorPrimary&quot;</span><br><span class="line">            android:minHeight&#x3D;&quot;?attr&#x2F;actionBarSize&quot;</span><br><span class="line">            android:theme&#x3D;&quot;?attr&#x2F;actionBarTheme&quot; &#x2F;&gt;</span><br><span class="line">    &lt;&#x2F;LinearLayout&gt;</span><br><span class="line"></span><br><span class="line">    &lt;com.google.android.material.navigation.NavigationView</span><br><span class="line">        android:layout_width&#x3D;&quot;wrap_content&quot;</span><br><span class="line">        android:layout_height&#x3D;&quot;match_parent&quot;</span><br><span class="line">        android:id&#x3D;&quot;@+id&#x2F;navigation_drawer&quot;</span><br><span class="line">        app:menu&#x3D;&quot;@menu&#x2F;drawer_menu&quot;</span><br><span class="line">        app:headerLayout&#x3D;&quot;@layout&#x2F;drawer_header_layout&quot;</span><br><span class="line">        android:layout_gravity&#x3D;&quot;start&quot;&#x2F;&gt;</span><br><span class="line"></span><br><span class="line">&lt;&#x2F;androidx.drawerlayout.widget.DrawerLayout&gt;</span><br></pre></td></tr></table></figure>
+
+<p>出来たら実行してみてください。<br>メニューの上に画像が出てくると思います。</p>
+<p><img src="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/409918/7d06b19b-f2e3-9951-3250-1eaa62883e09.png" alt="Screenshot_20191107-225843.png"></p>
+<h2 id="ヘッダーをステータスバーの下まで潜れないの？"><a href="#ヘッダーをステータスバーの下まで潜れないの？" class="headerlink" title="ヘッダーをステータスバーの下まで潜れないの？"></a>ヘッダーをステータスバーの下まで潜れないの？</h2><p>できますよ～<br><img src="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/409918/208826b5-ecd7-75b1-a41e-8f56ef413b4d.png" alt="Screenshot_20191107-230521.png"></p>
+<p>activity_main.xmlを開いてください。<br>変更点はDrawerLayoutにfitsSystemWindows属性がついた点ですね。    android:fitsSystemWindows=”true”を書き足すことでステータスバーの下へ侵略できます。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version&#x3D;&quot;1.0&quot; encoding&#x3D;&quot;utf-8&quot;?&gt;</span><br><span class="line">&lt;androidx.drawerlayout.widget.DrawerLayout xmlns:android&#x3D;&quot;http:&#x2F;&#x2F;schemas.android.com&#x2F;apk&#x2F;res&#x2F;android&quot;</span><br><span class="line">    xmlns:app&#x3D;&quot;http:&#x2F;&#x2F;schemas.android.com&#x2F;apk&#x2F;res-auto&quot;</span><br><span class="line">    xmlns:tools&#x3D;&quot;http:&#x2F;&#x2F;schemas.android.com&#x2F;tools&quot;</span><br><span class="line">    android:id&#x3D;&quot;@+id&#x2F;drawer_layout&quot;</span><br><span class="line">    android:fitsSystemWindows&#x3D;&quot;true&quot;</span><br><span class="line">    android:layout_width&#x3D;&quot;match_parent&quot;</span><br><span class="line">    android:layout_height&#x3D;&quot;match_parent&quot;</span><br><span class="line">    tools:context&#x3D;&quot;.MainActivity&quot;&gt;</span><br><span class="line"></span><br><span class="line">    &lt;LinearLayout</span><br><span class="line">        android:layout_width&#x3D;&quot;match_parent&quot;</span><br><span class="line">        android:layout_height&#x3D;&quot;match_parent&quot;</span><br><span class="line">        android:orientation&#x3D;&quot;vertical&quot;&gt;</span><br><span class="line"></span><br><span class="line">        &lt;androidx.appcompat.widget.Toolbar</span><br><span class="line">            android:id&#x3D;&quot;@+id&#x2F;toolbar&quot;</span><br><span class="line">            android:layout_width&#x3D;&quot;match_parent&quot;</span><br><span class="line">            android:layout_height&#x3D;&quot;wrap_content&quot;</span><br><span class="line">            android:background&#x3D;&quot;?attr&#x2F;colorPrimary&quot;</span><br><span class="line">            android:minHeight&#x3D;&quot;?attr&#x2F;actionBarSize&quot;</span><br><span class="line">            android:theme&#x3D;&quot;?attr&#x2F;actionBarTheme&quot; &#x2F;&gt;</span><br><span class="line">    &lt;&#x2F;LinearLayout&gt;</span><br><span class="line"></span><br><span class="line">    &lt;com.google.android.material.navigation.NavigationView</span><br><span class="line">        android:layout_width&#x3D;&quot;wrap_content&quot;</span><br><span class="line">        android:layout_height&#x3D;&quot;match_parent&quot;</span><br><span class="line">        android:id&#x3D;&quot;@+id&#x2F;navigation_drawer&quot;</span><br><span class="line">        app:menu&#x3D;&quot;@menu&#x2F;drawer_menu&quot;</span><br><span class="line">        app:headerLayout&#x3D;&quot;@layout&#x2F;drawer_header_layout&quot;</span><br><span class="line">        android:layout_gravity&#x3D;&quot;start&quot;&#x2F;&gt;</span><br><span class="line"></span><br><span class="line">&lt;&#x2F;androidx.drawerlayout.widget.DrawerLayout&gt;</span><br></pre></td></tr></table></figure>
+
+<p>しかしこのままだとステータスバーの色のせいで見えなくなるのでステータスバーの色を透明にする必要があります。<br>styles.xmlを開いてドロワー用レイアウトへ属性を追加します。<br>何を追加するのかって話ですがandroid:statusBarColorを追加します。値は<code>@android:color/transparent</code>（透明）です。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- ドロワー用レイアウト --&gt;</span><br><span class="line">&lt;style name&#x3D;&quot;DrawerTheme&quot; parent&#x3D;&quot;Theme.AppCompat.Light.DarkActionBar&quot;&gt;</span><br><span class="line"></span><br><span class="line">    &lt;item name&#x3D;&quot;windowActionBar&quot;&gt;false&lt;&#x2F;item&gt;</span><br><span class="line">    &lt;item name&#x3D;&quot;windowNoTitle&quot;&gt;true&lt;&#x2F;item&gt;</span><br><span class="line">    &lt;item name&#x3D;&quot;android:statusBarColor&quot;&gt;@android:color&#x2F;transparent&lt;&#x2F;item&gt;</span><br><span class="line"></span><br><span class="line">    &lt;item name&#x3D;&quot;colorPrimary&quot;&gt;@color&#x2F;colorPrimary&lt;&#x2F;item&gt;</span><br><span class="line">    &lt;item name&#x3D;&quot;colorPrimaryDark&quot;&gt;@color&#x2F;colorPrimaryDark&lt;&#x2F;item&gt;</span><br><span class="line">    &lt;item name&#x3D;&quot;colorAccent&quot;&gt;@color&#x2F;colorAccent&lt;&#x2F;item&gt;</span><br><span class="line">&lt;&#x2F;style&gt;</span><br></pre></td></tr></table></figure>
+
+<p>これで起動すればステータスバーの色が透明になって見れるようになります。<br><img src="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/409918/208826b5-ecd7-75b1-a41e-8f56ef413b4d.png" alt="Screenshot_20191107-230521.png"></p>
+<h1 id="メニューを押したときに何かしたい"><a href="#メニューを押したときに何かしたい" class="headerlink" title="メニューを押したときに何かしたい"></a>メニューを押したときに何かしたい</h1><p>こんな感じに</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">class MainActivity : AppCompatActivity() &#123;</span><br><span class="line"></span><br><span class="line">    override fun onCreate(savedInstanceState: Bundle?) &#123;</span><br><span class="line">        super.onCreate(savedInstanceState)</span><br><span class="line">        setContentView(R.layout.activity_main)</span><br><span class="line"></span><br><span class="line">        &#x2F;&#x2F;Toolbarを登録</span><br><span class="line">        setSupportActionBar(toolbar)</span><br><span class="line"></span><br><span class="line">        &#x2F;&#x2F;ハンバーガーメニューのアイコンを実装</span><br><span class="line">        &#x2F;&#x2F;第４、５引数はアクセシビリティで使うみたい。</span><br><span class="line">        val actionBarDrawerToggle &#x3D; ActionBarDrawerToggle(</span><br><span class="line">            this, drawer_layout, toolbar, R.string.app_name, R.string.app_name</span><br><span class="line">        )</span><br><span class="line">        drawer_layout.addDrawerListener(actionBarDrawerToggle)</span><br><span class="line">        actionBarDrawerToggle.syncState()</span><br><span class="line"></span><br><span class="line">        &#x2F;&#x2F;メニューを押したとき</span><br><span class="line">        navigation_drawer.setNavigationItemSelectedListener &#123;</span><br><span class="line">            when(it.itemId)&#123;</span><br><span class="line">                R.id.drawer_menu_java-&gt;&#123;</span><br><span class="line">                    &#x2F;&#x2F;java押したとき</span><br><span class="line">                    Snackbar.make(navigation_drawer,&quot;30億のデバイスで走るJava&quot;,Snackbar.LENGTH_SHORT).show()</span><br><span class="line">                &#125;</span><br><span class="line">                R.id.drawer_menu_kotlin-&gt;&#123;</span><br><span class="line">                    &#x2F;&#x2F;kotlin押したとき</span><br><span class="line">                    Snackbar.make(navigation_drawer,&quot;apply&#123;&#125;便利すぎる&quot;,Snackbar.LENGTH_SHORT).show()</span><br><span class="line">                &#125;</span><br><span class="line">                R.id.drawer_menu_js-&gt;&#123;</span><br><span class="line">                    &#x2F;&#x2F;JS押したとき</span><br><span class="line">                    Snackbar.make(navigation_drawer,&quot;undefined&quot;,Snackbar.LENGTH_SHORT).show()</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            &#x2F;&#x2F;押したらナビゲーションドロワーを閉じる</span><br><span class="line">            drawer_layout.closeDrawer(navigation_drawer)</span><br><span class="line">            true</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Javaを押したときSnackbarがでて「30億のデバイスで走るJava」と表示されれば成功です。おめでとう！</p>
+<h1 id="終わりに"><a href="#終わりに" class="headerlink" title="終わりに"></a>終わりに</h1><p>ナビゲーションドロワーのレイアウトを少し変えればばボタンとかおけます。<br>複雑になりそうだけど。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version&#x3D;&quot;1.0&quot; encoding&#x3D;&quot;utf-8&quot;?&gt;</span><br><span class="line">&lt;androidx.drawerlayout.widget.DrawerLayout xmlns:android&#x3D;&quot;http:&#x2F;&#x2F;schemas.android.com&#x2F;apk&#x2F;res&#x2F;android&quot;</span><br><span class="line">    xmlns:app&#x3D;&quot;http:&#x2F;&#x2F;schemas.android.com&#x2F;apk&#x2F;res-auto&quot;</span><br><span class="line">    xmlns:tools&#x3D;&quot;http:&#x2F;&#x2F;schemas.android.com&#x2F;tools&quot;</span><br><span class="line">    android:id&#x3D;&quot;@+id&#x2F;drawer_layout&quot;</span><br><span class="line">    android:fitsSystemWindows&#x3D;&quot;true&quot;</span><br><span class="line">    android:layout_width&#x3D;&quot;match_parent&quot;</span><br><span class="line">    android:layout_height&#x3D;&quot;match_parent&quot;</span><br><span class="line">    tools:context&#x3D;&quot;.MainActivity&quot;&gt;</span><br><span class="line"></span><br><span class="line">    &lt;LinearLayout</span><br><span class="line">        android:layout_width&#x3D;&quot;match_parent&quot;</span><br><span class="line">        android:layout_height&#x3D;&quot;match_parent&quot;</span><br><span class="line">        android:orientation&#x3D;&quot;vertical&quot;&gt;</span><br><span class="line"></span><br><span class="line">        &lt;androidx.appcompat.widget.Toolbar</span><br><span class="line">            android:id&#x3D;&quot;@+id&#x2F;toolbar&quot;</span><br><span class="line">            android:layout_width&#x3D;&quot;match_parent&quot;</span><br><span class="line">            android:layout_height&#x3D;&quot;wrap_content&quot;</span><br><span class="line">            android:background&#x3D;&quot;?attr&#x2F;colorPrimary&quot;</span><br><span class="line">            android:minHeight&#x3D;&quot;?attr&#x2F;actionBarSize&quot;</span><br><span class="line">            android:theme&#x3D;&quot;?attr&#x2F;actionBarTheme&quot; &#x2F;&gt;</span><br><span class="line">    &lt;&#x2F;LinearLayout&gt;</span><br><span class="line"></span><br><span class="line">    &lt;com.google.android.material.navigation.NavigationView</span><br><span class="line">        android:layout_width&#x3D;&quot;wrap_content&quot;</span><br><span class="line">        android:layout_height&#x3D;&quot;match_parent&quot;</span><br><span class="line">        android:id&#x3D;&quot;@+id&#x2F;navigation_drawer&quot;</span><br><span class="line">        android:layout_gravity&#x3D;&quot;start&quot;&gt;</span><br><span class="line"></span><br><span class="line">        &lt;LinearLayout</span><br><span class="line">            android:layout_width&#x3D;&quot;match_parent&quot;</span><br><span class="line">            android:layout_height&#x3D;&quot;match_parent&quot;</span><br><span class="line">            android:orientation&#x3D;&quot;vertical&quot;&gt;</span><br><span class="line"></span><br><span class="line">            &lt;ImageView</span><br><span class="line">                android:id&#x3D;&quot;@+id&#x2F;imageView2&quot;</span><br><span class="line">                android:layout_width&#x3D;&quot;match_parent&quot;</span><br><span class="line">                android:layout_height&#x3D;&quot;wrap_content&quot;</span><br><span class="line">                app:srcCompat&#x3D;&quot;@mipmap&#x2F;ic_launcher_round&quot; &#x2F;&gt;</span><br><span class="line"></span><br><span class="line">            &lt;Button</span><br><span class="line">                android:layout_gravity&#x3D;&quot;center_vertical&quot;</span><br><span class="line">                android:id&#x3D;&quot;@+id&#x2F;button&quot;</span><br><span class="line">                android:layout_width&#x3D;&quot;match_parent&quot;</span><br><span class="line">                android:layout_height&#x3D;&quot;wrap_content&quot;</span><br><span class="line">                android:text&#x3D;&quot;ボタンとかおけます。&quot; &#x2F;&gt;</span><br><span class="line">        &lt;&#x2F;LinearLayout&gt;</span><br><span class="line"></span><br><span class="line">    &lt;&#x2F;com.google.android.material.navigation.NavigationView&gt;</span><br><span class="line"></span><br><span class="line">&lt;&#x2F;androidx.drawerlayout.widget.DrawerLayout&gt;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/409918/421e765a-99cf-59ba-053c-374c35a3716c.png" alt="Screenshot_20191107-233906.png"></p>
+<p>それからstyles.xmlのparentをTheme.MaterialComponents.Light.DarkActionBarにするとメニュー選択時が少し変わります。</p>
+<p><img src="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/409918/a1e21809-93b5-06bb-a8db-d7d9864a58e0.png" alt="Screenshot_20191107-234614.png"></p>
+<p>おつ！８８８８８８８８８８８８８８８。</p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最終更新：<time datetime="2020-04-05T16:40:59.277Z" itemprop="dateUpdated">2020年04月06日 01時40分59秒 01:40:59</time>
+</span><br>
+
+
+        
+         
+        
+    </div>
+    
+    <footer>
+        <a href="https://takusan23.github.io/Bibouroku">
+            <img src="/img/avatar.gif" alt="takusan23">
+            takusan23
+        </a>
+    </footer>
+</blockquote>
+
+        
+<!-- <div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div> -->
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/" rel="tag">Android</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Kotlin/" rel="tag">Kotlin</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MaterialDesign/" rel="tag">MaterialDesign</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/NavigationDrawer/" rel="tag">NavigationDrawer</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://takusan23.github.io/Bibouroku/2020/04/06/NavigationDrawer/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《【Android / Kotlin】 ナビゲーションドロワーのつくりかた》 — たくさんの備忘録&url=https://takusan23.github.io/Bibouroku/2020/04/06/NavigationDrawer/&via=https://takusan23.github.io/Bibouroku" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="line share-sns" target="_blank" href="https://social-plugins.line.me/lineit/share?text=《【Android / Kotlin】 ナビゲーションドロワーのつくりかた》 — たくさんの備忘録&url=https://takusan23.github.io/Bibouroku/2020/04/06/NavigationDrawer/&via=https://takusan23.github.io/Bibouroku" data-title=" LINE">
+          <i class="icon custom-icon-line"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2020/04/06/%E3%81%AF%E3%81%98%E3%82%81%E3%81%A6/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">はじめて</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2020/04/06/MediaProjection/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">【Android / MediaProjection / Kotlin】Androidで画面録画をする</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/" alt="打赏二维码">
+        </div>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <!-- <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        総サイトユーザー：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        総サイトアクセス：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+            <span> </span>
+        </p>
+    </div> -->
+    <div class="bottom">
+        <p><span>takusan23 &copy; 2020</span>
+            <span>
+                
+                Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://takusan23.github.io/Bibouroku/2020/04/06/NavigationDrawer/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《【Android / Kotlin】 ナビゲーションドロワーのつくりかた》 — たくさんの備忘録&url=https://takusan23.github.io/Bibouroku/2020/04/06/NavigationDrawer/&via=https://takusan23.github.io/Bibouroku" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="line share-sns" target="_blank" href="https://social-plugins.line.me/lineit/share?text=《【Android / Kotlin】 ナビゲーションドロワーのつくりかた》 — たくさんの備忘録&url=https://takusan23.github.io/Bibouroku/2020/04/06/NavigationDrawer/&via=https://takusan23.github.io/Bibouroku" data-title=" LINE">
+          <i class="icon custom-icon-line"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>
