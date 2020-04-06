@@ -39,9 +39,9 @@
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/409918/7b9cf20d-ad5b-a631-bcaf-531a970da9ab.png">
     
-    <link rel="shortcut icon" href="Bibouroku/img/favicon.ico">
+    <link rel="shortcut icon" href="/Bibouroku/img/favicon.ico">
     <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
-    <link rel="stylesheet" href="Bibouroku/css/fonts/custom/css/custom.css">
+    <link rel="stylesheet" href="/Bibouroku/css/fonts/custom/css/custom.css">
     <script>window.lazyScripts = []</script>
 
     <!-- custom head -->
@@ -66,10 +66,10 @@
     <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
         <i class="icon icon-lg icon-close"></i>
     </a>
-    <div class="brand-wrap" style="background-image:url(Bibouroku/img/brand.jpg)">
+    <div class="brand-wrap" style="background-image:url(/Bibouroku/img/brand.jpg)">
       <div class="brand">
-        <a href="Bibouroku/" class="avatar waves-effect waves-circle waves-light">
-          <img src="Bibouroku/img/avatar.gif">
+        <a href="/Bibouroku/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/Bibouroku/img/avatar.gif">
         </a>
         <hgroup class="introduce">
           <h5 class="nickname">takusan23</h5>
@@ -81,14 +81,14 @@
       <ul class="nav">
         
             <li class="waves-block waves-effect">
-              <a href="Bibouroku/"  >
+              <a href="/Bibouroku/"  >
                 <i class="icon icon-lg icon-home"></i>
                 Home
               </a>
             </li>
         
             <li class="waves-block waves-effect">
-              <a href="Bibouroku/archives"  >
+              <a href="/Bibouroku/archives"  >
                 <i class="icon icon-lg icon-archives"></i>
                 Archives
               </a>
@@ -195,13 +195,27 @@
 <h1 id="ノッチがない端末でノッチを出す方法"><a href="#ノッチがない端末でノッチを出す方法" class="headerlink" title="ノッチがない端末でノッチを出す方法"></a>ノッチがない端末でノッチを出す方法</h1><p>開発者向けオプション→ディスプレイカット→縦長のカットアウト<br>を選択することでノッチを表示できます。<br>ステータスバーが広くなって違和感あると思うよ。</p>
 <h1 id="ノッチがある端末でノッチを隠す（利用しない）方法"><a href="#ノッチがある端末でノッチを隠す（利用しない）方法" class="headerlink" title="ノッチがある端末でノッチを隠す（利用しない）方法"></a>ノッチがある端末でノッチを隠す（利用しない）方法</h1><p>Pixel 3 XLでの場合です。<br>開発者向けオプション→ディスプレイカット→非表示　<br>を選択することでノッチを利用しない設定にできます。</p>
 <p>その他サードパーティのアプリでノッチ領域の背景を黒くするアプリなどもあるのでどうしても気になる人は入れてみては？。</p>
-<h1 id="侵略するには"><a href="#侵略するには" class="headerlink" title="侵略するには"></a>侵略するには</h1><p><img src="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/409918/7b9cf20d-ad5b-a631-bcaf-531a970da9ab.png" alt="Screenshot_1578906820.png"></p>
+<h1 id="侵略するには"><a href="#侵略するには" class="headerlink" title="侵略するには"></a>侵略するには</h1><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/409918/7b9cf20d-ad5b-a631-bcaf-531a970da9ab.png" alt="Screenshot_1578906820.png" title="">
+                </div>
+                <div class="image-caption">Screenshot_1578906820.png</div>
+            </figure>
+
 <p>こんなふうに上にも表示させたい場合は、</p>
 <figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//ステータスバー透明化＋タイトルバー非表示＋ノッチ領域にも侵略</span></span><br><span class="line">window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)</span><br><span class="line">supportActionBar?.hide()</span><br><span class="line"><span class="keyword">if</span> (Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.P) &#123;</span><br><span class="line">    <span class="keyword">val</span> attrib = window.attributes</span><br><span class="line">    attrib.layoutInDisplayCutoutMode =</span><br><span class="line">        WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>これで動きます。<br>ActionBarを非表示にしてますが、どっかでそもそも表示しない設定にしている場合は<br>二行目を消したほうがいいと思います。</p>
 <p>これでノッチ領域に侵略することに成功しました。</p>
-<p><img src="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/409918/38701a36-6bfe-969e-1b62-013a5bcfd64c.png" alt="Screenshot_1578906694.png"></p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/409918/38701a36-6bfe-969e-1b62-013a5bcfd64c.png" alt="Screenshot_1578906694.png" title="">
+                </div>
+                <div class="image-caption">Screenshot_1578906694.png</div>
+            </figure>
+
 <p>以上です。お疲れさまでした。８８８８８８８８８</p>
 <h1 id="参考にしました"><a href="#参考にしました" class="headerlink" title="参考にしました"></a>参考にしました</h1><p><a href="https://stackoverflow.com/questions/49190381/fullscreen-app-with-displaycutout" target="_blank" rel="noopener">https://stackoverflow.com/questions/49190381/fullscreen-app-with-displaycutout</a></p>
 <p>android display cutout full screen って検索したんですけどGoogle先生すごい。</p>
@@ -224,7 +238,7 @@
     
     <footer>
         <a href="https://takusan23.github.io/Bibouroku">
-            <img src="Bibouroku/img/avatar.gif" alt="takusan23">
+            <img src="/Bibouroku/img/avatar.gif" alt="takusan23">
             takusan23
         </a>
     </footer>
@@ -239,7 +253,7 @@
 
         <div class="post-footer">
             
-	<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="Bibouroku/tags/Android/" rel="tag">Android</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="Bibouroku/tags/Kotlin/" rel="tag">Kotlin</a></li></ul>
+	<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/Bibouroku/tags/Android/" rel="tag">Android</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/Bibouroku/tags/Kotlin/" rel="tag">Kotlin</a></li></ul>
 
 
             
@@ -282,7 +296,7 @@
 <nav class="post-nav flex-row flex-justify-between">
   
     <div class="waves-block waves-effect prev">
-      <a href="Bibouroku/2020/04/06/ARCore/" id="post-prev" class="post-nav-link">
+      <a href="/Bibouroku/2020/04/06/ARCore/" id="post-prev" class="post-nav-link">
         <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
         <h4 class="title">【Android / Kotlin / ARCore】ARCoreでTextViewを出す</h4>
       </a>
@@ -291,7 +305,7 @@
 
   
     <div class="waves-block waves-effect next">
-      <a href="Bibouroku/2020/04/06/Android%E3%81%A7%E6%B0%97%E5%9C%A7%E8%A8%88/" id="post-next" class="post-nav-link">
+      <a href="/Bibouroku/2020/04/06/Android%E3%81%A7%E6%B0%97%E5%9C%A7%E8%A8%88/" id="post-next" class="post-nav-link">
         <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
         <h4 class="title">【Android】 台風に備えて気圧を測れるアプリを作る</h4>
       </a>
@@ -334,7 +348,7 @@
     <div class="reward-content">
         
         <div class="reward-code">
-            <img id="rewardCode" src="Bibouroku/" alt="打赏二维码">
+            <img id="rewardCode" src="/Bibouroku/" alt="打赏二维码">
         </div>
         
     </div>
@@ -408,7 +422,7 @@
 
     <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
 <script>
-var BLOG = { ROOT: 'Bibouroku/', SHARE: true, REWARD: true };
+var BLOG = { ROOT: '/Bibouroku/', SHARE: true, REWARD: true };
 
 
 </script>

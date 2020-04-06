@@ -42,9 +42,9 @@
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/409918/185fc1f6-72ec-00aa-b75d-503663a4696c.png">
     
-    <link rel="shortcut icon" href="Bibouroku/img/favicon.ico">
+    <link rel="shortcut icon" href="/Bibouroku/img/favicon.ico">
     <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
-    <link rel="stylesheet" href="Bibouroku/css/fonts/custom/css/custom.css">
+    <link rel="stylesheet" href="/Bibouroku/css/fonts/custom/css/custom.css">
     <script>window.lazyScripts = []</script>
 
     <!-- custom head -->
@@ -69,10 +69,10 @@
     <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
         <i class="icon icon-lg icon-close"></i>
     </a>
-    <div class="brand-wrap" style="background-image:url(Bibouroku/img/brand.jpg)">
+    <div class="brand-wrap" style="background-image:url(/Bibouroku/img/brand.jpg)">
       <div class="brand">
-        <a href="Bibouroku/" class="avatar waves-effect waves-circle waves-light">
-          <img src="Bibouroku/img/avatar.gif">
+        <a href="/Bibouroku/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/Bibouroku/img/avatar.gif">
         </a>
         <hgroup class="introduce">
           <h5 class="nickname">takusan23</h5>
@@ -84,14 +84,14 @@
       <ul class="nav">
         
             <li class="waves-block waves-effect">
-              <a href="Bibouroku/"  >
+              <a href="/Bibouroku/"  >
                 <i class="icon icon-lg icon-home"></i>
                 Home
               </a>
             </li>
         
             <li class="waves-block waves-effect">
-              <a href="Bibouroku/archives"  >
+              <a href="/Bibouroku/archives"  >
                 <i class="icon icon-lg icon-archives"></i>
                 Archives
               </a>
@@ -221,7 +221,14 @@
 <p>本家ではoutDirがdistになってますが、Electron Builderの出力と被りそうなので変えときました。(ドキュメント見れば変えられそう。)</p>
 <h1 id="HTMLとTypeScriptかく"><a href="#HTMLとTypeScriptかく" class="headerlink" title="HTMLとTypeScriptかく"></a>HTMLとTypeScriptかく</h1><p>srcフォルダを作成して、</p>
 <p>index.html と main.ts を作成してください。</p>
-<p><img src="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/409918/185fc1f6-72ec-00aa-b75d-503663a4696c.png" alt="image.png"></p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/409918/185fc1f6-72ec-00aa-b75d-503663a4696c.png" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html lang&#x3D;&quot;en&quot;&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;meta charset&#x3D;&quot;UTF-8&quot;&gt;</span><br><span class="line">    &lt;meta name&#x3D;&quot;viewport&quot; content&#x3D;&quot;width&#x3D;device-width, initial-scale&#x3D;1.0&quot;&gt;</span><br><span class="line">    &lt;meta http-equiv&#x3D;&quot;X-UA-Compatible&quot; content&#x3D;&quot;ie&#x3D;edge&quot;&gt;</span><br><span class="line">    &lt;title&gt;TypeScript&lt;&#x2F;title&gt;</span><br><span class="line">&lt;&#x2F;head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">    &lt;h1&gt;TypeScriptですー&lt;&#x2F;h1&gt;</span><br><span class="line">&lt;&#x2F;body&gt;</span><br><span class="line">&lt;&#x2F;html&gt;</span><br></pre></td></tr></table></figure>
 
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line">import &#123; app, BrowserWindow &#125; from &quot;electron&quot;;</span><br><span class="line">import * as path from &quot;path&quot;;</span><br><span class="line"></span><br><span class="line">let mainWindow: Electron.BrowserWindow;</span><br><span class="line"></span><br><span class="line">function createWindow() &#123;</span><br><span class="line">    &#x2F;&#x2F; Create the browser window.</span><br><span class="line">    mainWindow &#x3D; new BrowserWindow(&#123;</span><br><span class="line">        height: 600,</span><br><span class="line">        webPreferences: &#123;</span><br><span class="line">            nodeIntegration: true &#x2F;&#x2F;trueにしておく。preload使ってもいいけど今回はパス。</span><br><span class="line">        &#125;,</span><br><span class="line">        width: 800,</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; and load the index.html of the app.</span><br><span class="line">    mainWindow.loadFile(path.join(__dirname, &quot;..&#x2F;src&#x2F;index.html&quot;));　&#x2F;&#x2F;index.htmlはsrcフォルダ（main.jsはjsフォルダ）なのでパス気をつけて。</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; Open the DevTools.</span><br><span class="line">    mainWindow.webContents.openDevTools();</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; Emitted when the window is closed.</span><br><span class="line">    mainWindow.on(&quot;closed&quot;, () &#x3D;&gt; &#123;</span><br><span class="line">        &#x2F;&#x2F; Dereference the window object, usually you would store windows</span><br><span class="line">        &#x2F;&#x2F; in an array if your app supports multi windows, this is the time</span><br><span class="line">        &#x2F;&#x2F; when you should delete the corresponding element.</span><br><span class="line">        mainWindow &#x3D; null;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; This method will be called when Electron has finished</span><br><span class="line">&#x2F;&#x2F; initialization and is ready to create browser windows.</span><br><span class="line">&#x2F;&#x2F; Some APIs can only be used after this event occurs.</span><br><span class="line">app.on(&quot;ready&quot;, createWindow);</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; Quit when all windows are closed.</span><br><span class="line">app.on(&quot;window-all-closed&quot;, () &#x3D;&gt; &#123;</span><br><span class="line">    &#x2F;&#x2F; On OS X it is common for applications and their menu bar</span><br><span class="line">    &#x2F;&#x2F; to stay active until the user quits explicitly with Cmd + Q</span><br><span class="line">    if (process.platform !&#x3D;&#x3D; &quot;darwin&quot;) &#123;</span><br><span class="line">        app.quit();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">app.on(&quot;activate&quot;, () &#x3D;&gt; &#123;</span><br><span class="line">    &#x2F;&#x2F; On OS X it&quot;s common to re-create a window in the app when the</span><br><span class="line">    &#x2F;&#x2F; dock icon is clicked and there are no other windows open.</span><br><span class="line">    if (mainWindow &#x3D;&#x3D;&#x3D; null) &#123;</span><br><span class="line">        createWindow();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; In this file you can include the rest of your app&quot;s specific main process</span><br><span class="line">&#x2F;&#x2F; code. You can also put them in separate files and require them here.</span><br></pre></td></tr></table></figure>
@@ -231,7 +238,14 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm start</span><br></pre></td></tr></table></figure>
 
 <p>と入力すると起動するはずです。</p>
-<p><img src="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/409918/9c327da2-1e15-6c66-b1fd-226fb39458c9.png" alt="image.png"></p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/409918/9c327da2-1e15-6c66-b1fd-226fb39458c9.png" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
 <p>実行するとTypeScriptがJavaScriptに変換されて、jsフォルダの中に入ってると思います。</p>
 <h1 id="レンダラープロセスもTypeScriptで"><a href="#レンダラープロセスもTypeScriptで" class="headerlink" title="レンダラープロセスもTypeScriptで"></a>レンダラープロセスもTypeScriptで</h1><p>レンダラープロセスとメインプロセスがよくわらんって方、<br>console.log()がデベロッパーツールの方に出ればレンダラープロセス、<br>ターミナルの方に出力されればメインプロセスです。<br>あとはalert()はレンダラープロセスからしか使えないのでそんな感じで。</p>
 <h2 id="まずはHTMLを変えて"><a href="#まずはHTMLを変えて" class="headerlink" title="まずはHTMLを変えて"></a>まずはHTMLを変えて</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html lang&#x3D;&quot;en&quot;&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;meta charset&#x3D;&quot;UTF-8&quot;&gt;</span><br><span class="line">    &lt;meta name&#x3D;&quot;viewport&quot; content&#x3D;&quot;width&#x3D;device-width, initial-scale&#x3D;1.0&quot;&gt;</span><br><span class="line">    &lt;meta http-equiv&#x3D;&quot;X-UA-Compatible&quot; content&#x3D;&quot;ie&#x3D;edge&quot;&gt;</span><br><span class="line">    &lt;title&gt;TypeScript&lt;&#x2F;title&gt;</span><br><span class="line">&lt;&#x2F;head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">    &lt;h1&gt;TypeScriptですー&lt;&#x2F;h1&gt;</span><br><span class="line">    &lt;input type&#x3D;&quot;button&quot; value&#x3D;&quot;ダイアログ&quot; id&#x3D;&quot;button&quot;&gt;</span><br><span class="line">    &lt;!-- srcには変換後のJS指定しておく --&gt;</span><br><span class="line">    &lt;script src&#x3D;&quot;..&#x2F;js&#x2F;renderer.js&quot;&gt;&lt;&#x2F;script&gt;</span><br><span class="line">&lt;&#x2F;body&gt;</span><br><span class="line">&lt;&#x2F;html&gt;</span><br></pre></td></tr></table></figure>
@@ -240,7 +254,14 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;レンダラープロセスなのでremoteつける</span><br><span class="line">const &#123; dialog &#125; &#x3D; require(&#39;electron&#39;).remote</span><br><span class="line"></span><br><span class="line">const button: HTMLElement &#x3D; document.getElementById(&#39;button&#39;)</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;ダイアログの選択肢とか</span><br><span class="line">const dialogList: string[] &#x3D; [&quot;🍜&quot;, &quot;🍣&quot;, &quot;🥞&quot;]</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;押した時</span><br><span class="line">button.onclick &#x3D; function () &#123;</span><br><span class="line">    dialog.showMessageBox(null, &#123;</span><br><span class="line">        type: &quot;info&quot;,</span><br><span class="line">        message: &quot;TypeScriptだぞ&quot;,</span><br><span class="line">        buttons: dialogList</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>これで実行してボタンを押すとダイアログが表示されると思います。</p>
-<p><img src="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/409918/41d52c79-08b5-8177-1df2-3616c4d74a7c.png" alt="image.png"></p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/409918/41d52c79-08b5-8177-1df2-3616c4d74a7c.png" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
 <p>以上です。</p>
 <h3 id="ソースコード"><a href="#ソースコード" class="headerlink" title="ソースコード"></a>ソースコード</h3><p><a href="https://github.com/takusan23/ElectronTypeScriptSample" target="_blank" rel="noopener">https://github.com/takusan23/ElectronTypeScriptSample</a></p>
 
@@ -262,7 +283,7 @@
     
     <footer>
         <a href="https://takusan23.github.io/Bibouroku">
-            <img src="Bibouroku/img/avatar.gif" alt="takusan23">
+            <img src="/Bibouroku/img/avatar.gif" alt="takusan23">
             takusan23
         </a>
     </footer>
@@ -277,7 +298,7 @@
 
         <div class="post-footer">
             
-	<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="Bibouroku/tags/Electron/" rel="tag">Electron</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="Bibouroku/tags/JavaScript/" rel="tag">JavaScript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="Bibouroku/tags/Node-js/" rel="tag">Node.js</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="Bibouroku/tags/TypeScript/" rel="tag">TypeScript</a></li></ul>
+	<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/Bibouroku/tags/Electron/" rel="tag">Electron</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/Bibouroku/tags/JavaScript/" rel="tag">JavaScript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/Bibouroku/tags/Node-js/" rel="tag">Node.js</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/Bibouroku/tags/TypeScript/" rel="tag">TypeScript</a></li></ul>
 
 
             
@@ -320,7 +341,7 @@
 <nav class="post-nav flex-row flex-justify-between">
   
     <div class="waves-block waves-effect prev">
-      <a href="Bibouroku/2020/04/06/MaterialDesign/" id="post-prev" class="post-nav-link">
+      <a href="/Bibouroku/2020/04/06/MaterialDesign/" id="post-prev" class="post-nav-link">
         <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
         <h4 class="title">【Android】 Material Components のバージョンを 1.0.0 から 1.1.0-alpha08 にして、Theme.MaterialComponentsと戦った話。</h4>
       </a>
@@ -329,7 +350,7 @@
 
   
     <div class="waves-block waves-effect next">
-      <a href="Bibouroku/2020/04/06/hello/" id="post-next" class="post-nav-link">
+      <a href="/Bibouroku/2020/04/06/hello/" id="post-next" class="post-nav-link">
         <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
         <h4 class="title">hello</h4>
       </a>
@@ -372,7 +393,7 @@
     <div class="reward-content">
         
         <div class="reward-code">
-            <img id="rewardCode" src="Bibouroku/" alt="打赏二维码">
+            <img id="rewardCode" src="/Bibouroku/" alt="打赏二维码">
         </div>
         
     </div>
@@ -446,7 +467,7 @@
 
     <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
 <script>
-var BLOG = { ROOT: 'Bibouroku/', SHARE: true, REWARD: true };
+var BLOG = { ROOT: '/Bibouroku/', SHARE: true, REWARD: true };
 
 
 </script>

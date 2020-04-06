@@ -21,7 +21,7 @@
     <meta name="theme-color" content="#3F51B5">
     
     
-    <meta name="keywords" content="Android,台風,Kotlin">
+    <meta name="keywords" content="Android,Kotlin,台風">
     <meta name="description" content="こんにちは。中間テスト終わりました。今回はやばい台風が来るそうなので気圧が測れるアプリを作りたいと思います。 スマホにはいろんなセンサーがついているせっかくなので使いましょう。というのは建前で本当は この記事 でやってることAndroidでも作れるのではと思ったのが本当の理由。 紹介        端末 Pixel 3 XL   Android バージョン Android 10   最低バージョン">
 <meta property="og:type" content="article">
 <meta property="og:title" content="【Android】 台風に備えて気圧を測れるアプリを作る">
@@ -35,14 +35,14 @@
 <meta property="article:modified_time" content="2020-04-05T16:37:44.880Z">
 <meta property="article:author" content="takusan23">
 <meta property="article:tag" content="Android">
-<meta property="article:tag" content="台風">
 <meta property="article:tag" content="Kotlin">
+<meta property="article:tag" content="台風">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/409918/0afb2d9f-c99b-dafd-1086-a8ae4c51dee9.png">
     
-    <link rel="shortcut icon" href="Bibouroku/img/favicon.ico">
+    <link rel="shortcut icon" href="/Bibouroku/img/favicon.ico">
     <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
-    <link rel="stylesheet" href="Bibouroku/css/fonts/custom/css/custom.css">
+    <link rel="stylesheet" href="/Bibouroku/css/fonts/custom/css/custom.css">
     <script>window.lazyScripts = []</script>
 
     <!-- custom head -->
@@ -67,10 +67,10 @@
     <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
         <i class="icon icon-lg icon-close"></i>
     </a>
-    <div class="brand-wrap" style="background-image:url(Bibouroku/img/brand.jpg)">
+    <div class="brand-wrap" style="background-image:url(/Bibouroku/img/brand.jpg)">
       <div class="brand">
-        <a href="Bibouroku/" class="avatar waves-effect waves-circle waves-light">
-          <img src="Bibouroku/img/avatar.gif">
+        <a href="/Bibouroku/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/Bibouroku/img/avatar.gif">
         </a>
         <hgroup class="introduce">
           <h5 class="nickname">takusan23</h5>
@@ -82,14 +82,14 @@
       <ul class="nav">
         
             <li class="waves-block waves-effect">
-              <a href="Bibouroku/"  >
+              <a href="/Bibouroku/"  >
                 <i class="icon icon-lg icon-home"></i>
                 Home
               </a>
             </li>
         
             <li class="waves-block waves-effect">
-              <a href="Bibouroku/archives"  >
+              <a href="/Bibouroku/archives"  >
                 <i class="icon icon-lg icon-archives"></i>
                 Archives
               </a>
@@ -222,10 +222,24 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">lateinit var sensorManager: SensorManager</span><br><span class="line">lateinit var sensorEventListener: SensorEventListener</span><br><span class="line">override fun onCreate(savedInstanceState: Bundle?) &#123;</span><br><span class="line">    super.onCreate(savedInstanceState)</span><br><span class="line">    setContentView(R.layout.activity_main)</span><br><span class="line"></span><br><span class="line">    sensorManager &#x3D; getSystemService(Context.SENSOR_SERVICE) as SensorManager</span><br><span class="line">    &#x2F;&#x2F;今回は気圧計</span><br><span class="line">    val sensorList &#x3D; sensorManager.getSensorList(Sensor.TYPE_PRESSURE)</span><br><span class="line">    &#x2F;&#x2F;受け取る</span><br><span class="line">    sensorEventListener &#x3D; object : SensorEventListener &#123;</span><br><span class="line">        override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) &#123;</span><br><span class="line">            &#x2F;&#x2F;つかわん</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        override fun onSensorChanged(event: SensorEvent?) &#123;</span><br><span class="line">            &#x2F;&#x2F;値はここで受けとる</span><br><span class="line">            &#x2F;&#x2F;今回は気圧計のみだからいいけどほかにも登録するときは分岐してね</span><br><span class="line">            if(event?.sensor?.type &#x3D;&#x3D; Sensor.TYPE_PRESSURE)&#123;</span><br><span class="line">                &#x2F;&#x2F;気圧計の値</span><br><span class="line">                val barometer &#x3D; event.values[0]</span><br><span class="line">                &#x2F;&#x2F;TextViewに設定</span><br><span class="line">                barometer_tv.text &#x3D; &quot;$barometer hPa&quot;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    &#x2F;&#x2F;登録</span><br><span class="line">    sensorManager.registerListener(</span><br><span class="line">        sensorEventListener,</span><br><span class="line">        sensorList[0],  &#x2F;&#x2F;配列のいっこめ。気圧計</span><br><span class="line">        SensorManager.SENSOR_DELAY_NORMAL  &#x2F;&#x2F;更新頻度</span><br><span class="line">     )</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">override fun onDestroy() &#123;</span><br><span class="line">    super.onDestroy()</span><br><span class="line">    sensorManager.unregisterListener(sensorEventListener)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>これでTextViewに気圧が表示されてると思います。</p>
-<p><img src="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/409918/0afb2d9f-c99b-dafd-1086-a8ae4c51dee9.png" alt="Screenshot_20191011-112836.png"></p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/409918/0afb2d9f-c99b-dafd-1086-a8ae4c51dee9.png" alt="Screenshot_20191011-112836.png" title="">
+                </div>
+                <div class="image-caption">Screenshot_20191011-112836.png</div>
+            </figure>
+
 <h3 id="小数点を消す"><a href="#小数点を消す" class="headerlink" title="小数点を消す"></a>小数点を消す</h3><figure class="highlight plain"><figcaption><span>できれいになります。</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">&#96;&#96;&#96;kotlin</span><br><span class="line">                &#x2F;&#x2F;値はここで受けとる</span><br><span class="line">                &#x2F;&#x2F;今回は気圧計のみだからいいけどほかにも登録するときは分岐してね</span><br><span class="line">                if(event?.sensor?.type &#x3D;&#x3D; Sensor.TYPE_PRESSURE)&#123;</span><br><span class="line">                    &#x2F;&#x2F;気圧計の値</span><br><span class="line">                    val barometer &#x3D; event.values[0]</span><br><span class="line">                    &#x2F;&#x2F;整数に</span><br><span class="line">                    val barometerInt &#x3D; barometer.roundToInt()</span><br><span class="line">                    &#x2F;&#x2F;TextViewに設定</span><br><span class="line">                    barometer_tv.text &#x3D; &quot;$barometerInt hPa\n($barometer hPa)&quot;</span><br><span class="line">                &#125;</span><br></pre></td></tr></table></figure>
 
-<p><img src="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/409918/de5824b5-5099-f8ba-f406-691f77d36027.png" alt="Screenshot_20191011-113656.png"></p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/409918/de5824b5-5099-f8ba-f406-691f77d36027.png" alt="Screenshot_20191011-113656.png" title="">
+                </div>
+                <div class="image-caption">Screenshot_20191011-113656.png</div>
+            </figure>
+
 <p>以上です。<br>お疲れ様です。８８８８８</p>
 
         </div>
@@ -246,7 +260,7 @@
     
     <footer>
         <a href="https://takusan23.github.io/Bibouroku">
-            <img src="Bibouroku/img/avatar.gif" alt="takusan23">
+            <img src="/Bibouroku/img/avatar.gif" alt="takusan23">
             takusan23
         </a>
     </footer>
@@ -261,7 +275,7 @@
 
         <div class="post-footer">
             
-	<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="Bibouroku/tags/Android/" rel="tag">Android</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="Bibouroku/tags/Kotlin/" rel="tag">Kotlin</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="Bibouroku/tags/%E5%8F%B0%E9%A2%A8/" rel="tag">台風</a></li></ul>
+	<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/Bibouroku/tags/Android/" rel="tag">Android</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/Bibouroku/tags/Kotlin/" rel="tag">Kotlin</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/Bibouroku/tags/%E5%8F%B0%E9%A2%A8/" rel="tag">台風</a></li></ul>
 
 
             
@@ -304,7 +318,7 @@
 <nav class="post-nav flex-row flex-justify-between">
   
     <div class="waves-block waves-effect prev">
-      <a href="Bibouroku/2020/04/06/Android%E3%81%AE%E3%83%8E%E3%83%83%E3%83%81%E9%A0%98%E5%9F%9F%E3%81%AB%E4%BE%B5%E7%95%A5/" id="post-prev" class="post-nav-link">
+      <a href="/Bibouroku/2020/04/06/Android%E3%81%AE%E3%83%8E%E3%83%83%E3%83%81%E9%A0%98%E5%9F%9F%E3%81%AB%E4%BE%B5%E7%95%A5/" id="post-prev" class="post-nav-link">
         <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
         <h4 class="title">【Android / Kotlin】 ノッチ（ディスプレイカット / 切り欠き）の部分も表示する方法</h4>
       </a>
@@ -313,7 +327,7 @@
 
   
     <div class="waves-block waves-effect next">
-      <a href="Bibouroku/2020/04/06/Android11%E3%81%A8%E3%81%8B/" id="post-next" class="post-nav-link">
+      <a href="/Bibouroku/2020/04/06/Android11%E3%81%A8%E3%81%8B/" id="post-next" class="post-nav-link">
         <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
         <h4 class="title">Android11とか</h4>
       </a>
@@ -356,7 +370,7 @@
     <div class="reward-content">
         
         <div class="reward-code">
-            <img id="rewardCode" src="Bibouroku/" alt="打赏二维码">
+            <img id="rewardCode" src="/Bibouroku/" alt="打赏二维码">
         </div>
         
     </div>
@@ -430,7 +444,7 @@
 
     <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
 <script>
-var BLOG = { ROOT: 'Bibouroku/', SHARE: true, REWARD: true };
+var BLOG = { ROOT: '/Bibouroku/', SHARE: true, REWARD: true };
 
 
 </script>
