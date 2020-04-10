@@ -2,6 +2,15 @@
 <html>
 <head>
     
+<!-- Google Analytics -->
+<script>
+window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+ga('create', 'UA-149954537-1', 'auto');
+ga('send', 'pageview');
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+<!-- End Google Analytics -->
+
 
     
 
@@ -51,10 +60,7 @@
 
     <style>
         body {
-            font-family: "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro", "メイリオ", Meiryo, Osaka, "ＭＳ Ｐゴシック", "MS PGothic", sans-serif;
-            color: #630;
-            line-height: 25px;
-            font-size: 0.95em;
+            font-family: 'Koruri Regular';
         }
     </style>
 
@@ -109,6 +115,20 @@
               </a>
             </li>
         
+            <li class="waves-block waves-effect">
+              <a href="/Bibouroku/omake"  >
+                <i class="icon icon-lg icon-gamepad"></i>
+                お ま け
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/Bibouroku/about"  >
+                <i class="icon icon-lg icon-question-circle"></i>
+                このサイトについて
+              </a>
+            </li>
+        
       </ul>
     </div>
   </div>
@@ -118,7 +138,7 @@
         <header class="top-header" id="header">
     <div class="flex-row">
         <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
-          <i class="icon icon-lg icon-navicon"></i>
+            <i class="icon icon-lg icon-navicon"></i>
         </a>
         <div class="flex-col header-title ellipsis">【Android】 台風に備えて気圧を測れるアプリを作る</div>
         
@@ -126,7 +146,8 @@
             <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
                 <i class="icon icon-lg icon-chevron-left"></i>
             </a>
-            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="検索">
+            <input type="text" id="key" class="search-input" autocomplete="off"
+                placeholder="検索">
             <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
                 <i class="icon icon-lg icon-search"></i>
             </a>
@@ -145,7 +166,7 @@
         <h1 class="title">【Android】 台風に備えて気圧を測れるアプリを作る</h1>
         <h5 class="subtitle">
             
-                <time datetime="2020-04-05T16:27:15.614Z" itemprop="datePublished" class="page-time">
+            <time datetime="2020-04-05T16:27:15.614Z" itemprop="datePublished" class="page-time">
   2020年04月06日 01時27分15秒
 </time>
 
@@ -154,11 +175,48 @@
         </h5>
     </div>
 
+    <!-- https://vanillaice000.blog.fc2.com/blog-entry-717.html TOPページの絵文字流れてる部分の実装 -->
+    <style>
+        .marquee-anim {
+            padding: .5em 0;
+        }
+
+        .marquee-anim span {
+            display: inline-block;
+            padding-left: 100%;
+            font-size: 30px;
+            white-space: nowrap;
+            animation: marquee 10s linear infinite;
+        }
+
+        @keyframes marquee {
+            from {
+                transform: translate(0);
+            }
+
+            to {
+                transform: translate(-100%);
+            }
+        }
+    </style>
+
     
 
 
-</header>
+    <script>
 
+        // 乱数生成
+        function getRandomInt(max) {
+            return Math.floor(Math.random() * Math.floor(max));
+        }
+
+        // マーキーエリアの部分をランダムで決定
+        const marqueeList = ["🍣 🍣 🍣 🍣 🍣", "🤔 🤔 🤔 🤔 🤔", "🥳 🥳 🥳 🥳 🥳"]
+        document.getElementById('maruee_text').innerText = marqueeList[getRandomInt(marqueeList.length)]
+
+    </script>
+
+</header>
 
 <div class="container body-wrap">
     
@@ -501,7 +559,7 @@ MathJax.Hub.Queue(function() {
 
 
 
-<script>
+<!-- <script>
 (function() {
     var OriginTitile = document.title, titleTime;
     document.addEventListener('visibilitychange', function() {
@@ -516,7 +574,7 @@ MathJax.Hub.Queue(function() {
         }
     });
 })();
-</script>
+</script> -->
 
 
 

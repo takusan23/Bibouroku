@@ -2,6 +2,15 @@
 <html>
 <head>
     
+<!-- Google Analytics -->
+<script>
+window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+ga('create', 'UA-149954537-1', 'auto');
+ga('send', 'pageview');
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+<!-- End Google Analytics -->
+
 
     
 
@@ -43,10 +52,7 @@
 
     <style>
         body {
-            font-family: "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro", "メイリオ", Meiryo, Osaka, "ＭＳ Ｐゴシック", "MS PGothic", sans-serif;
-            color: #630;
-            line-height: 25px;
-            font-size: 0.95em;
+            font-family: 'Koruri Regular';
         }
     </style>
 
@@ -101,6 +107,20 @@
               </a>
             </li>
         
+            <li class="waves-block waves-effect">
+              <a href="/Bibouroku/omake"  >
+                <i class="icon icon-lg icon-gamepad"></i>
+                お ま け
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/Bibouroku/about"  >
+                <i class="icon icon-lg icon-question-circle"></i>
+                このサイトについて
+              </a>
+            </li>
+        
       </ul>
     </div>
   </div>
@@ -110,7 +130,7 @@
         <header class="top-header" id="header">
     <div class="flex-row">
         <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
-          <i class="icon icon-lg icon-navicon"></i>
+            <i class="icon icon-lg icon-navicon"></i>
         </a>
         <div class="flex-col header-title ellipsis">Tags: 台風</div>
         
@@ -118,7 +138,8 @@
             <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
                 <i class="icon icon-lg icon-chevron-left"></i>
             </a>
-            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="検索">
+            <input type="text" id="key" class="search-input" autocomplete="off"
+                placeholder="検索">
             <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
                 <i class="icon icon-lg icon-search"></i>
             </a>
@@ -139,6 +160,31 @@
             
         </h5>
     </div>
+
+    <!-- https://vanillaice000.blog.fc2.com/blog-entry-717.html TOPページの絵文字流れてる部分の実装 -->
+    <style>
+        .marquee-anim {
+            padding: .5em 0;
+        }
+
+        .marquee-anim span {
+            display: inline-block;
+            padding-left: 100%;
+            font-size: 30px;
+            white-space: nowrap;
+            animation: marquee 10s linear infinite;
+        }
+
+        @keyframes marquee {
+            from {
+                transform: translate(0);
+            }
+
+            to {
+                transform: translate(-100%);
+            }
+        }
+    </style>
 
     
 <div class="tabs-bar container">
@@ -177,35 +223,35 @@
 
         
 
-            <a href="/Bibouroku/tags/MediaProjection/" style="-webkit-order:6;order:6" class="tags-list-item waves-effect waves-button waves-light">MediaProjection</a>
+            <a href="/Bibouroku/tags/MaterialDesign/" style="-webkit-order:6;order:6" class="tags-list-item waves-effect waves-button waves-light">MaterialDesign</a>
 
         
 
-            <a href="/Bibouroku/tags/%E7%94%BB%E9%9D%A2%E9%8C%B2%E7%94%BB/" style="-webkit-order:7;order:7" class="tags-list-item waves-effect waves-button waves-light">画面録画</a>
+            <a href="/Bibouroku/tags/MediaProjection/" style="-webkit-order:7;order:7" class="tags-list-item waves-effect waves-button waves-light">MediaProjection</a>
 
         
 
-            <a href="/Bibouroku/tags/AndroidQ/" style="-webkit-order:8;order:8" class="tags-list-item waves-effect waves-button waves-light">AndroidQ</a>
+            <a href="/Bibouroku/tags/%E7%94%BB%E9%9D%A2%E9%8C%B2%E7%94%BB/" style="-webkit-order:8;order:8" class="tags-list-item waves-effect waves-button waves-light">画面録画</a>
 
         
 
-            <a href="/Bibouroku/tags/MaterialDesign/" style="-webkit-order:9;order:9" class="tags-list-item waves-effect waves-button waves-light">MaterialDesign</a>
+            <a href="/Bibouroku/tags/AndroidQ/" style="-webkit-order:9;order:9" class="tags-list-item waves-effect waves-button waves-light">AndroidQ</a>
 
         
 
-            <a href="/Bibouroku/tags/NavigationDrawer/" style="-webkit-order:10;order:10" class="tags-list-item waves-effect waves-button waves-light">NavigationDrawer</a>
+            <a href="/Bibouroku/tags/%E3%81%9D%E3%81%AE%E4%BB%96/" style="-webkit-order:10;order:10" class="tags-list-item waves-effect waves-button waves-light">その他</a>
 
         
 
-            <a href="/Bibouroku/tags/%E3%81%9D%E3%81%AE%E4%BB%96/" style="-webkit-order:11;order:11" class="tags-list-item waves-effect waves-button waves-light">その他</a>
+            <a href="/Bibouroku/tags/%E3%81%9F%E3%81%A1%E3%81%BF%E3%81%A9%E3%82%8D%E3%81%84%E3%81%A9/" style="-webkit-order:11;order:11" class="tags-list-item waves-effect waves-button waves-light">たちみどろいど</a>
 
         
 
-            <a href="/Bibouroku/tags/%E3%81%9F%E3%81%A1%E3%81%BF%E3%81%A9%E3%82%8D%E3%81%84%E3%81%A9/" style="-webkit-order:12;order:12" class="tags-list-item waves-effect waves-button waves-light">たちみどろいど</a>
+            <a href="/Bibouroku/tags/%E3%83%8B%E3%82%B3%E3%83%8B%E3%82%B3%E5%8B%95%E7%94%BB/" style="-webkit-order:12;order:12" class="tags-list-item waves-effect waves-button waves-light">ニコニコ動画</a>
 
         
 
-            <a href="/Bibouroku/tags/%E3%83%8B%E3%82%B3%E3%83%8B%E3%82%B3%E5%8B%95%E7%94%BB/" style="-webkit-order:13;order:13" class="tags-list-item waves-effect waves-button waves-light">ニコニコ動画</a>
+            <a href="/Bibouroku/tags/NavigationDrawer/" style="-webkit-order:13;order:13" class="tags-list-item waves-effect waves-button waves-light">NavigationDrawer</a>
 
         
     </nav>
@@ -217,8 +263,20 @@
 
 
 
-</header>
+    <script>
 
+        // 乱数生成
+        function getRandomInt(max) {
+            return Math.floor(Math.random() * Math.floor(max));
+        }
+
+        // マーキーエリアの部分をランダムで決定
+        const marqueeList = ["🍣 🍣 🍣 🍣 🍣", "🤔 🤔 🤔 🤔 🤔", "🥳 🥳 🥳 🥳 🥳"]
+        document.getElementById('maruee_text').innerText = marqueeList[getRandomInt(marqueeList.length)]
+
+    </script>
+
+</header>
 <div class="container body-wrap fade">
     
             <div class="waterfall">
@@ -361,7 +419,7 @@ var BLOG = { ROOT: '/Bibouroku/', SHARE: true, REWARD: false };
 
 
 
-<script>
+<!-- <script>
 (function() {
     var OriginTitile = document.title, titleTime;
     document.addEventListener('visibilitychange', function() {
@@ -376,7 +434,7 @@ var BLOG = { ROOT: '/Bibouroku/', SHARE: true, REWARD: false };
         }
     });
 })();
-</script>
+</script> -->
 
 
 
