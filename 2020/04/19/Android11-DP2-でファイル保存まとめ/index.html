@@ -231,8 +231,8 @@ ga('send', 'pageview');
     </aside>
 
 
-<article id="post-Android11-DP2-でファイル保存まとめ"
-  class="post-article article-type-post fade" itemprop="blogPost">
+<article id="post-Android11-DP2-でファイル保存まとめ" class="post-article article-type-post fade"
+    itemprop="blogPost">
 
     <div class="post-card">
         <h1 class="post-card-title">Android11(DP2)でファイル保存まとめ</h1>
@@ -366,6 +366,7 @@ ga('send', 'pageview');
         
          
         
+        <p><span id="text_count"></span></p>
     </div>
     
     <footer>
@@ -375,7 +376,20 @@ ga('send', 'pageview');
         </a>
     </footer>
 </blockquote>
-
+<script>
+    window.onload = () => {
+        const page = document.getElementById('post-content')
+        let mozisuu = 0
+        // pタグを見つけていく
+        const pTag = page.getElementsByTagName('p')
+        for (let index = 0; index < pTag.length; index++) {
+            const element = pTag[index]
+            mozisuu += element.innerText.length
+        }
+        // 文字数表示
+        document.getElementById('text_count').innerText = `文字数（だいたい）：${mozisuu} 文字`
+    }
+</script>
         
 <!-- <div class="page-reward">
     <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
