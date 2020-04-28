@@ -31,12 +31,12 @@ ga('send', 'pageview');
     
     
     <meta name="keywords" content="Android,Kotlin,ScopedStorage">
-    <meta name="description" content="どうもこんばんわ。超会議とても良かったです。１押すちなみに私は超パーティー再放送とアニメ一挙放送を主に見てました。Vはわからんのでな。らららコッペパンってらき☆すただったんだ。 今年のGoogle IOが中止になったどころかAndroid 11に関してもドキュメントが全然更新されなくなっちゃって大丈夫なんかこれ。 ほんぺんところでAndroid10から自由にフォルダにアクセスできなくなりました。こ">
+    <meta name="description" content="どうもこんばんわ。超会議とても良かったです。１押すちなみに私は超パーティー再放送とアニメ一挙放送を主に見てました。Vはわからんのでな。らららコッペパンってらき☆すただったんだ。 今年のGoogle IOが中止になったどころかAndroid 11に関してもドキュメントが全然更新されなくなっちゃって大丈夫なんかこれ。 追記 2020&#x2F;04&#x2F;28：そういえばMediaStoreに関しては一切触れてなかっ">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Android11(DP2)でファイル保存まとめ">
 <meta property="og:url" content="https://takusan23.github.io/Bibouroku/2020/04/19/Android11-DP2-%E3%81%A7%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E4%BF%9D%E5%AD%98%E3%81%BE%E3%81%A8%E3%82%81/index.html">
 <meta property="og:site_name" content="たくさんの備忘録">
-<meta property="og:description" content="どうもこんばんわ。超会議とても良かったです。１押すちなみに私は超パーティー再放送とアニメ一挙放送を主に見てました。Vはわからんのでな。らららコッペパンってらき☆すただったんだ。 今年のGoogle IOが中止になったどころかAndroid 11に関してもドキュメントが全然更新されなくなっちゃって大丈夫なんかこれ。 ほんぺんところでAndroid10から自由にフォルダにアクセスできなくなりました。こ">
+<meta property="og:description" content="どうもこんばんわ。超会議とても良かったです。１押すちなみに私は超パーティー再放送とアニメ一挙放送を主に見てました。Vはわからんのでな。らららコッペパンってらき☆すただったんだ。 今年のGoogle IOが中止になったどころかAndroid 11に関してもドキュメントが全然更新されなくなっちゃって大丈夫なんかこれ。 追記 2020&#x2F;04&#x2F;28：そういえばMediaStoreに関しては一切触れてなかっ">
 <meta property="og:locale" content="ja_JP">
 <meta property="og:image" content="https://takusan23.github.io/Bibouroku/2020/04/19/Android11-DP2-%E3%81%A7%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E4%BF%9D%E5%AD%98%E3%81%BE%E3%81%A8%E3%82%81/kyoka_1.png">
 <meta property="og:image" content="https://takusan23.github.io/Bibouroku/2020/04/19/Android11-DP2-%E3%81%A7%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E4%BF%9D%E5%AD%98%E3%81%BE%E3%81%A8%E3%82%81/kyoka_2.png">
@@ -44,7 +44,7 @@ ga('send', 'pageview');
 <meta property="og:image" content="https://takusan23.github.io/Bibouroku/2020/04/19/Android11-DP2-%E3%81%A7%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E4%BF%9D%E5%AD%98%E3%81%BE%E3%81%A8%E3%82%81/save.png">
 <meta property="og:image" content="https://takusan23.github.io/Bibouroku/2020/04/19/Android11-DP2-%E3%81%A7%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E4%BF%9D%E5%AD%98%E3%81%BE%E3%81%A8%E3%82%81/list.png">
 <meta property="article:published_time" content="2020-04-19T14:42:49.000Z">
-<meta property="article:modified_time" content="2020-04-19T17:29:52.284Z">
+<meta property="article:modified_time" content="2020-04-28T08:36:59.329Z">
 <meta property="article:author" content="takusan23">
 <meta property="article:tag" content="Android">
 <meta property="article:tag" content="Kotlin">
@@ -252,6 +252,7 @@ ga('send', 'pageview');
         <div class="post-content" id="post-content" itemprop="postContent">
             <p>どうもこんばんわ。<br>超会議とても良かったです。１押す<br>ちなみに私は超パーティー再放送とアニメ一挙放送を主に見てました。Vはわからんのでな。<br>らららコッペパンってらき☆すただったんだ。</p>
 <p>今年のGoogle IOが中止になったどころかAndroid 11に関してもドキュメントが全然更新されなくなっちゃって大丈夫なんかこれ。</p>
+<p>追記 2020/04/28：そういえばMediaStoreに関しては一切触れてなかった。触れる機会があれば書くかも。</p>
 <h1 id="ほんぺん"><a href="#ほんぺん" class="headerlink" title="ほんぺん"></a>ほんぺん</h1><p>ところでAndroid10から自由にフォルダにアクセスできなくなりました。これにより自由に<code>Downloadフォルダ</code>とか<code>Picturesフォルダ</code>等へアクセスしたりファイル作成とかができなくなりました。</p>
 <p>じゃあどこに保存すればいいんだって話ですが、<code>Scoped Storage（日本語：対象範囲別外部ストレージ）</code>という仕組みが作られ、アプリごとに<strong>権限無し</strong>で書き込むことができるフォルダが作られるようになりました。</p>
 <p>ドキュメント：<a href="https://developer.android.com/training/data-storage/files/external-scoped?hl=ja" target="_blank" rel="noopener">https://developer.android.com/training/data-storage/files/external-scoped?hl=ja</a></p>
@@ -359,7 +360,7 @@ ga('send', 'pageview');
     <div class="content">
         
 <span class="post-time">
-    最終更新：<time datetime="2020-04-19T17:29:52.284Z" itemprop="dateUpdated">2020年04月20日 02時29分52秒 02:29:52</time>
+    最終更新：<time datetime="2020-04-28T08:36:59.329Z" itemprop="dateUpdated">2020年04月28日 17時36分59秒 17:36:59</time>
 </span><br>
 
 
@@ -380,12 +381,13 @@ ga('send', 'pageview');
     window.onload = () => {
         const page = document.getElementById('post-content')
         let mozisuu = 0
-        // pタグを見つけていく
-        const pTag = page.getElementsByTagName('p')
-        for (let index = 0; index < pTag.length; index++) {
-            const element = pTag[index]
-            mozisuu += element.innerText.length
-        }
+        // pタグを探す
+        Array.from(page.getElementsByTagName('p')).forEach(element => {
+            // aタグは外す
+            if (element.getElementsByTagName('a').length == 0) {
+                mozisuu += element.innerText.length
+            }
+        })
         // 文字数表示
         document.getElementById('text_count').innerText = `文字数（だいたい）：${mozisuu} 文字`
     }
@@ -439,7 +441,14 @@ ga('send', 'pageview');
     </div>
 
     
-<nav class="post-nav flex-row flex-justify-between flex-row-reverse">
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/Bibouroku/2020/04/28/Android%E3%81%A7%E3%82%A2%E3%82%A6%E3%83%88%E3%83%A9%E3%82%A4%E3%83%B3%E3%81%AA%E3%83%89%E3%83%AD%E3%83%83%E3%83%97%E3%83%80%E3%82%A6%E3%83%B3%E3%83%A1%E3%83%8B%E3%83%A5%E3%83%BC%E3%82%92%E4%BD%9C%E6%88%90%E3%81%99%E3%82%8B/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">Androidでアウトラインなドロップダウンメニューを作成する</h4>
+      </a>
+    </div>
   
 
   
