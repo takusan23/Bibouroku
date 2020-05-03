@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+<!-- Google Analytics -->
+<script>
+window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+ga('create', 'UA-149954537-1', 'auto');
+ga('send', 'pageview');
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+<!-- End Google Analytics -->
+
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>Android11のMANAGE_EXTERNAL_STORAGEを試す | たくさんの備忘録 |
+        備忘録</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="Android,Android11">
+    <meta name="description" content="どうもこんばんわ。ニコ生で「とある科学の超電磁砲T」の1~12話一挙放送見ました。初見だったけど面白かったです。OPかっこいい。1期2期もいつか見たいですね。 本題Android 11 からまーたファイルアクセスの方法が変わるらしい。はー？どうやらファイルマネージャーアプリとかバックアップアプリ向けのファイルアクセス権限MANAGE_EXTERNAL_STORAGEが追加されるそうな。 MANAG">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android11のMANAGE_EXTERNAL_STORAGEを試す">
+<meta property="og:url" content="https://takusan23.github.io/Bibouroku/2020/05/04/Android11%E3%81%AEMANAGE-EXTERNAL-STORAGE%E3%82%92%E8%A9%A6%E3%81%99/index.html">
+<meta property="og:site_name" content="たくさんの備忘録">
+<meta property="og:description" content="どうもこんばんわ。ニコ生で「とある科学の超電磁砲T」の1~12話一挙放送見ました。初見だったけど面白かったです。OPかっこいい。1期2期もいつか見たいですね。 本題Android 11 からまーたファイルアクセスの方法が変わるらしい。はー？どうやらファイルマネージャーアプリとかバックアップアプリ向けのファイルアクセス権限MANAGE_EXTERNAL_STORAGEが追加されるそうな。 MANAG">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:image" content="https://takusan23.github.io/Bibouroku/2020/05/04/Android11%E3%81%AEMANAGE-EXTERNAL-STORAGE%E3%82%92%E8%A9%A6%E3%81%99/list.png">
+<meta property="og:image" content="https://takusan23.github.io/Bibouroku/2020/05/04/Android11%E3%81%AEMANAGE-EXTERNAL-STORAGE%E3%82%92%E8%A9%A6%E3%81%99/screen.png">
+<meta property="og:image" content="https://takusan23.github.io/Bibouroku/2020/05/04/Android11%E3%81%AEMANAGE-EXTERNAL-STORAGE%E3%82%92%E8%A9%A6%E3%81%99/write.png">
+<meta property="article:published_time" content="2020-05-03T15:44:24.000Z">
+<meta property="article:modified_time" content="2020-05-03T17:04:21.755Z">
+<meta property="article:author" content="takusan23">
+<meta property="article:tag" content="Android">
+<meta property="article:tag" content="Android11">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://takusan23.github.io/Bibouroku/2020/05/04/Android11%E3%81%AEMANAGE-EXTERNAL-STORAGE%E3%82%92%E8%A9%A6%E3%81%99/list.png">
+    
+    <link rel="shortcut icon" href="/Bibouroku/img/favicon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <link rel="stylesheet" href="/Bibouroku/css/fonts/custom/css/custom.css">
+    <script>window.lazyScripts = []</script>
+
+    <!-- custom head -->
+    
+
+
+    <style>
+        body {
+            font-family: 'Koruri Regular';
+        }
+    </style>
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/Bibouroku/img/brand.jpg)">
+      <div class="brand">
+        <a href="/Bibouroku/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/Bibouroku/img/avatar.gif">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">takusan23</h5>
+          <a href="mailto:takusan_0913@yahoo.co.jp" title="takusan_0913@yahoo.co.jp" class="mail">takusan_0913@yahoo.co.jp</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/Bibouroku/"  >
+                <i class="icon icon-lg icon-home"></i>
+                Home
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/Bibouroku/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/takusan23" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://best-friends.chat/@takusan_23" target="_blank" rel="noopener"  >
+                <i class="icon icon-lg icon-link"></i>
+                Mastodon
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/Bibouroku/omake"  >
+                <i class="icon icon-lg icon-gamepad"></i>
+                お ま け
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/Bibouroku/about"  >
+                <i class="icon icon-lg icon-question-circle"></i>
+                このサイトについて
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+            <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">Android11のMANAGE_EXTERNAL_STORAGEを試す</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off"
+                placeholder="検索">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">Android11のMANAGE_EXTERNAL_STORAGEを試す</h1>
+        <h5 class="subtitle">
+            
+            <time datetime="2020-05-03T15:44:24.000Z" itemprop="datePublished" class="page-time">
+  2020年05月04日 00時44分24秒
+</time>
+
+
+            
+        </h5>
+    </div>
+
+    <!-- https://vanillaice000.blog.fc2.com/blog-entry-717.html TOPページの絵文字流れてる部分の実装 -->
+    <style>
+        .marquee-anim {
+            padding: .5em 0;
+        }
+
+        .marquee-anim span {
+            display: inline-block;
+            padding-left: 100%;
+            font-size: 30px;
+            white-space: nowrap;
+            animation: marquee 10s linear infinite;
+        }
+
+        @keyframes marquee {
+            from {
+                transform: translate(0);
+            }
+
+            to {
+                transform: translate(-100%);
+            }
+        }
+    </style>
+
+    
+
+
+    <script>
+
+        // 乱数生成
+        function getRandomInt(max) {
+            return Math.floor(Math.random() * Math.floor(max));
+        }
+
+        // マーキーエリアの部分をランダムで決定
+        const marqueeList = ["🍣 🍣 🍣 🍣 🍣", "🤔 🤔 🤔 🤔 🤔", "🥳 🥳 🥳 🥳 🥳"]
+        document.getElementById('maruee_text').innerText = marqueeList[getRandomInt(marqueeList.length)]
+
+    </script>
+
+</header>
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#本題"><span class="post-toc-number">1.</span> <span class="post-toc-text">本題</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#MANAGE-EXTERNAL-STORAGE-とは"><span class="post-toc-number">2.</span> <span class="post-toc-text">MANAGE_EXTERNAL_STORAGE #とは</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#環境"><span class="post-toc-number">3.</span> <span class="post-toc-text">環境</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#やってみる"><span class="post-toc-number">4.</span> <span class="post-toc-text">やってみる</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Android-11のAPI使えるように"><span class="post-toc-number">4.1.</span> <span class="post-toc-text">Android 11のAPI使えるように</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#権限追加"><span class="post-toc-number">4.2.</span> <span class="post-toc-text">権限追加</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#レイアウト"><span class="post-toc-number">4.3.</span> <span class="post-toc-text">レイアウト</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#権限もらう"><span class="post-toc-number">4.4.</span> <span class="post-toc-text">権限もらう</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#生パスで読み込んでみる"><span class="post-toc-number">4.5.</span> <span class="post-toc-text">生パスで読み込んでみる</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#生パスで書き込んで見る"><span class="post-toc-number">4.6.</span> <span class="post-toc-text">生パスで書き込んで見る</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#おわりに"><span class="post-toc-number">5.</span> <span class="post-toc-text">おわりに</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-Android11のMANAGE-EXTERNAL-STORAGEを試す" class="post-article article-type-post fade"
+    itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">Android11のMANAGE_EXTERNAL_STORAGEを試す</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2020年05月04日 00時44分24秒 00:44:24" datetime="2020-05-03T15:44:24.000Z"  itemprop="datePublished">2020年05月04日 00時44分24秒</time>
+
+            
+
+
+            
+<!-- <span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span> -->
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p>どうもこんばんわ。<br>ニコ生で「とある科学の超電磁砲T」の1~12話一挙放送見ました。初見だったけど面白かったです。OPかっこいい。<br>1期2期もいつか見たいですね。</p>
+<h1 id="本題"><a href="#本題" class="headerlink" title="本題"></a>本題</h1><p>Android 11 からまーたファイルアクセスの方法が変わるらしい。はー？<br>どうやらファイルマネージャーアプリとかバックアップアプリ向けのファイルアクセス権限<strong>MANAGE_EXTERNAL_STORAGE</strong>が追加されるそうな。</p>
+<h1 id="MANAGE-EXTERNAL-STORAGE-とは"><a href="#MANAGE-EXTERNAL-STORAGE-とは" class="headerlink" title="MANAGE_EXTERNAL_STORAGE #とは"></a><code>MANAGE_EXTERNAL_STORAGE</code> #とは</h1><p>Android 9以前のように生パス（おそらく<code>/storage/emulated/0/Download</code>みたいなパスのこと）でのアクセスができるようになる。<br><code>ACTION_OPEN_DOCUMENT_TREE</code>でSDカードへアクセスできないしSDカードアクセスするにはこれしかない？。もうSDカード使わせる気ないなこれ。  </p>
+<p>そんな有能そうな権限ですが  </p>
+<blockquote>
+<p>デベロッパープレビューの今後のバージョンでは、この権限が必要なアプリ向けのガイドラインをGoogle Playに提供する予定です。</p>
+</blockquote>
+<p><a href="https://developer.android.com/preview/privacy/storage#manage-device-storage" target="_blank" rel="noopener">引用元</a></p>
+<p>がなんとか書いてあるのでなんか追加で作業が必要なのかな。<br>むやみにぽんぽん打てる訳ではないっぽい？</p>
+<p>ちなみに<code>MANAGE_EXTERNAL_STORAGE</code>でも外部のアプリ固有領域(Android/data)にはアクセスできません。この領域ってもうファイルマネージャーとか端末単体じゃ見れないのかな（できないのそこそこ不便）。</p>
+<h1 id="環境"><a href="#環境" class="headerlink" title="環境"></a>環境</h1><table>
+<thead>
+<tr>
+<th>name</th>
+<th>value</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Android</td>
+<td>11 DP3</td>
+</tr>
+<tr>
+<td>Android Studio</td>
+<td>4.1 Canary 8</td>
+</tr>
+<tr>
+<td>言語</td>
+<td>Kotlin</td>
+</tr>
+</tbody></table>
+<h1 id="やってみる"><a href="#やってみる" class="headerlink" title="やってみる"></a>やってみる</h1><h2 id="Android-11のAPI使えるように"><a href="#Android-11のAPI使えるように" class="headerlink" title="Android 11のAPI使えるように"></a>Android 11のAPI使えるように</h2><p>Android 11のSDKは各自入れてきてね。<br>appフォルダの方のbuild.gradle開いてandroid{}のところを書き換えます。</p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">android &#123;</span><br><span class="line">    compileSdkVersion <span class="string">'android-R'</span></span><br><span class="line">    buildToolsVersion <span class="string">"29.0.3"</span></span><br><span class="line"></span><br><span class="line">    defaultConfig &#123;</span><br><span class="line">        applicationId <span class="string">"com.example.manageexternalstoragesample"</span></span><br><span class="line">        minSdkVersion <span class="string">"R"</span></span><br><span class="line">        targetSdkVersion <span class="number">29</span></span><br><span class="line">        versionCode <span class="number">1</span></span><br><span class="line">        versionName <span class="string">"1.0"</span></span><br><span class="line"></span><br><span class="line">        testInstrumentationRunner <span class="string">"androidx.test.runner.AndroidJUnitRunner"</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    buildTypes &#123;</span><br><span class="line">        release &#123;</span><br><span class="line">            minifyEnabled <span class="keyword">false</span></span><br><span class="line">            proguardFiles getDefaultProguardFile(<span class="string">'proguard-android-optimize.txt'</span>), <span class="string">'proguard-rules.pro'</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    compileOptions &#123;</span><br><span class="line">        <span class="keyword">sourceCompatibility</span> JavaVersion.VERSION_1_8</span><br><span class="line">        <span class="keyword">targetCompatibility</span> JavaVersion.VERSION_1_8</span><br><span class="line">    &#125;</span><br><span class="line">    kotlinOptions &#123;</span><br><span class="line">        jvmTarget = <span class="string">'1.8'</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>compileSdkVersion &#39;android-R&#39;</code>でいいらしい？</p>
+<h2 id="権限追加"><a href="#権限追加" class="headerlink" title="権限追加"></a>権限追加</h2><p>何故か補充が効かないのでコピペ</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">manifest</span> <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">package</span>=<span class="string">"com.example.manageexternalstoragesample"</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">uses-permission</span> <span class="attr">android:name</span>=<span class="string">"android.permission.MANAGE_EXTERNAL_STORAGE"</span> /&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">application</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:allowBackup</span>=<span class="string">"true"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:icon</span>=<span class="string">"@mipmap/ic_launcher"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:label</span>=<span class="string">"@string/app_name"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:roundIcon</span>=<span class="string">"@mipmap/ic_launcher_round"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:supportsRtl</span>=<span class="string">"true"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:theme</span>=<span class="string">"@style/Theme.ManageExternalStorageSample"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">activity</span> <span class="attr">android:name</span>=<span class="string">".MainActivity"</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">intent-filter</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">action</span> <span class="attr">android:name</span>=<span class="string">"android.intent.action.MAIN"</span> /&gt;</span></span><br><span class="line"></span><br><span class="line">                <span class="tag">&lt;<span class="name">category</span> <span class="attr">android:name</span>=<span class="string">"android.intent.category.LAUNCHER"</span> /&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">intent-filter</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">activity</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">application</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">manifest</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="レイアウト"><a href="#レイアウト" class="headerlink" title="レイアウト"></a>レイアウト</h2><p>そろそろConstraintLayout使えるようになりたい（難しそう）</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">LinearLayout</span> <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">xmlns:app</span>=<span class="string">"http://schemas.android.com/apk/res-auto"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">xmlns:tools</span>=<span class="string">"http://schemas.android.com/tools"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:layout_height</span>=<span class="string">"match_parent"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:gravity</span>=<span class="string">"center"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:orientation</span>=<span class="string">"vertical"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">tools:context</span>=<span class="string">".MainActivity"</span>&gt;</span></span><br><span class="line">    </span><br><span class="line">    <span class="tag">&lt;<span class="name">Button</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:id</span>=<span class="string">"@+id/button"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_width</span>=<span class="string">"wrap_content"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:text</span>=<span class="string">"権限付与"</span> /&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">Button</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:id</span>=<span class="string">"@+id/show"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_width</span>=<span class="string">"wrap_content"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:text</span>=<span class="string">"取得"</span> /&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">Button</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:id</span>=<span class="string">"@+id/read"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_width</span>=<span class="string">"wrap_content"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:text</span>=<span class="string">"書き込み"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">LinearLayout</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="権限もらう"><a href="#権限もらう" class="headerlink" title="権限もらう"></a>権限もらう</h2><p>これも補充が効かないのでIntentの中身はコピペで</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">button.setOnClickListener &#123;</span><br><span class="line">    <span class="keyword">val</span> intent = Intent(<span class="string">"android.settings.MANAGE_ALL_FILES_ACCESS_PERMISSION"</span>)</span><br><span class="line">    startActivity(intent)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Android 11から他のアプリに重ねるの権限取得で直接アプリの設定に飛べなくなりましたが、これも直接飛べずに一覧画面から選ぶ形式になってます。</p>
+<p>権限取得ボタン押すと一覧画面でます</p>
+<img src="/Bibouroku/2020/05/04/Android11%E3%81%AEMANAGE-EXTERNAL-STORAGE%E3%82%92%E8%A9%A6%E3%81%99/list.png" class="" title="list">
+
+<img src="/Bibouroku/2020/05/04/Android11%E3%81%AEMANAGE-EXTERNAL-STORAGE%E3%82%92%E8%A9%A6%E3%81%99/screen.png" class="" title="screen">
+
+
+<h2 id="生パスで読み込んでみる"><a href="#生パスで読み込んでみる" class="headerlink" title="生パスで読み込んでみる"></a>生パスで読み込んでみる</h2><p>Android 10から使えなくなった以下のコードも <del><code>MANAGE_EXTERNAL_STORAGE</code>権限を持っていれば・・・！</del><br>Android 11では<strong>読み込みなら読み込み権限(READ_EXTERNAL_STORAGE)すらいらない</strong>です。<br>ただこの仕様はAndroid 11で追加されたため、Android 10でこれ使うにはManifestに<code>requestLegacyExternalStorage=&quot;true&quot;</code>(Scoped Storage無効化)を指定する必要があります。</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">show.setOnClickListener &#123;</span><br><span class="line">    File(<span class="string">"/storage/emulated/0/"</span>).listFiles().forEach &#123;</span><br><span class="line">        println(it.name)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>出力結果</p>
+<figure class="highlight console"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Android</span><br><span class="line">Music</span><br><span class="line">Podcasts</span><br><span class="line">Ringtones</span><br><span class="line">Alarms</span><br><span class="line">Notifications</span><br><span class="line">Pictures</span><br><span class="line">Movies</span><br><span class="line">Download</span><br><span class="line">DCIM</span><br></pre></td></tr></table></figure>
+<p>以下略</p>
+<h2 id="生パスで書き込んで見る"><a href="#生パスで書き込んで見る" class="headerlink" title="生パスで書き込んで見る"></a>生パスで書き込んで見る</h2><p>Android 10から使えなくなった以下のコードも<code>MANAGE_EXTERNAL_STORAGE</code>権限の前では・・・！<br>あとボタンのIDが<code>read</code>になってるけど<code>write</code>が命名的には正解ですね。プログラム的には間違ってないけど。</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">read.setOnClickListener &#123;</span><br><span class="line">    File(<span class="string">"/storage/emulated/0/書き込みテスト.txt"</span>).apply &#123;</span><br><span class="line">        createNewFile()</span><br><span class="line">        writeText(<span class="string">"書き込めてる～？"</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Kotlinの拡張関数<code>writeText()</code>使ってるから一行で書き込めてるけどJavaだと長くなりそう。</p>
+<p>多分これもAndroid 10を対象にするにはScoped Storageを無効にする必要があります多分。</p>
+<img src="/Bibouroku/2020/05/04/Android11%E3%81%AEMANAGE-EXTERNAL-STORAGE%E3%82%92%E8%A9%A6%E3%81%99/write.png" class="" title="write">
+
+<h1 id="おわりに"><a href="#おわりに" class="headerlink" title="おわりに"></a>おわりに</h1><p>くっそめんどくさくね？(SAFだのScopedStorageだのMediaStoreだの)<br>あとSDカード入る実機ほしい。Xperiaの21:9使ってみたい。<br>（S7 EdgeあるけどなんかSDM 820の割にNexus 7 2013のほうが動くからハズレSoC引いた？）</p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最終更新：<time datetime="2020-05-03T17:04:21.755Z" itemprop="dateUpdated">2020年05月04日 02時04分21秒 02:04:21</time>
+</span><br>
+
+
+        
+         
+        
+        <p><span id="text_count"></span></p>
+    </div>
+    
+    <footer>
+        <a href="https://takusan23.github.io/Bibouroku">
+            <img src="/Bibouroku/img/avatar.gif" alt="takusan23">
+            takusan23
+        </a>
+    </footer>
+</blockquote>
+<script>
+    window.onload = () => {
+        const page = document.getElementById('post-content')
+        let mozisuu = 0
+        // pタグを探す
+        Array.from(page.getElementsByTagName('p')).forEach(element => {
+            // aタグは外す
+            if (element.getElementsByTagName('a').length == 0) {
+                mozisuu += element.innerText.length
+            }
+        })
+        // 文字数表示
+        document.getElementById('text_count').innerText = `文字数（だいたい）：${mozisuu} 文字`
+    }
+</script>
+        
+<!-- <div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div> -->
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/Bibouroku/tags/Android/" rel="tag">Android</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/Bibouroku/tags/Android11/" rel="tag">Android11</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://takusan23.github.io/Bibouroku/2020/05/04/Android11%E3%81%AEMANAGE-EXTERNAL-STORAGE%E3%82%92%E8%A9%A6%E3%81%99/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Android11のMANAGE_EXTERNAL_STORAGEを試す》 — たくさんの備忘録&url=https://takusan23.github.io/Bibouroku/2020/05/04/Android11%E3%81%AEMANAGE-EXTERNAL-STORAGE%E3%82%92%E8%A9%A6%E3%81%99/&via=https://takusan23.github.io/Bibouroku" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="line share-sns" target="_blank" href="https://social-plugins.line.me/lineit/share?text=《Android11のMANAGE_EXTERNAL_STORAGEを試す》 — たくさんの備忘録&url=https://takusan23.github.io/Bibouroku/2020/05/04/Android11%E3%81%AEMANAGE-EXTERNAL-STORAGE%E3%82%92%E8%A9%A6%E3%81%99/&via=https://takusan23.github.io/Bibouroku" data-title=" LINE">
+          <i class="icon custom-icon-line"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between flex-row-reverse">
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/Bibouroku/2020/05/03/Android%E3%81%AERipple%E3%81%AE%E3%82%A2%E3%83%8B%E3%83%A1%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3%E3%81%8C%E3%81%8B%E3%81%8F%E3%81%8B%E3%81%8F%E3%81%AB%E3%81%AA%E3%82%8B%E3%81%AE%E3%82%92%E7%9B%B4%E3%81%99/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">AndroidのRippleのアニメーションがかくかくになるのを直す</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/Bibouroku/" alt="打赏二维码">
+        </div>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <!-- <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        総サイトユーザー：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        総サイトアクセス：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+            <span> </span>
+        </p>
+    </div> -->
+    <div class="bottom">
+        <p><span>takusan23 &copy; 2020</span>
+            <span>
+                
+                Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://takusan23.github.io/Bibouroku/2020/05/04/Android11%E3%81%AEMANAGE-EXTERNAL-STORAGE%E3%82%92%E8%A9%A6%E3%81%99/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Android11のMANAGE_EXTERNAL_STORAGEを試す》 — たくさんの備忘録&url=https://takusan23.github.io/Bibouroku/2020/05/04/Android11%E3%81%AEMANAGE-EXTERNAL-STORAGE%E3%82%92%E8%A9%A6%E3%81%99/&via=https://takusan23.github.io/Bibouroku" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="line share-sns" target="_blank" href="https://social-plugins.line.me/lineit/share?text=《Android11のMANAGE_EXTERNAL_STORAGEを試す》 — たくさんの備忘録&url=https://takusan23.github.io/Bibouroku/2020/05/04/Android11%E3%81%AEMANAGE-EXTERNAL-STORAGE%E3%82%92%E8%A9%A6%E3%81%99/&via=https://takusan23.github.io/Bibouroku" data-title=" LINE">
+          <i class="icon custom-icon-line"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/Bibouroku/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<!-- <script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script> -->
+
+
+
+</body>
+</html>
