@@ -40,7 +40,7 @@ ga('send', 'pageview');
 <meta property="og:locale" content="ja_JP">
 <meta property="og:image" content="https://takusan23.github.io/Bibouroku/2020/05/09/OkHttp%E3%81%A7%E3%83%80%E3%82%A6%E3%83%B3%E3%83%AD%E3%83%BC%E3%83%89%E9%80%B2%E6%8D%97%E3%81%8C%E7%9F%A5%E3%82%8A%E3%81%9F%E3%81%84%EF%BC%81/download.png">
 <meta property="article:published_time" content="2020-05-08T15:35:36.000Z">
-<meta property="article:modified_time" content="2020-05-08T16:48:26.617Z">
+<meta property="article:modified_time" content="2020-05-09T11:21:12.872Z">
 <meta property="article:author" content="takusan23">
 <meta property="article:tag" content="Android">
 <meta property="article:tag" content="Kotlin">
@@ -279,7 +279,7 @@ ga('send', 'pageview');
 
 </li>
 </ul>
-<h2 id="ダウンロードの進捗の計算"><a href="#ダウンロードの進捗の計算" class="headerlink" title="ダウンロードの進捗の計算"></a>ダウンロードの進捗の計算</h2><p>計算とか言ったけどパーセントを求める式を使えばいいんだけど、<br><code>File#writeBytes()</code>で保存部分省略してるので進捗もなにもない。</p>
+<h2 id="ダウンロードの進捗の計算"><a href="#ダウンロードの進捗の計算" class="headerlink" title="ダウンロードの進捗の計算"></a>ダウンロードの進捗の計算</h2><p>計算とか言ったけど大した計算はしない（パーセントを求める式を使う）、<br><code>File#writeBytes()</code>で保存部分省略してるので進捗もなにもない。</p>
 <h1 id="OkHttpにダウンロード進捗（パーセント）付ける！！"><a href="#OkHttpにダウンロード進捗（パーセント）付ける！！" class="headerlink" title="OkHttpにダウンロード進捗（パーセント）付ける！！"></a>OkHttpにダウンロード進捗（パーセント）付ける！！</h1><h2 id="gradle-build"><a href="#gradle-build" class="headerlink" title="gradle.build"></a>gradle.build</h2><p>dependenciesに一行足す</p>
 <figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">dependencies</span> &#123;</span><br><span class="line">    implementation(<span class="string">"com.squareup.okhttp3:okhttp:4.6.0"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
@@ -305,7 +305,7 @@ ga('send', 'pageview');
     <div class="content">
         
 <span class="post-time">
-    最終更新：<time datetime="2020-05-08T16:48:26.617Z" itemprop="dateUpdated">2020年05月09日 01時48分26秒 01:48:26</time>
+    最終更新：<time datetime="2020-05-09T11:21:12.872Z" itemprop="dateUpdated">2020年05月09日 20時21分12秒 20:21:12</time>
 </span><br>
 
 
@@ -386,7 +386,14 @@ ga('send', 'pageview');
     </div>
 
     
-<nav class="post-nav flex-row flex-justify-between flex-row-reverse">
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/Bibouroku/2020/05/09/ExoPlayer%E3%81%AB%E3%82%AA%E3%83%95%E3%83%A9%E3%82%A4%E3%83%B3%E5%86%8D%E7%94%9F%E6%A9%9F%E8%83%BD%E3%81%82%E3%82%8B%E3%82%89%E3%81%97%E3%81%84%E3%81%AE%E3%81%A7%E4%BD%BF%E3%81%A3%E3%81%A6%E3%81%BF%E3%82%8B/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">ExoPlayerにオフライン再生機能あるらしいので使ってみる</h4>
+      </a>
+    </div>
   
 
   
