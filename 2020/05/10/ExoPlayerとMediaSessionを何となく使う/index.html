@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+<!-- Google Analytics -->
+<script>
+window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+ga('create', 'UA-149954537-1', 'auto');
+ga('send', 'pageview');
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+<!-- End Google Analytics -->
+
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>ExoPlayerとMediaSessionを何となく使う | たくさんの備忘録 |
+        備忘録</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="Android,Kotlin,MediaSession,ExoPlayer">
+    <meta name="description" content="どうもこんばんわ。なんかいきなり暑くなってあつい。夏は虫（こわい）と頭痛が痛くなる（水不足か何か）のと弱冷房車に当たる（マジでいらんだろ。スマホの発熱のほうが熱い）のがあるので嫌いです。 本題MediaSessionってのがあるんですよ。JavaScriptの方じゃないです。（JavaScriptの方はこれ↓）   AndroidのMediaSessionもJSのMediaSessionと多分同じ">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ExoPlayerとMediaSessionを何となく使う">
+<meta property="og:url" content="https://takusan23.github.io/Bibouroku/2020/05/10/ExoPlayer%E3%81%A8MediaSession%E3%82%92%E4%BD%95%E3%81%A8%E3%81%AA%E3%81%8F%E4%BD%BF%E3%81%86/index.html">
+<meta property="og:site_name" content="たくさんの備忘録">
+<meta property="og:description" content="どうもこんばんわ。なんかいきなり暑くなってあつい。夏は虫（こわい）と頭痛が痛くなる（水不足か何か）のと弱冷房車に当たる（マジでいらんだろ。スマホの発熱のほうが熱い）のがあるので嫌いです。 本題MediaSessionってのがあるんですよ。JavaScriptの方じゃないです。（JavaScriptの方はこれ↓）   AndroidのMediaSessionもJSのMediaSessionと多分同じ">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:image" content="https://takusan23.github.io/Bibouroku/2020/05/10/ExoPlayer%E3%81%A8MediaSession%E3%82%92%E4%BD%95%E3%81%A8%E3%81%AA%E3%81%8F%E4%BD%BF%E3%81%86/js.png">
+<meta property="og:image" content="https://takusan23.github.io/Bibouroku/2020/05/10/ExoPlayer%E3%81%A8MediaSession%E3%82%92%E4%BD%95%E3%81%A8%E3%81%AA%E3%81%8F%E4%BD%BF%E3%81%86/assistant.png">
+<meta property="article:published_time" content="2020-05-10T13:33:50.000Z">
+<meta property="article:modified_time" content="2020-05-10T15:39:06.165Z">
+<meta property="article:author" content="takusan23">
+<meta property="article:tag" content="Android">
+<meta property="article:tag" content="Kotlin">
+<meta property="article:tag" content="MediaSession">
+<meta property="article:tag" content="ExoPlayer">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://takusan23.github.io/Bibouroku/2020/05/10/ExoPlayer%E3%81%A8MediaSession%E3%82%92%E4%BD%95%E3%81%A8%E3%81%AA%E3%81%8F%E4%BD%BF%E3%81%86/js.png">
+    
+    <link rel="shortcut icon" href="/Bibouroku/img/favicon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <link rel="stylesheet" href="/Bibouroku/css/fonts/custom/css/custom.css">
+    <script>window.lazyScripts = []</script>
+
+    <!-- custom head -->
+    
+
+
+    <style>
+        body {
+            font-family: 'Koruri Regular';
+        }
+    </style>
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+      <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/Bibouroku/img/brand.jpg)">
+      <div class="brand">
+        <a href="/Bibouroku/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/Bibouroku/img/avatar.gif">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">takusan23</h5>
+          <a href="mailto:takusan_0913@yahoo.co.jp" title="takusan_0913@yahoo.co.jp" class="mail">takusan_0913@yahoo.co.jp</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+        <li class="waves-block waves-effect">
+          <a rel="" href="/Bibouroku/"
+            >
+            <i class="icon icon-lg icon-home"></i>
+            Home
+          </a>
+        </li>
+        
+        <li class="waves-block waves-effect">
+          <a rel="" href="/Bibouroku/archives"
+            >
+            <i class="icon icon-lg icon-archives"></i>
+            Archives
+          </a>
+        </li>
+        
+        <li class="waves-block waves-effect">
+          <a rel="" href="https://github.com/takusan23"
+            target="_blank" >
+            <i class="icon icon-lg icon-github"></i>
+            Github
+          </a>
+        </li>
+        
+        <li class="waves-block waves-effect">
+          <a rel= "me"  href="https://best-friends.chat/@takusan_23"
+            target="_blank" >
+            <i class="icon icon-lg icon-link"></i>
+            Mastodon
+          </a>
+        </li>
+        
+        <li class="waves-block waves-effect">
+          <a rel="" href="/Bibouroku/omake"
+            >
+            <i class="icon icon-lg icon-gamepad"></i>
+            お ま け
+          </a>
+        </li>
+        
+        <li class="waves-block waves-effect">
+          <a rel="" href="/Bibouroku/about"
+            >
+            <i class="icon icon-lg icon-question-circle"></i>
+            このサイトについて
+          </a>
+        </li>
+        
+
+      </ul>
+    </div>
+  </div>
+</aside>
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+            <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">ExoPlayerとMediaSessionを何となく使う</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off"
+                placeholder="検索">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search" style="display: none;">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">ExoPlayerとMediaSessionを何となく使う</h1>
+        <h5 class="subtitle">
+            
+            <time datetime="2020-05-10T13:33:50.000Z" itemprop="datePublished" class="page-time">
+  2020年05月10日 22時33分50秒
+</time>
+
+
+            
+        </h5>
+    </div>
+
+    <!-- https://vanillaice000.blog.fc2.com/blog-entry-717.html TOPページの絵文字流れてる部分の実装 -->
+    <style>
+        .marquee-anim {
+            padding: .5em 0;
+        }
+
+        .marquee-anim span {
+            display: inline-block;
+            padding-left: 100%;
+            font-size: 30px;
+            white-space: nowrap;
+            animation: marquee 10s linear infinite;
+        }
+
+        @keyframes marquee {
+            from {
+                transform: translate(0);
+            }
+
+            to {
+                transform: translate(-100%);
+            }
+        }
+    </style>
+
+    
+
+
+    <script>
+
+        // 乱数生成
+        function getRandomInt(max) {
+            return Math.floor(Math.random() * Math.floor(max));
+        }
+
+        // マーキーエリアの部分をランダムで決定
+        const marqueeList = ["🍣 🍣 🍣 🍣 🍣", "🤔 🤔 🤔 🤔 🤔", "🥳 🥳 🥳 🥳 🥳"]
+        document.getElementById('maruee_text').innerText = marqueeList[getRandomInt(marqueeList.length)]
+
+    </script>
+
+</header>
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#本題"><span class="post-toc-number">1.</span> <span class="post-toc-text">本題</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#ここまでExoPlayer要素なし"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">ここまでExoPlayer要素なし</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#作る"><span class="post-toc-number">2.</span> <span class="post-toc-text">作る</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#環境"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">環境</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#再生する曲"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">再生する曲</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#ライブラリ入れるなど"><span class="post-toc-number">2.3.</span> <span class="post-toc-text">ライブラリ入れるなど</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#音楽入れる"><span class="post-toc-number">2.4.</span> <span class="post-toc-text">音楽入れる</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#仕様など"><span class="post-toc-number">3.</span> <span class="post-toc-text">仕様など</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#MainActivity-kt"><span class="post-toc-number">4.</span> <span class="post-toc-text">MainActivity.kt</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#ExoPlayer再生するまで"><span class="post-toc-number">4.1.</span> <span class="post-toc-text">ExoPlayer再生するまで</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#MediaSession連携"><span class="post-toc-number">4.2.</span> <span class="post-toc-text">MediaSession連携</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#注意など"><span class="post-toc-number">4.3.</span> <span class="post-toc-text">注意など</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#おわりに"><span class="post-toc-number">5.</span> <span class="post-toc-text">おわりに</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#参考にしました。"><span class="post-toc-number">6.</span> <span class="post-toc-text">参考にしました。</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-ExoPlayerとMediaSessionを何となく使う" class="post-article article-type-post fade"
+    itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">ExoPlayerとMediaSessionを何となく使う</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2020年05月10日 22時33分50秒 22:33:50" datetime="2020-05-10T13:33:50.000Z"  itemprop="datePublished">2020年05月10日 22時33分50秒</time>
+
+            
+
+
+            
+<!-- <span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span> -->
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p>どうもこんばんわ。<br>なんかいきなり暑くなってあつい。<br>夏は虫（こわい）と頭痛が痛くなる（水不足か何か）のと弱冷房車に当たる（マジでいらんだろ。スマホの発熱のほうが熱い）のがあるので嫌いです。</p>
+<h1 id="本題"><a href="#本題" class="headerlink" title="本題"></a>本題</h1><p>MediaSessionってのがあるんですよ。JavaScriptの方じゃないです。（JavaScriptの方はこれ↓）</p>
+<img src="/Bibouroku/2020/05/10/ExoPlayer%E3%81%A8MediaSession%E3%82%92%E4%BD%95%E3%81%A8%E3%81%AA%E3%81%8F%E4%BD%BF%E3%81%86/js.png" class="" title="js">
+
+<p>AndroidのMediaSessionもJSのMediaSessionと多分同じ感じで、</p>
+<ul>
+<li><strong>GoogleAssistantに今再生してる曲なに？</strong>って聞くと答えが帰ってきたり</li>
+<li>Always On Display に曲名を表示したり</li>
+<li>などなど  </li>
+</ul>
+<p>GoogleAssistantで操作できるのもこれ。別にBroadcastReceiverとかで受け取ってるとかではない。</p>
+<p>ちなみに音楽プレーヤーの通知にあるあの操作パネルは別にMediaSession無しでも作れる。</p>
+<h2 id="ここまでExoPlayer要素なし"><a href="#ここまでExoPlayer要素なし" class="headerlink" title="ここまでExoPlayer要素なし"></a>ここまでExoPlayer要素なし</h2><p>MediaSessionってなんかネット上にも情報がなくてよくわからないんですが、<br>ExoPlayerとうまく連携してくれるライブラリがあるので今回はそのライブラリに頼ってMediaSessionを作っていこうと思います。</p>
+<h1 id="作る"><a href="#作る" class="headerlink" title="作る"></a>作る</h1><h2 id="環境"><a href="#環境" class="headerlink" title="環境"></a>環境</h2><table>
+<thead>
+<tr>
+<th>なまえ</th>
+<th>あたい</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Android</td>
+<td>11 DP 4</td>
+</tr>
+<tr>
+<td>言語</td>
+<td>Kotlin</td>
+</tr>
+<tr>
+<td>ExoPlayer</td>
+<td>2.11.3</td>
+</tr>
+</tbody></table>
+<h2 id="再生する曲"><a href="#再生する曲" class="headerlink" title="再生する曲"></a>再生する曲</h2><p>今回は適当にフリー音源を使います。今回は甘茶の音楽工房様のファミポップⅢを使わせてもらいます。<br>別にExoPlayerで再生できれば何でもいいです。</p>
+<h2 id="ライブラリ入れるなど"><a href="#ライブラリ入れるなど" class="headerlink" title="ライブラリ入れるなど"></a>ライブラリ入れるなど</h2><figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">dependencies</span> &#123;</span><br><span class="line">    <span class="comment">// MediaSession</span></span><br><span class="line">    implementation <span class="string">"androidx.media:media:1.1.0"</span></span><br><span class="line">    <span class="comment">// ExoPlayer</span></span><br><span class="line">    implementation <span class="string">'com.google.android.exoplayer:exoplayer-core:2.11.3'</span></span><br><span class="line">    implementation <span class="string">'com.google.android.exoplayer:extension-mediasession:2.10.4'</span></span><br><span class="line">    <span class="comment">// 省略</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="音楽入れる"><a href="#音楽入れる" class="headerlink" title="音楽入れる"></a>音楽入れる</h2><p>本当は端末内の音楽を再生するのがいいんでしょうけど、Androidのファイル読み書きがややこしいので今回はres/rawに入れて再生することにします。<br>ExoPlayerが対応してる再生方法なら何でもいいと思います。</p>
+<h1 id="仕様など"><a href="#仕様など" class="headerlink" title="仕様など"></a>仕様など</h1><p>めんどいのでServiceではなくActivityで作ります。（普通の音楽アプリならServiceで作る。）<br>音楽は前述通りres/rawから読み込む形で。</p>
+<h1 id="MainActivity-kt"><a href="#MainActivity-kt" class="headerlink" title="MainActivity.kt"></a>MainActivity.kt</h1><h2 id="ExoPlayer再生するまで"><a href="#ExoPlayer再生するまで" class="headerlink" title="ExoPlayer再生するまで"></a>ExoPlayer再生するまで</h2><p>ExoPlayerってバージョン上がると一気に非推奨になったりして追いかけるの大変。</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> : <span class="type">AppCompatActivity</span></span>() &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// ファイル名</span></span><br><span class="line">    <span class="keyword">val</span> FILE_NAME = <span class="string">"famipop3"</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">lateinit</span> <span class="keyword">var</span> exoPlayer: SimpleExoPlayer</span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onCreate</span><span class="params">(savedInstanceState: <span class="type">Bundle</span>?)</span></span> &#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState)</span><br><span class="line">        setContentView(R.layout.activity_main)</span><br><span class="line"></span><br><span class="line">        <span class="comment">// ExoPlayerで再生するまで</span></span><br><span class="line">        exoPlayer = SimpleExoPlayer.Builder(<span class="keyword">this</span>).build()</span><br><span class="line">        <span class="keyword">val</span> dataSourceFactory = DefaultDataSourceFactory(<span class="keyword">this</span>, <span class="string">"@takusan_23"</span>)</span><br><span class="line">        <span class="keyword">val</span> uri = RawResourceDataSource.buildRawResourceUri(R.raw.famipop3)</span><br><span class="line">        <span class="keyword">val</span> source = ProgressiveMediaSource.Factory(dataSourceFactory).createMediaSource(uri)</span><br><span class="line">        exoPlayer.prepare(source)</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 再生</span></span><br><span class="line">        play_button.setOnClickListener &#123;</span><br><span class="line">            exoPlayer.playWhenReady = !exoPlayer.playWhenReady</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onDestroy</span><span class="params">()</span></span> &#123;</span><br><span class="line">        <span class="keyword">super</span>.onDestroy()</span><br><span class="line">        exoPlayer.release()</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>ファイル名のところは各自書き換えてね。</p>
+<h2 id="MediaSession連携"><a href="#MediaSession連携" class="headerlink" title="MediaSession連携"></a>MediaSession連携</h2><p>めんどいので全部張ります</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> : <span class="type">AppCompatActivity</span></span>() &#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">lateinit</span> <span class="keyword">var</span> exoPlayer: SimpleExoPlayer</span><br><span class="line"></span><br><span class="line">    <span class="comment">// MediaSession</span></span><br><span class="line">    <span class="keyword">lateinit</span> <span class="keyword">var</span> mediaSession: MediaSessionCompat</span><br><span class="line">    <span class="keyword">lateinit</span> <span class="keyword">var</span> mediaSessionConnector: MediaSessionConnector</span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onCreate</span><span class="params">(savedInstanceState: <span class="type">Bundle</span>?)</span></span> &#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState)</span><br><span class="line">        setContentView(R.layout.activity_main)</span><br><span class="line"></span><br><span class="line">        <span class="comment">// ExoPlayerで再生するまで</span></span><br><span class="line">        exoPlayer = SimpleExoPlayer.Builder(<span class="keyword">this</span>).build()</span><br><span class="line">        <span class="keyword">val</span> dataSourceFactory = DefaultDataSourceFactory(<span class="keyword">this</span>, <span class="string">"@takusan_23"</span>)</span><br><span class="line">        <span class="keyword">val</span> uri = RawResourceDataSource.buildRawResourceUri(R.raw.famipop3)</span><br><span class="line">        <span class="keyword">val</span> source = ProgressiveMediaSource.Factory(dataSourceFactory).createMediaSource(uri)</span><br><span class="line">        exoPlayer.prepare(source)</span><br><span class="line"></span><br><span class="line">        <span class="comment">// mp3から再生時間だけ取る。</span></span><br><span class="line">        <span class="keyword">val</span> mediaMetadataRetriever = MediaMetadataRetriever()</span><br><span class="line">        <span class="keyword">val</span> afd = resources.openRawResourceFd(R.raw.famipop3)</span><br><span class="line">        mediaMetadataRetriever.setDataSource(afd.fileDescriptor, afd.startOffset, afd.length)</span><br><span class="line">        <span class="keyword">val</span> duration = mediaMetadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION).toLong()</span><br><span class="line"></span><br><span class="line">        <span class="comment">// MediaSession連携</span></span><br><span class="line">        mediaSession = MediaSessionCompat(<span class="keyword">this</span>, <span class="string">"sample"</span>).apply &#123;</span><br><span class="line">            isActive = <span class="literal">true</span></span><br><span class="line">        &#125;</span><br><span class="line">        mediaSessionConnector = MediaSessionConnector(mediaSession)</span><br><span class="line">        mediaSessionConnector.setPlayer(exoPlayer)</span><br><span class="line">        <span class="comment">// メタデータ</span></span><br><span class="line">        mediaSessionConnector.setMediaMetadataProvider &#123;</span><br><span class="line">            <span class="comment">// メタデータ</span></span><br><span class="line">            <span class="keyword">val</span> mediaMetadataCompat = MediaMetadataCompat.Builder().apply &#123;</span><br><span class="line">                putString(MediaMetadataCompat.METADATA_KEY_TITLE, <span class="string">"ファミポップⅢ"</span>)</span><br><span class="line">                putString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID, <span class="string">"famipop"</span>)</span><br><span class="line">                putString(MediaMetadataCompat.METADATA_KEY_DISPLAY_TITLE, <span class="string">"ファミポップⅢ"</span>)</span><br><span class="line">                putString(MediaMetadataCompat.METADATA_KEY_DISPLAY_SUBTITLE, <span class="string">"甘茶の音楽工房"</span>)</span><br><span class="line">                putString(MediaMetadataCompat.METADATA_KEY_ARTIST, <span class="string">"甘茶の音楽工房"</span>)</span><br><span class="line">                putLong(MediaMetadataCompat.METADATA_KEY_DURATION, duration) <span class="comment">// これあるとAndroid 10でシーク使えます</span></span><br><span class="line">            &#125;.build()</span><br><span class="line">            mediaMetadataCompat</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 再生</span></span><br><span class="line">        play_button.setOnClickListener &#123;</span><br><span class="line">            exoPlayer.playWhenReady = !exoPlayer.playWhenReady</span><br><span class="line">            showNotification()</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@RequiresApi(Build.VERSION_CODES.O)</span></span><br><span class="line">    <span class="keyword">private</span> <span class="function"><span class="keyword">fun</span> <span class="title">showNotification</span><span class="params">()</span></span> &#123;</span><br><span class="line">        <span class="keyword">val</span> channelId = <span class="string">"play_notification"</span></span><br><span class="line">        <span class="keyword">val</span> notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) <span class="keyword">as</span> NotificationManager</span><br><span class="line">        <span class="keyword">if</span> (notificationManager.getNotificationChannel(channelId) == <span class="literal">null</span>) &#123;</span><br><span class="line">            <span class="keyword">val</span> notificationChannel = NotificationChannel(channelId, <span class="string">"音楽通知"</span>, NotificationManager.IMPORTANCE_LOW)</span><br><span class="line">            notificationManager.createNotificationChannel(notificationChannel)</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">val</span> notification = NotificationCompat.Builder(<span class="keyword">this</span>, channelId).apply &#123;</span><br><span class="line">            <span class="comment">// MediaStyle。コントローラー</span></span><br><span class="line">            setContentTitle(<span class="string">"ファミポップⅢ"</span>)</span><br><span class="line">            setContentText(<span class="string">"甘茶の音楽工房"</span>)</span><br><span class="line">            setSmallIcon(R.drawable.ic_audiotrack_black_24dp)</span><br><span class="line">            setStyle(androidx.media.app.NotificationCompat.MediaStyle().setMediaSession(mediaSession.sessionToken))</span><br><span class="line">            addAction(R.drawable.ic_audiotrack_black_24dp, <span class="string">""</span>, PendingIntent.getBroadcast(<span class="keyword">this</span><span class="symbol">@MainActivity</span>, <span class="number">1</span>, Intent(), PendingIntent.FLAG_UPDATE_CURRENT))</span><br><span class="line">        &#125;.build()</span><br><span class="line">        notificationManager.notify(<span class="number">1</span>, notification)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onDestroy</span><span class="params">()</span></span> &#123;</span><br><span class="line">        <span class="keyword">super</span>.onDestroy()</span><br><span class="line">        <span class="comment">// 終了処理</span></span><br><span class="line">        exoPlayer.release()</span><br><span class="line">        mediaSession.release()</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="注意など"><a href="#注意など" class="headerlink" title="注意など"></a>注意など</h2><ul>
+<li>上記のコードは<code>addAction()</code>でアイコン出してるけどIntentが空なので押してもなにもなりません。</li>
+<li>通知の<code>setStyle()</code>に入れる<code>NotificationCompat</code>は<code>androidx.media.app.NotificationCompat</code>です。<code>androidx.core.app.NotificationCompat</code>ではないです（名前同じなのややこC）</li>
+<li>Android 10から通知の音楽コントローラーにシークバーが追加できるんですが（<code>MediaMetadataCompat.METADATA_KEY_DURATION</code>に負の値を指定しなければいい）これ一つ以上<code>addAction()</code>を追加しないとシークバーがいつまで経っても表示されません。  </li>
+<li><code>mediaSessionConnector.setMediaMetadataProvider{}</code>でメタデータを別に作成してますが、多分mp3の中にメタデータがあれば勝手に作ってくれると思います（要検証）</li>
+<li>メタデータハードコートしてるけど<code>MediaMetadataRetriever</code>からタイトルやら作者を取るほうが良いです。（かくのめんどい）</li>
+</ul>
+<h1 id="おわりに"><a href="#おわりに" class="headerlink" title="おわりに"></a>おわりに</h1><p>シークバー出すのに<code>addAction()</code>で一個以上アイコンを出さないとだめってことに気付かずに時間が溶けたのでもう疲れた。</p>
+<img src="/Bibouroku/2020/05/10/ExoPlayer%E3%81%A8MediaSession%E3%82%92%E4%BD%95%E3%81%A8%E3%81%AA%E3%81%8F%E4%BD%BF%E3%81%86/assistant.png" class="" title="assistant">
+
+<p>写真取れなかったけどAlways On Displayでも(Android端末差はあるだろうけど)表示されてます。</p>
+<h1 id="参考にしました。"><a href="#参考にしました。" class="headerlink" title="参考にしました。"></a>参考にしました。</h1><p><a href="https://stackoverflow.com/questions/24030756/mediaextractor-mediametadataretriever-with-raw-asset-file" target="_blank" rel="noopener">https://stackoverflow.com/questions/24030756/mediaextractor-mediametadataretriever-with-raw-asset-file</a><br><a href="https://stackoverflow.com/questions/30852975/exoplayer-reading-mp3-file-from-raw-folder" target="_blank" rel="noopener">https://stackoverflow.com/questions/30852975/exoplayer-reading-mp3-file-from-raw-folder</a></p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最終更新：<time datetime="2020-05-10T15:39:06.165Z" itemprop="dateUpdated">2020年05月11日 00時39分06秒 00:39:06</time>
+</span><br>
+
+
+        
+         
+        
+        <p><span id="text_count"></span></p>
+    </div>
+    
+    <footer>
+        <a href="https://takusan23.github.io/Bibouroku">
+            <img src="/Bibouroku/img/avatar.gif" alt="takusan23">
+            takusan23
+        </a>
+    </footer>
+</blockquote>
+<script>
+    window.onload = () => {
+        const page = document.getElementById('post-content')
+        let mozisuu = 0
+        // pタグを探す
+        Array.from(page.getElementsByTagName('p')).forEach(element => {
+            // aタグは外す
+            if (element.getElementsByTagName('a').length == 0) {
+                mozisuu += element.innerText.length
+            }
+        })
+        // 文字数表示
+        document.getElementById('text_count').innerText = `文字数（だいたい）：${mozisuu} 文字`
+    }
+</script>
+        
+<!-- <div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div> -->
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/Bibouroku/tags/Android/" rel="tag">Android</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/Bibouroku/tags/ExoPlayer/" rel="tag">ExoPlayer</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/Bibouroku/tags/Kotlin/" rel="tag">Kotlin</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/Bibouroku/tags/MediaSession/" rel="tag">MediaSession</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://takusan23.github.io/Bibouroku/2020/05/10/ExoPlayer%E3%81%A8MediaSession%E3%82%92%E4%BD%95%E3%81%A8%E3%81%AA%E3%81%8F%E4%BD%BF%E3%81%86/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《ExoPlayerとMediaSessionを何となく使う》 — たくさんの備忘録&url=https://takusan23.github.io/Bibouroku/2020/05/10/ExoPlayer%E3%81%A8MediaSession%E3%82%92%E4%BD%95%E3%81%A8%E3%81%AA%E3%81%8F%E4%BD%BF%E3%81%86/&via=https://takusan23.github.io/Bibouroku" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="line share-sns" target="_blank" href="https://social-plugins.line.me/lineit/share?text=《ExoPlayerとMediaSessionを何となく使う》 — たくさんの備忘録&url=https://takusan23.github.io/Bibouroku/2020/05/10/ExoPlayer%E3%81%A8MediaSession%E3%82%92%E4%BD%95%E3%81%A8%E3%81%AA%E3%81%8F%E4%BD%BF%E3%81%86/&via=https://takusan23.github.io/Bibouroku" data-title=" LINE">
+          <i class="icon custom-icon-line"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between flex-row-reverse">
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/Bibouroku/2020/05/09/ExoPlayer%E3%81%AB%E3%82%AA%E3%83%95%E3%83%A9%E3%82%A4%E3%83%B3%E5%86%8D%E7%94%9F%E6%A9%9F%E8%83%BD%E3%81%82%E3%82%8B%E3%82%89%E3%81%97%E3%81%84%E3%81%AE%E3%81%A7%E4%BD%BF%E3%81%A3%E3%81%A6%E3%81%BF%E3%82%8B/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">ExoPlayerにオフライン再生機能あるらしいので使ってみる</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/Bibouroku/" alt="打赏二维码">
+        </div>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <!-- <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        総サイトユーザー：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        総サイトアクセス：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+            <span> </span>
+        </p>
+    </div> -->
+    <div class="bottom">
+        <p><span>takusan23 &copy; 2020</span>
+            <span>
+                
+                Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://takusan23.github.io/Bibouroku/2020/05/10/ExoPlayer%E3%81%A8MediaSession%E3%82%92%E4%BD%95%E3%81%A8%E3%81%AA%E3%81%8F%E4%BD%BF%E3%81%86/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《ExoPlayerとMediaSessionを何となく使う》 — たくさんの備忘録&url=https://takusan23.github.io/Bibouroku/2020/05/10/ExoPlayer%E3%81%A8MediaSession%E3%82%92%E4%BD%95%E3%81%A8%E3%81%AA%E3%81%8F%E4%BD%BF%E3%81%86/&via=https://takusan23.github.io/Bibouroku" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="line share-sns" target="_blank" href="https://social-plugins.line.me/lineit/share?text=《ExoPlayerとMediaSessionを何となく使う》 — たくさんの備忘録&url=https://takusan23.github.io/Bibouroku/2020/05/10/ExoPlayer%E3%81%A8MediaSession%E3%82%92%E4%BD%95%E3%81%A8%E3%81%AA%E3%81%8F%E4%BD%BF%E3%81%86/&via=https://takusan23.github.io/Bibouroku" data-title=" LINE">
+          <i class="icon custom-icon-line"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/Bibouroku/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<!-- <script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script> -->
+
+
+
+</body>
+</html>
