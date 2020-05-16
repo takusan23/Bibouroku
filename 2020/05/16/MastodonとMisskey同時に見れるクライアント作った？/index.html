@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+<!-- Google Analytics -->
+<script>
+window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+ga('create', 'UA-149954537-1', 'auto');
+ga('send', 'pageview');
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+<!-- End Google Analytics -->
+
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>MastodonとMisskey同時に見れるクライアント作った？ | たくさんの備忘録 |
+        備忘録</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="Android,Kotlin,Mastodon,Misskey">
+    <meta name="description" content="どうもこんばんわ。少し前だけどニコ生で世話やきキツネの仙狐さん一挙放送見ました。かわいいいいいいいいいい   本題PlayStoreに出すかは考え中。     ダークモードがちょっとかっこいい     2列になってるけど設定で減らせたり増やせたりできます。時系列順になってるけど2列に出してるせいでなんか見ずらい気がする。(でも一列のクライアントいっぱいあるし・・・) なんで作ったの？ViewMod">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MastodonとMisskey同時に見れるクライアント作った？">
+<meta property="og:url" content="https://takusan23.github.io/Bibouroku/2020/05/16/Mastodon%E3%81%A8Misskey%E5%90%8C%E6%99%82%E3%81%AB%E8%A6%8B%E3%82%8C%E3%82%8B%E3%82%AF%E3%83%A9%E3%82%A4%E3%82%A2%E3%83%B3%E3%83%88%E4%BD%9C%E3%81%A3%E3%81%9F%EF%BC%9F/index.html">
+<meta property="og:site_name" content="たくさんの備忘録">
+<meta property="og:description" content="どうもこんばんわ。少し前だけどニコ生で世話やきキツネの仙狐さん一挙放送見ました。かわいいいいいいいいいい   本題PlayStoreに出すかは考え中。     ダークモードがちょっとかっこいい     2列になってるけど設定で減らせたり増やせたりできます。時系列順になってるけど2列に出してるせいでなんか見ずらい気がする。(でも一列のクライアントいっぱいあるし・・・) なんで作ったの？ViewMod">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:image" content="https://takusan23.github.io/Bibouroku/2020/05/16/Mastodon%E3%81%A8Misskey%E5%90%8C%E6%99%82%E3%81%AB%E8%A6%8B%E3%82%8C%E3%82%8B%E3%82%AF%E3%83%A9%E3%82%A4%E3%82%A2%E3%83%B3%E3%83%88%E4%BD%9C%E3%81%A3%E3%81%9F%EF%BC%9F/ss.png">
+<meta property="og:image" content="https://takusan23.github.io/Bibouroku/2020/05/16/Mastodon%E3%81%A8Misskey%E5%90%8C%E6%99%82%E3%81%AB%E8%A6%8B%E3%82%8C%E3%82%8B%E3%82%AF%E3%83%A9%E3%82%A4%E3%82%A2%E3%83%B3%E3%83%88%E4%BD%9C%E3%81%A3%E3%81%9F%EF%BC%9F/ss_dark.png">
+<meta property="article:published_time" content="2020-05-16T11:46:04.000Z">
+<meta property="article:modified_time" content="2020-05-16T15:41:47.709Z">
+<meta property="article:author" content="takusan23">
+<meta property="article:tag" content="Android">
+<meta property="article:tag" content="Kotlin">
+<meta property="article:tag" content="Mastodon">
+<meta property="article:tag" content="Misskey">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://takusan23.github.io/Bibouroku/2020/05/16/Mastodon%E3%81%A8Misskey%E5%90%8C%E6%99%82%E3%81%AB%E8%A6%8B%E3%82%8C%E3%82%8B%E3%82%AF%E3%83%A9%E3%82%A4%E3%82%A2%E3%83%B3%E3%83%88%E4%BD%9C%E3%81%A3%E3%81%9F%EF%BC%9F/ss.png">
+    
+    <link rel="shortcut icon" href="/Bibouroku/img/favicon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <link rel="stylesheet" href="/Bibouroku/css/fonts/custom/css/custom.css">
+    <script>window.lazyScripts = []</script>
+
+    <!-- custom head -->
+    
+
+
+    <style>
+        body {
+            font-family: 'Koruri Regular';
+        }
+    </style>
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+      <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/Bibouroku/img/brand.jpg)">
+      <div class="brand">
+        <a href="/Bibouroku/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/Bibouroku/img/avatar.gif">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">takusan23</h5>
+          <a href="mailto:takusan_0913@yahoo.co.jp" title="takusan_0913@yahoo.co.jp" class="mail">takusan_0913@yahoo.co.jp</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+        <li class="waves-block waves-effect">
+          <a rel="" href="/Bibouroku/"
+            >
+            <i class="icon icon-lg icon-home"></i>
+            Home
+          </a>
+        </li>
+        
+        <li class="waves-block waves-effect">
+          <a rel="" href="/Bibouroku/archives"
+            >
+            <i class="icon icon-lg icon-archives"></i>
+            Archives
+          </a>
+        </li>
+        
+        <li class="waves-block waves-effect">
+          <a rel="" href="https://github.com/takusan23"
+            target="_blank" >
+            <i class="icon icon-lg icon-github"></i>
+            Github
+          </a>
+        </li>
+        
+        <li class="waves-block waves-effect">
+          <a rel= "me"  href="https://best-friends.chat/@takusan_23"
+            target="_blank" >
+            <i class="icon icon-lg icon-link"></i>
+            Mastodon
+          </a>
+        </li>
+        
+        <li class="waves-block waves-effect">
+          <a rel="" href="/Bibouroku/omake"
+            >
+            <i class="icon icon-lg icon-gamepad"></i>
+            お ま け
+          </a>
+        </li>
+        
+        <li class="waves-block waves-effect">
+          <a rel="" href="/Bibouroku/about"
+            >
+            <i class="icon icon-lg icon-question-circle"></i>
+            このサイトについて
+          </a>
+        </li>
+        
+
+      </ul>
+    </div>
+  </div>
+</aside>
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+            <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">MastodonとMisskey同時に見れるクライアント作った？</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off"
+                placeholder="検索">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search" style="display: none;">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">MastodonとMisskey同時に見れるクライアント作った？</h1>
+        <h5 class="subtitle">
+            
+            <time datetime="2020-05-16T11:46:04.000Z" itemprop="datePublished" class="page-time">
+  2020年05月16日 20時46分04秒
+</time>
+
+
+            
+        </h5>
+    </div>
+
+    <!-- https://vanillaice000.blog.fc2.com/blog-entry-717.html TOPページの絵文字流れてる部分の実装 -->
+    <style>
+        .marquee-anim {
+            padding: .5em 0;
+        }
+
+        .marquee-anim span {
+            display: inline-block;
+            padding-left: 100%;
+            font-size: 30px;
+            white-space: nowrap;
+            animation: marquee 10s linear infinite;
+        }
+
+        @keyframes marquee {
+            from {
+                transform: translate(0);
+            }
+
+            to {
+                transform: translate(-100%);
+            }
+        }
+    </style>
+
+    
+
+
+    <script>
+
+        // 乱数生成
+        function getRandomInt(max) {
+            return Math.floor(Math.random() * Math.floor(max));
+        }
+
+        // マーキーエリアの部分をランダムで決定
+        const marqueeList = ["🍣 🍣 🍣 🍣 🍣", "🤔 🤔 🤔 🤔 🤔", "🥳 🥳 🥳 🥳 🥳"]
+        document.getElementById('maruee_text').innerText = marqueeList[getRandomInt(marqueeList.length)]
+
+    </script>
+
+</header>
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#本題"><span class="post-toc-number">1.</span> <span class="post-toc-text">本題</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#なんで作ったの？"><span class="post-toc-number">2.</span> <span class="post-toc-text">なんで作ったの？</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#なんで使わないの？"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">なんで使わないの？</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#ダウンロード"><span class="post-toc-number">3.</span> <span class="post-toc-text">ダウンロード</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#できること"><span class="post-toc-number">4.</span> <span class="post-toc-text">できること</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#できないこと"><span class="post-toc-number">5.</span> <span class="post-toc-text">できないこと</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#やりたいこと"><span class="post-toc-number">6.</span> <span class="post-toc-text">やりたいこと</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#使い方"><span class="post-toc-number">7.</span> <span class="post-toc-text">使い方</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#作るのに大変だったところとか"><span class="post-toc-number">8.</span> <span class="post-toc-text">作るのに大変だったところとか</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Twitterと違う点"><span class="post-toc-number">8.1.</span> <span class="post-toc-text">Twitterと違う点</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#MastodonとMisskeyはAPIぜんぜん違う"><span class="post-toc-number">8.2.</span> <span class="post-toc-text">MastodonとMisskeyはAPIぜんぜん違う</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#MisskeyAPIのドキュメントが"><span class="post-toc-number">8.3.</span> <span class="post-toc-text">MisskeyAPIのドキュメントが</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#カスタム絵文字"><span class="post-toc-number">8.4.</span> <span class="post-toc-text">カスタム絵文字</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#自由にファイルアクセスできないこんな世の中でTypeface-createFromFile"><span class="post-toc-number">8.5.</span> <span class="post-toc-text">自由にファイルアクセスできないこんな世の中でTypeface#createFromFile()</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#RecyclerViewで表示"><span class="post-toc-number">8.6.</span> <span class="post-toc-text">RecyclerViewで表示</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#データクラスで画面回転耐久"><span class="post-toc-number">8.7.</span> <span class="post-toc-text">データクラスで画面回転耐久</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#終わりに"><span class="post-toc-number">9.</span> <span class="post-toc-text">終わりに</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-MastodonとMisskey同時に見れるクライアント作った？" class="post-article article-type-post fade"
+    itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">MastodonとMisskey同時に見れるクライアント作った？</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2020年05月16日 20時46分04秒 20:46:04" datetime="2020-05-16T11:46:04.000Z"  itemprop="datePublished">2020年05月16日 20時46分04秒</time>
+
+            
+
+
+            
+<!-- <span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span> -->
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p>どうもこんばんわ。<br>少し前だけどニコ生で世話やきキツネの仙狐さん一挙放送見ました。かわいいいいいいいいいい  </p>
+<h1 id="本題"><a href="#本題" class="headerlink" title="本題"></a>本題</h1><p>PlayStoreに出すかは考え中。  </p>
+<img src="/Bibouroku/2020/05/16/Mastodon%E3%81%A8Misskey%E5%90%8C%E6%99%82%E3%81%AB%E8%A6%8B%E3%82%8C%E3%82%8B%E3%82%AF%E3%83%A9%E3%82%A4%E3%82%A2%E3%83%B3%E3%83%88%E4%BD%9C%E3%81%A3%E3%81%9F%EF%BC%9F/ss.png" class="" title="ss">
+
+<p>ダークモードがちょっとかっこいい  </p>
+<img src="/Bibouroku/2020/05/16/Mastodon%E3%81%A8Misskey%E5%90%8C%E6%99%82%E3%81%AB%E8%A6%8B%E3%82%8C%E3%82%8B%E3%82%AF%E3%83%A9%E3%82%A4%E3%82%A2%E3%83%B3%E3%83%88%E4%BD%9C%E3%81%A3%E3%81%9F%EF%BC%9F/ss_dark.png" class="" title="ss_dark">
+
+<p>2列になってるけど設定で減らせたり増やせたりできます。<br>時系列順になってるけど2列に出してるせいでなんか見ずらい気がする。(でも一列のクライアントいっぱいあるし・・・)</p>
+<h1 id="なんで作ったの？"><a href="#なんで作ったの？" class="headerlink" title="なんで作ったの？"></a>なんで作ったの？</h1><p>ViewModel+LiveData（画面回転しても値を保持し続けてくれるやつ）でなんか一個作ろうとした。使わなかったけど。</p>
+<h2 id="なんで使わないの？"><a href="#なんで使わないの？" class="headerlink" title="なんで使わないの？"></a>なんで使わないの？</h2><p>ArrayListがViewModelで使えない？<code>add()</code>しても増えない（そもそもArrayListをViewModelで使うのが間違い説がある）<br>あとLiveDataの通知は<code>add()</code>じゃこない。<br>しゃーないので（すでにデータクラスとか作っちゃった）ViewModel+LiveData抜きで作った。<br><strong>代わりに<code>onSaveInstanceState</code>で値を引き継ぐようにしたので倒しても大丈夫（再度APIを叩くことが無い）</strong></p>
+<h1 id="ダウンロード"><a href="#ダウンロード" class="headerlink" title="ダウンロード"></a>ダウンロード</h1><p><a href="https://github.com/takusan23/KaisendonMk2/releases/tag/1.0" target="_blank" rel="noopener">https://github.com/takusan23/KaisendonMk2/releases/tag/1.0</a><br>Playストアは考え中。</p>
+<h1 id="できること"><a href="#できること" class="headerlink" title="できること"></a>できること</h1><p>逆に言うとここに書いてなければできません。</p>
+<ul>
+<li>MastodonとMisskeyを同時に見れる<ul>
+<li>Mastodon<ul>
+<li>ホーム/通知(ストリーミングのみ)/ローカル</li>
+</ul>
+</li>
+<li>Misskey<ul>
+<li>ホーム/通知(ストリーミングのみ)/ローカル</li>
+</ul>
+</li>
+<li>複数アカウント<ul>
+<li>私はMastodonとMisskeyそれぞれ一個ずつしか持ってないけどね。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>ストリーミングAPI</li>
+<li>投稿<ul>
+<li>公開範囲</li>
+<li>カスタム絵文字一覧</li>
+<li>端末の情報（キャリア名とか）</li>
+</ul>
+</li>
+<li>モバイルデータ通信のときは画像非表示<ul>
+<li>4GBしか使えないんや。このクライアントの目玉（のつもり）<ul>
+<li>今はずっとWi-Fi環境下だけど</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>ダークモード</li>
+<li>カスタム絵文字、GIFカスタム絵文字</li>
+<li>投稿操作<ul>
+<li>ふぁぼ、ブースト</li>
+<li>Misskeyはリアクション</li>
+</ul>
+</li>
+<li>タイムラインの背景変える機能</li>
+<li>タイムラインのフォント変える機能</li>
+<li>突然のクラッシュ<ul>
+<li>複数のTLをまとめて時系列順に並べる処理で出てる。</li>
+</ul>
+</li>
+</ul>
+<h1 id="できないこと"><a href="#できないこと" class="headerlink" title="できないこと"></a>できないこと</h1><ul>
+<li>画像投稿</li>
+<li>添付メディア表示もない</li>
+<li>時間指定投稿</li>
+<li>アンケ</li>
+<li>アカウント情報見る<ul>
+<li>フォローも</li>
+<li>プロフィール編集もない</li>
+</ul>
+</li>
+<li>通知はストリーミングのみ</li>
+<li>できることに書いてない事はできない</li>
+</ul>
+<h1 id="やりたいこと"><a href="#やりたいこと" class="headerlink" title="やりたいこと"></a>やりたいこと</h1><ul>
+<li>添付メディア表示</li>
+<li>プロフィール表示</li>
+</ul>
+<ul>
+<li>あとは・・・他クライアントに任せた。<ul>
+<li>モバイルデータ回線のとき画像を非表示にする機能が欲しかっただけなので</li>
+</ul>
+</li>
+</ul>
+<h1 id="使い方"><a href="#使い方" class="headerlink" title="使い方"></a>使い方</h1><p>初回起動時は強制的にログイン画面が出ます。<br>ログインできたら左下のレンチマーク押して<strong>読み込むタイムラインの設定</strong>を選ぶと</p>
+<ul>
+<li>ホーム</li>
+<li>通知</li>
+<li>ローカル</li>
+</ul>
+<p>から選べるので見たいタイムラインにチェックしてください。  </p>
+<p>複数ログインのときはレンチマーク押して<strong>ログイン</strong>を押して、ログインを済ませて、<strong>読み込むタイムラインの設定</strong>を選ぶと追加されてるので後は楽しんで。</p>
+<h1 id="作るのに大変だったところとか"><a href="#作るのに大変だったところとか" class="headerlink" title="作るのに大変だったところとか"></a>作るのに大変だったところとか</h1><h2 id="Twitterと違う点"><a href="#Twitterと違う点" class="headerlink" title="Twitterと違う点"></a>Twitterと違う点</h2><table>
+<thead>
+<tr>
+<th>できること</th>
+<th>Twitter</th>
+<th>Mastodon</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ブックマーク</td>
+<td>あるけどAPIがない</td>
+<td>使ったこと無い</td>
+</tr>
+<tr>
+<td>アンケート</td>
+<td>あるけどAPIない（アンケ機能ついてから数年経ってる）</td>
+<td>APIもあるしAPI限定の複数投票許可がある</td>
+</tr>
+<tr>
+<td>本人認証</td>
+<td>公式サイトって一般で取れんの？</td>
+<td>自分のホームページに指定したHTML貼り付けて、プロフィールの補足情報にリンク貼れば認証済みになる</td>
+</tr>
+<tr>
+<td>リアルタイム更新</td>
+<td>FilterStream（いつまで使えるか不明）かTweetDeck</td>
+<td>WebSocketで利用可能</td>
+</tr>
+<tr>
+<td>APIの利用</td>
+<td>審査を通る必要がある（垢がいつ消えるか怖い&amp;電話番号必須）</td>
+<td>Via芸できるよ（クライアント名から作れる<code>/api/v1/apps</code>）</td>
+</tr>
+<tr>
+<td>お気に入り</td>
+<td>他の人のお気に入り見れる</td>
+<td>自分しか見れないのでブックマーク代わりにでも（<strong>ただしふぁぼ通知は相手に行くのと投稿のお気に入り登録したユーザー一覧には表示される</strong>）</td>
+</tr>
+</tbody></table>
+<h2 id="MastodonとMisskeyはAPIぜんぜん違う"><a href="#MastodonとMisskeyはAPIぜんぜん違う" class="headerlink" title="MastodonとMisskeyはAPIぜんぜん違う"></a>MastodonとMisskeyはAPIぜんぜん違う</h2><p>まあそれはそうだろって話（PleromaはMastodonと互換性が有るらしい？要検証）なんだけどMastodonにあってMisskeyに無いとかって結構有るからMastodonのがそのまま使えるわけじゃない。世の中のクライアント作ってる人すごいね</p>
+<p>ついでにMisskeyのAPIは(多分)全てPOSTリクエストです。タイムラインの取得もPOSTです。投稿もPOSTです。何故かは知りませんが。</p>
+<p>OkHttp+Coroutineを使ったサンプル</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// ユーザーエージェント</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">val</span> USER_AGENT = <span class="string">"KaisendonMk2;@takusan_23"</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// application/json</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">val</span> APPLICATON_JSON = <span class="string">"application/json"</span>.toMediaType()</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> <span class="function"><span class="keyword">fun</span> <span class="title">baseTimeLineAPI</span><span class="params">(url: <span class="type">String</span>, limit: <span class="type">Int</span> = <span class="number">100</span>)</span></span>: Deferred&lt;Response&gt; =</span><br><span class="line">    GlobalScope.async &#123;</span><br><span class="line">        <span class="keyword">val</span> postData = JSONObject().apply &#123;</span><br><span class="line">            put(<span class="string">"limit"</span>, limit)</span><br><span class="line">            put(<span class="string">"i"</span>, instanceToken.token)</span><br><span class="line">        &#125;.toString().toRequestBody(APPLICATON_JSON)</span><br><span class="line">        <span class="keyword">val</span> request = Request.Builder().apply &#123;</span><br><span class="line">            url(<span class="string">"https://misskey.m544.net/api/<span class="variable">$url</span>"</span>)</span><br><span class="line">            header(<span class="string">"User-Agent"</span>, USER_AGENT)</span><br><span class="line">            post(postData)</span><br><span class="line">        &#125;.build()</span><br><span class="line">        <span class="keyword">val</span> okHttpClient = OkHttpClient()</span><br><span class="line">        <span class="keyword">val</span> response = okHttpClient.newCall(request).execute()</span><br><span class="line">        <span class="keyword">return</span><span class="symbol">@async</span> response</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>MisskeyのTL取得APIは💯件まで取れます。  </p>
+<h2 id="MisskeyAPIのドキュメントが"><a href="#MisskeyAPIのドキュメントが" class="headerlink" title="MisskeyAPIのドキュメントが"></a>MisskeyAPIのドキュメントが</h2><p><code>Misskey API</code>って調べて一番上に出てくるサイトを開いてAPIリファレンスを見ると、<strong>アクセストークンの取得になんかアプリを登録しろ</strong>って書いてあるんですが、この方法で大丈夫でした→ <a href="https://misskey.m544.net/docs/ja-JP/api" target="_blank" rel="noopener">https://misskey.m544.net/docs/ja-JP/api</a><br>そもそもアプリを登録しろってやり方なんですが、自由に鯖が作れる（私は作ったこと無いけど）Mastodon/Misskeyの仕組みではまず無理ですね。</p>
+<h2 id="カスタム絵文字"><a href="#カスタム絵文字" class="headerlink" title="カスタム絵文字"></a>カスタム絵文字</h2><p>最近は<del>ニコ動</del>（<strong>例のアレ</strong>）でもPartyParrotブームが来たわけですが、MastodonやMisskeyにも動く絵文字（カスタム絵文字）があります。<br>文字の中に画像を入れるのってHTMLとかだと簡単そうでGIFにも対応できるんですが、今回はAndroidです。TextViewじゃ無理やろ。<br>世の中のクライアントがどの様にカスタム絵文字を描画してるのかわかりませんが、私はMarkdown表示ライブラリに画像を表示する機能があったのでそれを使っています。<br>Markdown表示ライブラリ→ <a href="https://github.com/noties/Markwon" target="_blank" rel="noopener">https://github.com/noties/Markwon</a></p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * カスタム絵文字にTextViewを対応させる</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> content 文字列</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> textView setText代わり</span></span><br><span class="line"><span class="comment"> * */</span></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">setCustomEmoji</span><span class="params">(textView: <span class="type">TextView</span>, content: <span class="type">String</span>)</span></span> &#123;</span><br><span class="line">    <span class="comment">// Markdownのライブラリ入れた</span></span><br><span class="line">    <span class="keyword">val</span> markwon = Markwon.builder(textView.context)</span><br><span class="line">        .usePlugin(HtmlPlugin.create())</span><br><span class="line">        .usePlugin(ImagesPlugin.create(textView.context))</span><br><span class="line">        .usePlugin(GifPlugin.create())</span><br><span class="line">        .usePlugin(<span class="keyword">object</span> : AbstractMarkwonPlugin() &#123;</span><br><span class="line">            <span class="comment">// 読み込み中は別のDrawableを表示する</span></span><br><span class="line">            <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">configureImages</span><span class="params">(builder: <span class="type">AsyncDrawableLoader</span>.<span class="type">Builder</span>)</span></span> &#123;</span><br><span class="line">                builder.placeholderDrawableProvider &#123;</span><br><span class="line">                    <span class="comment">// your custom placeholder drawable</span></span><br><span class="line">                    textView.context.getDrawable(R.drawable.ic_refresh_black_24dp)</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;).build()</span><br><span class="line">    markwon.setMarkdown(textView, customEmojiReplaceText)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="自由にファイルアクセスできないこんな世の中でTypeface-createFromFile"><a href="#自由にファイルアクセスできないこんな世の中でTypeface-createFromFile" class="headerlink" title="自由にファイルアクセスできないこんな世の中でTypeface#createFromFile()"></a>自由にファイルアクセスできないこんな世の中でTypeface#createFromFile()</h2><p><del>ポイズン</del><br>フォント変更機能はほしいです。TextViewにもフォントファイルを適用する（ユーザーが自由に適用できる）機能あります。<code>Typeface#createFromFile()</code>って言うんですけどね。<br>これ引数にUriは指定できません（多分）。<code>file://</code>から始まるパスである必要があります。<br>このアプリではまずSAFでttfファイルを選んでもらって</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply &#123;</span><br><span class="line">    type = <span class="string">"font/*"</span></span><br><span class="line">&#125;</span><br><span class="line">startActivityForResult(intent, FONT_REQUEST_CODE)</span><br></pre></td></tr></table></figure>
+
+<p>アプリ固有ディレクトリにコピーして使います</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// アプリ固有ディレクトリにコピー</span></span><br><span class="line"><span class="keyword">val</span> uri = <span class="keyword">data</span>?.<span class="keyword">data</span> ?: <span class="keyword">return</span></span><br><span class="line"><span class="keyword">val</span> file = File(<span class="string">"<span class="subst">$&#123;context?.getExternalFilesDir(null)&#125;</span>/font.ttf"</span>)</span><br><span class="line">file.createNewFile()</span><br><span class="line"><span class="comment">// こぴー</span></span><br><span class="line"><span class="keyword">val</span> byteArray = context?.contentResolver?.openInputStream(uri)?.readBytes()</span><br><span class="line"><span class="keyword">if</span> (byteArray != <span class="literal">null</span>) &#123;</span><br><span class="line">    file.writeBytes(byteArray)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>これで<code>Typeface.createFromFile()</code>が使えます。</p>
+<h2 id="RecyclerViewで表示"><a href="#RecyclerViewで表示" class="headerlink" title="RecyclerViewで表示"></a>RecyclerViewで表示</h2><p>MastodonとMisskeyは別のデータクラスなのでRecyclerViewのAdapterにわたすときに考えないといけないんですよね。<br>今回はAdapterに渡すためのデータクラスを別に用意しました。</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * RecyclerViewに渡すデータクラス</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> allTimeLineData 色つけたりするから；；</span></span><br><span class="line"><span class="comment"> * どっちか一個だけ入れろ↓。</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> statusData</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> notificationData</span></span><br><span class="line"><span class="comment"> * */</span></span><br><span class="line"><span class="keyword">data</span> <span class="class"><span class="keyword">class</span> <span class="title">TimeLineItemData</span></span>(</span><br><span class="line">    <span class="keyword">val</span> allTimeLineData: AllTimeLineData,</span><br><span class="line">    <span class="keyword">val</span> statusData: StatusData? = <span class="literal">null</span>, <span class="comment">// null以外ならTL表示</span></span><br><span class="line">    <span class="keyword">val</span> notificationData: NotificationData? = <span class="literal">null</span>,<span class="comment">// null以外なら通知表示</span></span><br><span class="line">    <span class="keyword">val</span> misskeyNoteData: MisskeyNoteData? = <span class="literal">null</span>, <span class="comment">// null以外ならNote表示</span></span><br><span class="line">    <span class="keyword">val</span> misskeyNotificationData: MisskeyNotificationData? = <span class="literal">null</span> <span class="comment">// null以外なら通知表示</span></span><br><span class="line">) : Serializable</span><br></pre></td></tr></table></figure>
+<p>Mastodonの投稿か通知かMisskeyの投稿か通知のどれかが入ることになってます。<code>AllTimeLineDataはCardViewの色情報が入ってます。</code></p>
+<p>それからRecyclerViewでレイアウトを複数用意する方法ですが<code>getItemViewType()</code>を使います。</p>
+<p>ちょっと長いけど</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// レイアウトの定数（onCreateViewHolder()で使う）</span></span><br><span class="line"><span class="keyword">companion</span> <span class="keyword">object</span> &#123;</span><br><span class="line">    <span class="comment">/** Mastodon トゥート */</span></span><br><span class="line">    <span class="keyword">val</span> TOOT_LAYOUT = <span class="number">0</span></span><br><span class="line">    <span class="comment">/** Mastodon 通知 */</span></span><br><span class="line">    <span class="keyword">val</span> NOTIFICATION_LAYOUT = <span class="number">1</span></span><br><span class="line">    <span class="comment">/** Mastodon ブースト */</span></span><br><span class="line">    <span class="keyword">val</span> TOOT_BOOST_LAYOUT = <span class="number">2</span></span><br><span class="line">    <span class="comment">/** Misskey 投稿 */</span></span><br><span class="line">    <span class="keyword">val</span> MISSKEY_NOTE_LAYOUT = <span class="number">3</span></span><br><span class="line">    <span class="comment">/** Misskey 通知 */</span></span><br><span class="line">    <span class="keyword">val</span> MISSKEY_NOTIFICATION_LAYOUT = <span class="number">4</span></span><br><span class="line">    <span class="comment">/** Misskey Renote */</span></span><br><span class="line">    <span class="keyword">val</span> MISSKEY_RENOTE_LAYOUT = <span class="number">5</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onCreateViewHolder</span><span class="params">(parent: <span class="type">ViewGroup</span>, viewType: <span class="type">Int</span>)</span></span>: RecyclerView.ViewHolder &#123;</span><br><span class="line">    <span class="comment">// レイアウト分岐</span></span><br><span class="line">    <span class="keyword">val</span> view = <span class="keyword">when</span> (viewType) &#123;</span><br><span class="line">        TOOT_BOOST_LAYOUT -&gt; BoostViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.adapter_boost, parent, <span class="literal">false</span>))</span><br><span class="line">        TOOT_LAYOUT -&gt; TootViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.adapter_timeline, parent, <span class="literal">false</span>))</span><br><span class="line">        NOTIFICATION_LAYOUT -&gt; NotificationViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.adapter_notification, parent, <span class="literal">false</span>))</span><br><span class="line">        MISSKEY_NOTE_LAYOUT -&gt; MisskeyNoteViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.adapter_misskey_note, parent, <span class="literal">false</span>))</span><br><span class="line">        MISSKEY_NOTIFICATION_LAYOUT -&gt; MisskeyNotificationViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.adapter_misskey_notification, parent, <span class="literal">false</span>))</span><br><span class="line">        MISSKEY_RENOTE_LAYOUT -&gt; MisskeyRenoteViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.adapter_misskey_renote, parent, <span class="literal">false</span>))</span><br><span class="line">        <span class="keyword">else</span> -&gt; TootViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.adapter_timeline, parent, <span class="literal">false</span>))</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> view</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 通知と投稿で分岐させる</span></span><br><span class="line"><span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">getItemViewType</span><span class="params">(position: <span class="type">Int</span>)</span></span>: <span class="built_in">Int</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">when</span> &#123;</span><br><span class="line">        <span class="comment">// Mastodon</span></span><br><span class="line">        timeLineItemDataList[position].statusData != <span class="literal">null</span> &amp;&amp; timeLineItemDataList[position].statusData!!.reblogStatusData != <span class="literal">null</span> -&gt; TOOT_BOOST_LAYOUT</span><br><span class="line">        timeLineItemDataList[position].statusData != <span class="literal">null</span> -&gt; TOOT_LAYOUT</span><br><span class="line">        timeLineItemDataList[position].notificationData != <span class="literal">null</span> -&gt; NOTIFICATION_LAYOUT</span><br><span class="line">        <span class="comment">// Misskey</span></span><br><span class="line">        timeLineItemDataList[position].misskeyNoteData != <span class="literal">null</span> &amp;&amp; timeLineItemDataList[position].misskeyNoteData!!.renote != <span class="literal">null</span> -&gt; MISSKEY_RENOTE_LAYOUT</span><br><span class="line">        timeLineItemDataList[position].misskeyNoteData != <span class="literal">null</span> -&gt; MISSKEY_NOTE_LAYOUT</span><br><span class="line">        timeLineItemDataList[position].misskeyNotificationData != <span class="literal">null</span> -&gt; MISSKEY_NOTIFICATION_LAYOUT</span><br><span class="line">        <span class="keyword">else</span> -&gt; TOOT_LAYOUT</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="データクラスで画面回転耐久"><a href="#データクラスで画面回転耐久" class="headerlink" title="データクラスで画面回転耐久"></a>データクラスで画面回転耐久</h2><p>これは別の記事で書きたい。</p>
+<h1 id="終わりに"><a href="#終わりに" class="headerlink" title="終わりに"></a>終わりに</h1><p>コルーチンいっぱいつかった。<br><code>withContext(Dispatchers.IO)</code>って便利だね。括弧が減りそう。</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// コルーチン</span></span><br><span class="line">GlobalScope.launch(Dispatchers.Main) &#123;</span><br><span class="line">    <span class="comment">// UIスレッドのコルーチン -&gt; UIスレッドではないスレッドへ切り替え</span></span><br><span class="line">    <span class="keyword">val</span> response = withContext(Dispatchers.IO) &#123;</span><br><span class="line">        <span class="comment">// インターネットから持ってくるなど</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 帰ってきたらUIスレッドに戻る</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最終更新：<time datetime="2020-05-16T15:41:47.709Z" itemprop="dateUpdated">2020年05月17日 00時41分47秒 00:41:47</time>
+</span><br>
+
+
+        
+         
+        
+        <p><span id="text_count"></span></p>
+    </div>
+    
+    <footer>
+        <a href="https://takusan23.github.io/Bibouroku">
+            <img src="/Bibouroku/img/avatar.gif" alt="takusan23">
+            takusan23
+        </a>
+    </footer>
+</blockquote>
+<script>
+    window.onload = () => {
+        const page = document.getElementById('post-content')
+        let mozisuu = 0
+        // pタグを探す
+        Array.from(page.getElementsByTagName('p')).forEach(element => {
+            // aタグは外す
+            if (element.getElementsByTagName('a').length == 0) {
+                mozisuu += element.innerText.length
+            }
+        })
+        // 文字数表示
+        document.getElementById('text_count').innerText = `文字数（だいたい）：${mozisuu} 文字`
+    }
+</script>
+        
+<!-- <div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div> -->
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/Bibouroku/tags/Android/" rel="tag">Android</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/Bibouroku/tags/Kotlin/" rel="tag">Kotlin</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/Bibouroku/tags/Mastodon/" rel="tag">Mastodon</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/Bibouroku/tags/Misskey/" rel="tag">Misskey</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://takusan23.github.io/Bibouroku/2020/05/16/Mastodon%E3%81%A8Misskey%E5%90%8C%E6%99%82%E3%81%AB%E8%A6%8B%E3%82%8C%E3%82%8B%E3%82%AF%E3%83%A9%E3%82%A4%E3%82%A2%E3%83%B3%E3%83%88%E4%BD%9C%E3%81%A3%E3%81%9F%EF%BC%9F/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《MastodonとMisskey同時に見れるクライアント作った？》 — たくさんの備忘録&url=https://takusan23.github.io/Bibouroku/2020/05/16/Mastodon%E3%81%A8Misskey%E5%90%8C%E6%99%82%E3%81%AB%E8%A6%8B%E3%82%8C%E3%82%8B%E3%82%AF%E3%83%A9%E3%82%A4%E3%82%A2%E3%83%B3%E3%83%88%E4%BD%9C%E3%81%A3%E3%81%9F%EF%BC%9F/&via=https://takusan23.github.io/Bibouroku" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="line share-sns" target="_blank" href="https://social-plugins.line.me/lineit/share?text=《MastodonとMisskey同時に見れるクライアント作った？》 — たくさんの備忘録&url=https://takusan23.github.io/Bibouroku/2020/05/16/Mastodon%E3%81%A8Misskey%E5%90%8C%E6%99%82%E3%81%AB%E8%A6%8B%E3%82%8C%E3%82%8B%E3%82%AF%E3%83%A9%E3%82%A4%E3%82%A2%E3%83%B3%E3%83%88%E4%BD%9C%E3%81%A3%E3%81%9F%EF%BC%9F/&via=https://takusan23.github.io/Bibouroku" data-title=" LINE">
+          <i class="icon custom-icon-line"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/Bibouroku/2020/05/17/%E7%94%BB%E9%9D%A2%E5%9B%9E%E8%BB%A2%E3%81%97%E3%81%A6%E3%82%82%E5%B0%8A%E5%8E%B3%E6%90%8D%E5%82%B7%E3%81%97%E3%81%AA%E3%81%84%E3%82%88%E3%81%86%E3%81%ABonSaveInstanceState%E4%BD%BF%E3%81%86/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">画面回転しても尊厳損傷しないようにonSaveInstanceState使う</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/Bibouroku/2020/05/10/ExoPlayer%E3%81%A8MediaSession%E3%82%92%E4%BD%95%E3%81%A8%E3%81%AA%E3%81%8F%E4%BD%BF%E3%81%86/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">ExoPlayerとMediaSessionを何となく使う</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/Bibouroku/" alt="打赏二维码">
+        </div>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <!-- <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        総サイトユーザー：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        総サイトアクセス：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+            <span> </span>
+        </p>
+    </div> -->
+    <div class="bottom">
+        <p><span>takusan23 &copy; 2020</span>
+            <span>
+                
+                Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://takusan23.github.io/Bibouroku/2020/05/16/Mastodon%E3%81%A8Misskey%E5%90%8C%E6%99%82%E3%81%AB%E8%A6%8B%E3%82%8C%E3%82%8B%E3%82%AF%E3%83%A9%E3%82%A4%E3%82%A2%E3%83%B3%E3%83%88%E4%BD%9C%E3%81%A3%E3%81%9F%EF%BC%9F/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《MastodonとMisskey同時に見れるクライアント作った？》 — たくさんの備忘録&url=https://takusan23.github.io/Bibouroku/2020/05/16/Mastodon%E3%81%A8Misskey%E5%90%8C%E6%99%82%E3%81%AB%E8%A6%8B%E3%82%8C%E3%82%8B%E3%82%AF%E3%83%A9%E3%82%A4%E3%82%A2%E3%83%B3%E3%83%88%E4%BD%9C%E3%81%A3%E3%81%9F%EF%BC%9F/&via=https://takusan23.github.io/Bibouroku" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="line share-sns" target="_blank" href="https://social-plugins.line.me/lineit/share?text=《MastodonとMisskey同時に見れるクライアント作った？》 — たくさんの備忘録&url=https://takusan23.github.io/Bibouroku/2020/05/16/Mastodon%E3%81%A8Misskey%E5%90%8C%E6%99%82%E3%81%AB%E8%A6%8B%E3%82%8C%E3%82%8B%E3%82%AF%E3%83%A9%E3%82%A4%E3%82%A2%E3%83%B3%E3%83%88%E4%BD%9C%E3%81%A3%E3%81%9F%EF%BC%9F/&via=https://takusan23.github.io/Bibouroku" data-title=" LINE">
+          <i class="icon custom-icon-line"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/Bibouroku/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<!-- <script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script> -->
+
+
+
+</body>
+</html>
