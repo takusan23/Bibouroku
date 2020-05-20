@@ -39,7 +39,7 @@ ga('send', 'pageview');
 <meta property="og:description" content="自分用のメモ。 たちみどろいどのキャッシュの仕様たちみどろいどになぜかニコニコ動画再生機能とキャッシュ再生機能が実装されたのでキャッシュ再生機能の仕様でも書き残します。 あとこの記事はバージョン7.1.1以降の話です。 たちみどろいどでキャッシュを再生するには二通りのやり方があります  たちみどろいどでキャッシュを取得する 自分の持ってる動画を再生する。必要なものは以下 動画ファイル。mp4 コメ">
 <meta property="og:locale" content="ja_JP">
 <meta property="article:published_time" content="2020-04-08T09:54:12.000Z">
-<meta property="article:modified_time" content="2020-04-08T11:38:03.178Z">
+<meta property="article:modified_time" content="2020-05-20T16:11:10.983Z">
 <meta property="article:author" content="takusan23">
 <meta property="article:tag" content="Android">
 <meta property="article:tag" content="たちみどろいど">
@@ -272,7 +272,8 @@ ga('send', 'pageview');
 </ul>
 </li>
 </ul>
-<p><strong>なおどちらも通知に「ダウンロードが完了しました」が表示されるまで画面回転したりアプリを終了したりしてはいけません。</strong></p>
+<p><del><strong>なおどちらも通知に「ダウンロードが完了しました」が表示されるまで画面回転したりアプリを終了したりしてはいけません。</strong></del></p>
+<p>最新版からキャッシュ取得部分はバッググラウンドに移行させたのでどんどんキャッシュ取得ボタン押して大丈夫です。終わり次第取得されます。<br>キャッシュ取得が終われば通知が消えます。</p>
 <h2 id="ファイル構造"><a href="#ファイル構造" class="headerlink" title="ファイル構造"></a>ファイル構造</h2><p>保存先は以下です<br><strong>sdcard/Android/data/io.github.takusan23.tatimidroid/files/cache</strong></p>
 <p>ここのフォルダに動画IDでフォルダが生成されています。<br>フォルダの中身は以下の通りです。</p>
 <ul>
@@ -303,7 +304,7 @@ ga('send', 'pageview');
 <li>[動画ID]_comment.json<ul>
 <li>コメントです。JSON形式です。</li>
 <li>nmsg.nicovideo.jp/api.json/ にPOSTして帰ってきた中身を保存しています。</li>
-<li><strong>XML形式ではありません！！！*</strong></li>
+<li><strong>XML形式ではありません！！！</strong></li>
 </ul>
 </li>
 </ul>
@@ -315,6 +316,9 @@ ga('send', 'pageview');
 <h2 id="ファイル構造-1"><a href="#ファイル構造-1" class="headerlink" title="ファイル構造"></a>ファイル構造</h2><p>以下の場所にフォルダを作成してください。<br><strong>sdcard/Android/data/io.github.takusan23.tatimidroid/files/cache</strong><br>ニコ動の場合は動画ID、生放送なら生放送IDでいいとお思います。</p>
 <h2 id="中に入れるファイル"><a href="#中に入れるファイル" class="headerlink" title="中に入れるファイル"></a>中に入れるファイル</h2><h3 id="動画ファイル"><a href="#動画ファイル" class="headerlink" title="動画ファイル"></a>動画ファイル</h3><p>mp4形式で頼む。<br>ファイル名は何でもいいです。動画ファイル名はキャッシュ一覧で表示される名前になります。</p>
 <h3 id="コメントファイル"><a href="#コメントファイル" class="headerlink" title="コメントファイル"></a>コメントファイル</h3><p>xml形式の場合はファイル名は何でもいいです。（変換時にxml形式のファイルを探すため）</p>
+<p>こんな感じの↓</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">chat</span> <span class="attr">thread</span>=<span class="string">"ThreadId"</span> <span class="attr">no</span>=<span class="string">"3"</span> <span class="attr">vpos</span>=<span class="string">"コメントの再生位置(100で1秒)"</span> <span class="attr">date</span>=<span class="string">"投稿日時"</span> <span class="attr">user_id</span>=<span class="string">"ユーザーID"</span>&gt;</span>コメント<span class="tag">&lt;/<span class="name">chat</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
 <p>JSON形式の場合は以下の名前で保存することで読み込まれます。<br><strong>[動画ID]_comment.json</strong><br>例：sm157_comment.json</p>
 <p>xml形式の場合はJSON形式に変換しないと扱えないため変換する必要があります。<br>キャッシュ一覧画面で「︙」を押して「XML形式のコメントをJSON形式に変換する」を押して変換する作業をする必要があります。<br>この作業をすると[動画ID]_comment.jsonというファイルが生成されて無事再生できるようになるはずです。</p>
 <p>なお自分の動画を再生する際は以下のファイルは必要ありません。</p>
@@ -339,7 +343,7 @@ ga('send', 'pageview');
     <div class="content">
         
 <span class="post-time">
-    最終更新：<time datetime="2020-04-08T11:38:03.178Z" itemprop="dateUpdated">2020年04月08日 20時38分03秒 20:38:03</time>
+    最終更新：<time datetime="2020-05-20T16:11:10.983Z" itemprop="dateUpdated">2020年05月21日 01時11分10秒 01:11:10</time>
 </span><br>
 
 

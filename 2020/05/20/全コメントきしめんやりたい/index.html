@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+<!-- Google Analytics -->
+<script>
+window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+ga('create', 'UA-149954537-1', 'auto');
+ga('send', 'pageview');
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+<!-- End Google Analytics -->
+
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>全コメントきしめんやりたい | たくさんの備忘録 |
+        備忘録</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="Android,たちみどろいど,ニコニコ動画">
+    <meta name="description" content="どうもこんばんわ。ニコ生でAngel Beats!一挙見ました。天使ちゃんかわいい。最終回私は好きです ほんだい全コメントきしめんNursery Rhymeをたちみどろいどで再生したい。ちなみに最古のきしめんsm157は空耳なんだよね たちみどろいどでのコメント描画SurfaceViewではなくCanvas(View)でやってる。10ミリ秒ごとに動かしている。ちなみに60fpsは16ミリ秒で更新ら">
+<meta property="og:type" content="article">
+<meta property="og:title" content="全コメントきしめんやりたい">
+<meta property="og:url" content="https://takusan23.github.io/Bibouroku/2020/05/20/%E5%85%A8%E3%82%B3%E3%83%A1%E3%83%B3%E3%83%88%E3%81%8D%E3%81%97%E3%82%81%E3%82%93%E3%82%84%E3%82%8A%E3%81%9F%E3%81%84/index.html">
+<meta property="og:site_name" content="たくさんの備忘録">
+<meta property="og:description" content="どうもこんばんわ。ニコ生でAngel Beats!一挙見ました。天使ちゃんかわいい。最終回私は好きです ほんだい全コメントきしめんNursery Rhymeをたちみどろいどで再生したい。ちなみに最古のきしめんsm157は空耳なんだよね たちみどろいどでのコメント描画SurfaceViewではなくCanvas(View)でやってる。10ミリ秒ごとに動かしている。ちなみに60fpsは16ミリ秒で更新ら">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:image" content="https://takusan23.github.io/Bibouroku/2020/05/20/%E5%85%A8%E3%82%B3%E3%83%A1%E3%83%B3%E3%83%88%E3%81%8D%E3%81%97%E3%82%81%E3%82%93%E3%82%84%E3%82%8A%E3%81%9F%E3%81%84/kishimen.png">
+<meta property="og:image" content="https://takusan23.github.io/Bibouroku/2020/05/20/%E5%85%A8%E3%82%B3%E3%83%A1%E3%83%B3%E3%83%88%E3%81%8D%E3%81%97%E3%82%81%E3%82%93%E3%82%84%E3%82%8A%E3%81%9F%E3%81%84/10000.png">
+<meta property="article:published_time" content="2020-05-20T14:06:17.000Z">
+<meta property="article:modified_time" content="2020-05-20T16:14:49.496Z">
+<meta property="article:author" content="takusan23">
+<meta property="article:tag" content="Android">
+<meta property="article:tag" content="たちみどろいど">
+<meta property="article:tag" content="ニコニコ動画">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://takusan23.github.io/Bibouroku/2020/05/20/%E5%85%A8%E3%82%B3%E3%83%A1%E3%83%B3%E3%83%88%E3%81%8D%E3%81%97%E3%82%81%E3%82%93%E3%82%84%E3%82%8A%E3%81%9F%E3%81%84/kishimen.png">
+    
+    <link rel="shortcut icon" href="/Bibouroku/img/favicon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <link rel="stylesheet" href="/Bibouroku/css/fonts/custom/css/custom.css">
+    <script>window.lazyScripts = []</script>
+
+    <!-- custom head -->
+    
+
+
+    <style>
+        body {
+            font-family: 'Koruri Regular';
+        }
+    </style>
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+      <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/Bibouroku/img/brand.jpg)">
+      <div class="brand">
+        <a href="/Bibouroku/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/Bibouroku/img/avatar.gif">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">takusan23</h5>
+          <a href="mailto:takusan_0913@yahoo.co.jp" title="takusan_0913@yahoo.co.jp" class="mail">takusan_0913@yahoo.co.jp</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+        <li class="waves-block waves-effect">
+          <a rel="" href="/Bibouroku/"
+            >
+            <i class="icon icon-lg icon-home"></i>
+            Home
+          </a>
+        </li>
+        
+        <li class="waves-block waves-effect">
+          <a rel="" href="/Bibouroku/archives"
+            >
+            <i class="icon icon-lg icon-archives"></i>
+            Archives
+          </a>
+        </li>
+        
+        <li class="waves-block waves-effect">
+          <a rel="" href="https://github.com/takusan23"
+            target="_blank" >
+            <i class="icon icon-lg icon-github"></i>
+            Github
+          </a>
+        </li>
+        
+        <li class="waves-block waves-effect">
+          <a rel= "me"  href="https://best-friends.chat/@takusan_23"
+            target="_blank" >
+            <i class="icon icon-lg icon-link"></i>
+            Mastodon
+          </a>
+        </li>
+        
+        <li class="waves-block waves-effect">
+          <a rel="" href="/Bibouroku/omake"
+            >
+            <i class="icon icon-lg icon-gamepad"></i>
+            お ま け
+          </a>
+        </li>
+        
+        <li class="waves-block waves-effect">
+          <a rel="" href="/Bibouroku/about"
+            >
+            <i class="icon icon-lg icon-question-circle"></i>
+            このサイトについて
+          </a>
+        </li>
+        
+
+      </ul>
+    </div>
+  </div>
+</aside>
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+            <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">全コメントきしめんやりたい</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off"
+                placeholder="検索">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search" style="display: none;">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">全コメントきしめんやりたい</h1>
+        <h5 class="subtitle">
+            
+            <time datetime="2020-05-20T14:06:17.000Z" itemprop="datePublished" class="page-time">
+  2020年05月20日 23時06分17秒
+</time>
+
+
+            
+        </h5>
+    </div>
+
+    <!-- https://vanillaice000.blog.fc2.com/blog-entry-717.html TOPページの絵文字流れてる部分の実装 -->
+    <style>
+        .marquee-anim {
+            padding: .5em 0;
+        }
+
+        .marquee-anim span {
+            display: inline-block;
+            padding-left: 100%;
+            font-size: 30px;
+            white-space: nowrap;
+            animation: marquee 10s linear infinite;
+        }
+
+        @keyframes marquee {
+            from {
+                transform: translate(0);
+            }
+
+            to {
+                transform: translate(-100%);
+            }
+        }
+    </style>
+
+    
+
+
+    <script>
+
+        // 乱数生成
+        function getRandomInt(max) {
+            return Math.floor(Math.random() * Math.floor(max));
+        }
+
+        // マーキーエリアの部分をランダムで決定
+        const marqueeList = ["🍣 🍣 🍣 🍣 🍣", "🤔 🤔 🤔 🤔 🤔", "🥳 🥳 🥳 🥳 🥳"]
+        document.getElementById('maruee_text').innerText = marqueeList[getRandomInt(marqueeList.length)]
+
+    </script>
+
+</header>
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#ほんだい"><span class="post-toc-number">1.</span> <span class="post-toc-text">ほんだい</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#たちみどろいどでのコメント描画"><span class="post-toc-number">2.</span> <span class="post-toc-text">たちみどろいどでのコメント描画</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#SurfaceViewではない"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">SurfaceViewではない</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#全コメント取得する"><span class="post-toc-number">3.</span> <span class="post-toc-text">全コメント取得する</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#たちみどろいどで再生"><span class="post-toc-number">4.</span> <span class="post-toc-text">たちみどろいどで再生</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#結果"><span class="post-toc-number">5.</span> <span class="post-toc-text">結果</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#おわりに"><span class="post-toc-number">6.</span> <span class="post-toc-text">おわりに</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-全コメントきしめんやりたい" class="post-article article-type-post fade"
+    itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">全コメントきしめんやりたい</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2020年05月20日 23時06分17秒 23:06:17" datetime="2020-05-20T14:06:17.000Z"  itemprop="datePublished">2020年05月20日 23時06分17秒</time>
+
+            
+
+
+            
+<!-- <span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span> -->
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p>どうもこんばんわ。<br>ニコ生でAngel Beats!一挙見ました。天使ちゃんかわいい。<br>最終回私は好きです</p>
+<h1 id="ほんだい"><a href="#ほんだい" class="headerlink" title="ほんだい"></a>ほんだい</h1><p>全コメント<del>きしめん</del>Nursery Rhymeをたちみどろいどで再生したい。<br>ちなみに最古のきしめん<a href="https://nico.ms/sm157" target="_blank" rel="noopener">sm157</a>は空耳なんだよね</p>
+<h1 id="たちみどろいどでのコメント描画"><a href="#たちみどろいどでのコメント描画" class="headerlink" title="たちみどろいどでのコメント描画"></a>たちみどろいどでのコメント描画</h1><p>SurfaceViewではなくCanvas(View)でやってる。<br>10ミリ秒ごとに動かしている。ちなみに60fpsは16ミリ秒で更新らしい(1000÷60=16…)<br>私のPixelくん(3 XL)は60fpsなので無駄に計算させてる？。<br>90fpsな端末欲しいなぁ！</p>
+<h2 id="SurfaceViewではない"><a href="#SurfaceViewではない" class="headerlink" title="SurfaceViewではない"></a>SurfaceViewではない</h2><p>SurfaceViewとTextureView(Android N 以降非推奨)がなんか速くて、別スレッドで書かれるからUIが固まらないとか！？<br>というわけで試しにCanvasで書いたコメント描画をお引越ししてみたんだけど、    </p>
+<p>一気にコメント描画されるとコメントの移動が遅くなっちゃう。<br>でもこれCanvasだとコメントの移動が遅くなるとか無いんだよね（流しすぎて固まる事はある）</p>
+<p>私の実装が間違っている説はあるけどとりあえずCanvasのまま行きます。</p>
+<p>Canvas(View)だとハードウェアアクセラレーション(よくわからんけどGPU使ってくれる？)が使えるからもしかして・・・？</p>
+<h1 id="全コメント取得する"><a href="#全コメント取得する" class="headerlink" title="全コメント取得する"></a>全コメント取得する</h1><p>ニコニコ動画には過去コメント(名前の通り昔投稿されたコメント)を取得する機能があります。<br>これで全コメントが取れるようになります。  </p>
+<blockquote>
+<p>ちなみに：ニコニコ動画のコメント取得はクライアント(プレイヤー)側で制御してる。  再生時間に合わせて250件とか1000件とか指定してるっぽい。たちみどろいどではどんな動画でも1000件取ってます。</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>全コメント取得は以下の感じに</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>コメント取得API叩く</td>
+</tr>
+<tr>
+<td>2</td>
+<td>取得した中で一番古いコメントをの投稿時間を取る</td>
+</tr>
+<tr>
+<td>3</td>
+<td>一番古い投稿時間を過去コメントの時間に指定してAPI叩く</td>
+</tr>
+<tr>
+<td>4</td>
+<td>一番古いコメントの投稿時間を取得する</td>
+</tr>
+<tr>
+<td>5</td>
+<td>3~4を<strong>ゆっくり(負荷がかかるから)</strong>繰り返すことで全コメント取得できる</td>
+</tr>
+</tbody></table>
+<p>今回は全コメント取得できるツールがあったので使わせてもらいました→ <a href="http://xeno.grrr.jp/" target="_blank" rel="noopener">http://xeno.grrr.jp/</a></p>
+<h1 id="たちみどろいどで再生"><a href="#たちみどろいどで再生" class="headerlink" title="たちみどろいどで再生"></a>たちみどろいどで再生</h1><p>たちみどろいどはmp4とコメントxmlファイルがあれば再生できます。<br>こんな感じの↓</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">chat</span> <span class="attr">thread</span>=<span class="string">"ThreadId"</span> <span class="attr">no</span>=<span class="string">"3"</span> <span class="attr">vpos</span>=<span class="string">"コメントの再生位置(100で1秒)"</span> <span class="attr">date</span>=<span class="string">"投稿日時"</span> <span class="attr">user_id</span>=<span class="string">"ユーザーID"</span>&gt;</span>コメント<span class="tag">&lt;/<span class="name">chat</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="結果"><a href="#結果" class="headerlink" title="結果"></a>結果</h1><p>全コメントきしめん <a href="https://www.nicovideo.jp/watch/sm367861" target="_blank" rel="noopener">sm367861</a> (9万コメントちょい)でやった  </p>
+<p>きしめん弾幕のところは固まってしまった  </p>
+<img src="/Bibouroku/2020/05/20/%E5%85%A8%E3%82%B3%E3%83%A1%E3%83%B3%E3%83%88%E3%81%8D%E3%81%97%E3%82%81%E3%82%93%E3%82%84%E3%82%8A%E3%81%9F%E3%81%84/kishimen.png" class="" title="kishimen">
+
+<p>1万コメントでもちょっと固まった</p>
+<img src="/Bibouroku/2020/05/20/%E5%85%A8%E3%82%B3%E3%83%A1%E3%83%B3%E3%83%88%E3%81%8D%E3%81%97%E3%82%81%E3%82%93%E3%82%84%E3%82%8A%E3%81%9F%E3%81%84/10000.png" class="" width="10000">
+
+<h1 id="おわりに"><a href="#おわりに" class="headerlink" title="おわりに"></a>おわりに</h1><p>さきゅばすの追悼記事を読んでずっとやろうとしてたことができた。<br>下コメで動画が占拠されたり弾幕流れてるの見ると作ってよかったってなる。つくってよかった。<br>あとこれとは関係ないんだけど課題が多いんだが？もう休校終わるやんけ</p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最終更新：<time datetime="2020-05-20T16:14:49.496Z" itemprop="dateUpdated">2020年05月21日 01時14分49秒 01:14:49</time>
+</span><br>
+
+
+        
+         
+        
+        <p><span id="text_count"></span></p>
+    </div>
+    
+    <footer>
+        <a href="https://takusan23.github.io/Bibouroku">
+            <img src="/Bibouroku/img/avatar.gif" alt="takusan23">
+            takusan23
+        </a>
+    </footer>
+</blockquote>
+<script>
+    window.onload = () => {
+        const page = document.getElementById('post-content')
+        let mozisuu = 0
+        // pタグを探す
+        Array.from(page.getElementsByTagName('p')).forEach(element => {
+            // aタグは外す
+            if (element.getElementsByTagName('a').length == 0) {
+                mozisuu += element.innerText.length
+            }
+        })
+        // 文字数表示
+        document.getElementById('text_count').innerText = `文字数（だいたい）：${mozisuu} 文字`
+    }
+</script>
+        
+<!-- <div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div> -->
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/Bibouroku/tags/Android/" rel="tag">Android</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/Bibouroku/tags/%E3%81%9F%E3%81%A1%E3%81%BF%E3%81%A9%E3%82%8D%E3%81%84%E3%81%A9/" rel="tag">たちみどろいど</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/Bibouroku/tags/%E3%83%8B%E3%82%B3%E3%83%8B%E3%82%B3%E5%8B%95%E7%94%BB/" rel="tag">ニコニコ動画</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://takusan23.github.io/Bibouroku/2020/05/20/%E5%85%A8%E3%82%B3%E3%83%A1%E3%83%B3%E3%83%88%E3%81%8D%E3%81%97%E3%82%81%E3%82%93%E3%82%84%E3%82%8A%E3%81%9F%E3%81%84/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《全コメントきしめんやりたい》 — たくさんの備忘録&url=https://takusan23.github.io/Bibouroku/2020/05/20/%E5%85%A8%E3%82%B3%E3%83%A1%E3%83%B3%E3%83%88%E3%81%8D%E3%81%97%E3%82%81%E3%82%93%E3%82%84%E3%82%8A%E3%81%9F%E3%81%84/&via=https://takusan23.github.io/Bibouroku" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="line share-sns" target="_blank" href="https://social-plugins.line.me/lineit/share?text=《全コメントきしめんやりたい》 — たくさんの備忘録&url=https://takusan23.github.io/Bibouroku/2020/05/20/%E5%85%A8%E3%82%B3%E3%83%A1%E3%83%B3%E3%83%88%E3%81%8D%E3%81%97%E3%82%81%E3%82%93%E3%82%84%E3%82%8A%E3%81%9F%E3%81%84/&via=https://takusan23.github.io/Bibouroku" data-title=" LINE">
+          <i class="icon custom-icon-line"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between flex-row-reverse">
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/Bibouroku/2020/05/17/AndroidStudio%E3%81%A7%E5%A4%89%E3%81%AB%E6%94%B9%E8%A1%8C%E3%81%95%E3%82%8C%E3%82%8B%E3%81%AE%E3%82%92%E7%9B%B4%E3%81%99/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">AndroidStudioで変に改行されるのを直す</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/Bibouroku/" alt="打赏二维码">
+        </div>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <!-- <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        総サイトユーザー：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        総サイトアクセス：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+            <span> </span>
+        </p>
+    </div> -->
+    <div class="bottom">
+        <p><span>takusan23 &copy; 2020</span>
+            <span>
+                
+                Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://takusan23.github.io/Bibouroku/2020/05/20/%E5%85%A8%E3%82%B3%E3%83%A1%E3%83%B3%E3%83%88%E3%81%8D%E3%81%97%E3%82%81%E3%82%93%E3%82%84%E3%82%8A%E3%81%9F%E3%81%84/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《全コメントきしめんやりたい》 — たくさんの備忘録&url=https://takusan23.github.io/Bibouroku/2020/05/20/%E5%85%A8%E3%82%B3%E3%83%A1%E3%83%B3%E3%83%88%E3%81%8D%E3%81%97%E3%82%81%E3%82%93%E3%82%84%E3%82%8A%E3%81%9F%E3%81%84/&via=https://takusan23.github.io/Bibouroku" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="line share-sns" target="_blank" href="https://social-plugins.line.me/lineit/share?text=《全コメントきしめんやりたい》 — たくさんの備忘録&url=https://takusan23.github.io/Bibouroku/2020/05/20/%E5%85%A8%E3%82%B3%E3%83%A1%E3%83%B3%E3%83%88%E3%81%8D%E3%81%97%E3%82%81%E3%82%93%E3%82%84%E3%82%8A%E3%81%9F%E3%81%84/&via=https://takusan23.github.io/Bibouroku" data-title=" LINE">
+          <i class="icon custom-icon-line"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/Bibouroku/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<!-- <script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script> -->
+
+
+
+</body>
+</html>
