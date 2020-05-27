@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+<!-- Google Analytics -->
+<script>
+window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+ga('create', 'UA-149954537-1', 'auto');
+ga('send', 'pageview');
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+<!-- End Google Analytics -->
+
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>AndroidのRoomを触ってみた | たくさんの備忘録 |
+        備忘録</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="Android,Kotlin,Room,データベース">
+    <meta name="description" content="どうもこんばんわ。眠いです。冬休みの宿題では保健の課題が出ましたが、休校期間の宿題ではお昼ごはんを作る宿題が出ました。   ほんだいAndroidのRoomってのを触ってみたい。SQLiteよりRoomを使うことをGoogleが強く推奨してるのでそのうちやるんだしやるかって感じで。   Room #とはデータベース。多分SQLiteを使いやすくした物だと思う。それで抽象化レイヤってなに？ SQLi">
+<meta property="og:type" content="article">
+<meta property="og:title" content="AndroidのRoomを触ってみた">
+<meta property="og:url" content="https://takusan23.github.io/Bibouroku/2020/05/27/Android%E3%81%AERoom%E3%82%92%E8%A7%A6%E3%81%A3%E3%81%A6%E3%81%BF%E3%81%9F/index.html">
+<meta property="og:site_name" content="たくさんの備忘録">
+<meta property="og:description" content="どうもこんばんわ。眠いです。冬休みの宿題では保健の課題が出ましたが、休校期間の宿題ではお昼ごはんを作る宿題が出ました。   ほんだいAndroidのRoomってのを触ってみたい。SQLiteよりRoomを使うことをGoogleが強く推奨してるのでそのうちやるんだしやるかって感じで。   Room #とはデータベース。多分SQLiteを使いやすくした物だと思う。それで抽象化レイヤってなに？ SQLi">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:image" content="https://takusan23.github.io/Bibouroku/2020/05/27/Android%E3%81%AERoom%E3%82%92%E8%A7%A6%E3%81%A3%E3%81%A6%E3%81%BF%E3%81%9F/add.png">
+<meta property="og:image" content="https://takusan23.github.io/Bibouroku/2020/05/27/Android%E3%81%AERoom%E3%82%92%E8%A7%A6%E3%81%A3%E3%81%A6%E3%81%BF%E3%81%9F/delete.png">
+<meta property="og:image" content="https://takusan23.github.io/Bibouroku/2020/05/27/Android%E3%81%AERoom%E3%82%92%E8%A7%A6%E3%81%A3%E3%81%A6%E3%81%BF%E3%81%9F/root.png">
+<meta property="article:published_time" content="2020-05-26T15:17:21.000Z">
+<meta property="article:modified_time" content="2020-05-27T10:48:54.015Z">
+<meta property="article:author" content="takusan23">
+<meta property="article:tag" content="Android">
+<meta property="article:tag" content="Kotlin">
+<meta property="article:tag" content="Room">
+<meta property="article:tag" content="データベース">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://takusan23.github.io/Bibouroku/2020/05/27/Android%E3%81%AERoom%E3%82%92%E8%A7%A6%E3%81%A3%E3%81%A6%E3%81%BF%E3%81%9F/add.png">
+    
+    <link rel="shortcut icon" href="/Bibouroku/img/favicon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <link rel="stylesheet" href="/Bibouroku/css/fonts/custom/css/custom.css">
+    <script>window.lazyScripts = []</script>
+
+    <!-- custom head -->
+    
+
+
+    <style>
+        body {
+            font-family: 'Koruri Regular';
+        }
+    </style>
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+      <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/Bibouroku/img/brand.jpg)">
+      <div class="brand">
+        <a href="/Bibouroku/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/Bibouroku/img/avatar.gif">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">takusan23</h5>
+          <a href="mailto:takusan_0913@yahoo.co.jp" title="takusan_0913@yahoo.co.jp" class="mail">takusan_0913@yahoo.co.jp</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+        <li class="waves-block waves-effect">
+          <a rel="" href="/Bibouroku/"
+            >
+            <i class="icon icon-lg icon-home"></i>
+            Home
+          </a>
+        </li>
+        
+        <li class="waves-block waves-effect">
+          <a rel="" href="/Bibouroku/archives"
+            >
+            <i class="icon icon-lg icon-archives"></i>
+            Archives
+          </a>
+        </li>
+        
+        <li class="waves-block waves-effect">
+          <a rel="" href="https://github.com/takusan23"
+            target="_blank" >
+            <i class="icon icon-lg icon-github"></i>
+            Github
+          </a>
+        </li>
+        
+        <li class="waves-block waves-effect">
+          <a rel= "me"  href="https://best-friends.chat/@takusan_23"
+            target="_blank" >
+            <i class="icon icon-lg icon-link"></i>
+            Mastodon
+          </a>
+        </li>
+        
+        <li class="waves-block waves-effect">
+          <a rel="" href="/Bibouroku/omake"
+            >
+            <i class="icon icon-lg icon-gamepad"></i>
+            お ま け
+          </a>
+        </li>
+        
+        <li class="waves-block waves-effect">
+          <a rel="" href="/Bibouroku/about"
+            >
+            <i class="icon icon-lg icon-question-circle"></i>
+            このサイトについて
+          </a>
+        </li>
+        
+
+      </ul>
+    </div>
+  </div>
+</aside>
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+            <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">AndroidのRoomを触ってみた</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off"
+                placeholder="検索">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search" style="display: none;">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">AndroidのRoomを触ってみた</h1>
+        <h5 class="subtitle">
+            
+            <time datetime="2020-05-26T15:17:21.000Z" itemprop="datePublished" class="page-time">
+  2020年05月27日 00時17分21秒
+</time>
+
+
+            
+        </h5>
+    </div>
+
+    <!-- https://vanillaice000.blog.fc2.com/blog-entry-717.html TOPページの絵文字流れてる部分の実装 -->
+    <style>
+        .marquee-anim {
+            padding: .5em 0;
+        }
+
+        .marquee-anim span {
+            display: inline-block;
+            padding-left: 100%;
+            font-size: 30px;
+            white-space: nowrap;
+            animation: marquee 10s linear infinite;
+        }
+
+        @keyframes marquee {
+            from {
+                transform: translate(0);
+            }
+
+            to {
+                transform: translate(-100%);
+            }
+        }
+    </style>
+
+    
+
+
+    <script>
+
+        // 乱数生成
+        function getRandomInt(max) {
+            return Math.floor(Math.random() * Math.floor(max));
+        }
+
+        // マーキーエリアの部分をランダムで決定
+        const marqueeList = ["🍣 🍣 🍣 🍣 🍣", "🤔 🤔 🤔 🤔 🤔", "🥳 🥳 🥳 🥳 🥳"]
+        document.getElementById('maruee_text').innerText = marqueeList[getRandomInt(marqueeList.length)]
+
+    </script>
+
+</header>
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#ほんだい"><span class="post-toc-number">1.</span> <span class="post-toc-text">ほんだい</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Room-とは"><span class="post-toc-number">2.</span> <span class="post-toc-text">Room #とは</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#SQLite-vs-Room"><span class="post-toc-number">3.</span> <span class="post-toc-text">SQLite vs Room</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#環境"><span class="post-toc-number">4.</span> <span class="post-toc-text">環境</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#ライブラリ入れます"><span class="post-toc-number">5.</span> <span class="post-toc-text">ライブラリ入れます</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#データベースつくる"><span class="post-toc-number">6.</span> <span class="post-toc-text">データベースつくる</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Entity"><span class="post-toc-number">6.1.</span> <span class="post-toc-text">Entity</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#PrimaryKeyと-ColumnInfoについて"><span class="post-toc-number">6.1.1.</span> <span class="post-toc-text">@PrimaryKeyと@ColumnInfoについて</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Dao"><span class="post-toc-number">6.2.</span> <span class="post-toc-text">Dao</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#データベース"><span class="post-toc-number">6.3.</span> <span class="post-toc-text">データベース</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Activityからデータベースにアクセスする"><span class="post-toc-number">7.</span> <span class="post-toc-text">Activityからデータベースにアクセスする</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#activity-main-xml"><span class="post-toc-number">7.1.</span> <span class="post-toc-text">activity_main.xml</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#MainActivity-kt"><span class="post-toc-number">7.2.</span> <span class="post-toc-text">MainActivity.kt</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#少し凝ったことをやる"><span class="post-toc-number">8.</span> <span class="post-toc-text">少し凝ったことをやる</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Root取得済み環境でデータベースを覗く"><span class="post-toc-number">9.</span> <span class="post-toc-text">Root取得済み環境でデータベースを覗く</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#おわりに"><span class="post-toc-number">10.</span> <span class="post-toc-text">おわりに</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-AndroidのRoomを触ってみた" class="post-article article-type-post fade"
+    itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">AndroidのRoomを触ってみた</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2020年05月27日 00時17分21秒 00:17:21" datetime="2020-05-26T15:17:21.000Z"  itemprop="datePublished">2020年05月27日 00時17分21秒</time>
+
+            
+
+
+            
+<!-- <span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span> -->
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p>どうもこんばんわ。眠いです。<br>冬休みの宿題では保健の課題が出ましたが、休校期間の宿題ではお昼ごはんを作る宿題が出ました。  </p>
+<h1 id="ほんだい"><a href="#ほんだい" class="headerlink" title="ほんだい"></a>ほんだい</h1><p>AndroidのRoomってのを触ってみたい。SQLiteよりRoomを使うことを<strong>Googleが強く推奨</strong>してるのでそのうちやるんだしやるかって感じで。  </p>
+<h1 id="Room-とは"><a href="#Room-とは" class="headerlink" title="Room #とは"></a>Room #とは</h1><p>データベース。多分SQLiteを使いやすくした物だと思う。<br>それで<code>抽象化レイヤ</code>ってなに？</p>
+<h1 id="SQLite-vs-Room"><a href="#SQLite-vs-Room" class="headerlink" title="SQLite vs Room"></a>SQLite vs Room</h1><table>
+<thead>
+<tr>
+<th>できること</th>
+<th>SQLite</th>
+<th>Room</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>クエリ</td>
+<td>アプリ実行時まで分からない</td>
+<td>コンパイル時（それ以前にIDEが）間違いを教えてくれる</td>
+</tr>
+<tr>
+<td>UIスレッドでの実行</td>
+<td>できる</td>
+<td>できない</td>
+</tr>
+</tbody></table>
+<p>あとは各自調べてみて。既存のデータベースをRoomにも移行できるらしい？（要検証）</p>
+<h1 id="環境"><a href="#環境" class="headerlink" title="環境"></a>環境</h1><table>
+<thead>
+<tr>
+<th>なまえ</th>
+<th>あたい</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>端末</td>
+<td>Pixel 3 XL / Nexus 7 2013</td>
+</tr>
+<tr>
+<td>Android</td>
+<td>11 DP 4 / 10 Root権限あり</td>
+</tr>
+<tr>
+<td>言語</td>
+<td>Kotlin</td>
+</tr>
+</tbody></table>
+<p>今回は生成後にデータベースのファイルを見てみたいのでRootedな端末を用意しました（んなことよりNexus 7の後継出せよ）</p>
+<h1 id="ライブラリ入れます"><a href="#ライブラリ入れます" class="headerlink" title="ライブラリ入れます"></a>ライブラリ入れます</h1><p>#SQLite vs Room の項目で<strong>RoomはUIスレッドでは使えない</strong>仕様なため、Roomと一緒にコルーチンも入れます。</p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">apply plugin: <span class="string">'kotlin-kapt'</span> <span class="comment">// 一番上に</span></span><br><span class="line"><span class="comment">// 省略</span></span><br><span class="line"><span class="keyword">dependencies</span> &#123;</span><br><span class="line"><span class="comment">// Room</span></span><br><span class="line"><span class="keyword">def</span> room_version = <span class="string">"2.2.5"</span></span><br><span class="line">implementation <span class="string">"androidx.room:room-runtime:$room_version"</span></span><br><span class="line">implementation <span class="string">"androidx.room:room-ktx:$room_version"</span></span><br><span class="line">kapt <span class="string">"androidx.room:room-compiler:$room_version"</span></span><br><span class="line"><span class="comment">// Coroutines</span></span><br><span class="line">implementation <span class="string">"org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.4"</span></span><br><span class="line">implementation <span class="string">"org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.4"</span></span><br><span class="line"><span class="comment">// 省略</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="データベースつくる"><a href="#データベースつくる" class="headerlink" title="データベースつくる"></a>データベースつくる</h1><p>習うより慣れろで記事を書いてるので用語がわかりません。<br>Roomなデータベースを作るには3つのコンポーネントで構成されてるそうです。</p>
+<ul>
+<li>RoomDatabase<ul>
+<li>データベースにアクセスする時に使う</li>
+</ul>
+</li>
+<li>Entity<ul>
+<li>データベースのテーブルです？</li>
+<li>主キーとか名前とか保存したい値はここで定義します。</li>
+<li>SQLite時代では<code>create table ~</code>の部分。</li>
+<li><strong>データクラスです</strong></li>
+</ul>
+</li>
+<li>Dao<ul>
+<li>データベースから値を取り出す時に使う。</li>
+<li>クエリとかはここに書く</li>
+<li>追加とか削除とかは特にクエリ書かなくても（私もわからん）できる</li>
+<li>クエリは実行前に間違いを教えてくれる</li>
+</ul>
+</li>
+</ul>
+<h2 id="Entity"><a href="#Entity" class="headerlink" title="Entity"></a>Entity</h2><p>保存する値を定義します。Excelだと一番上の横の行ですね。<br>特に思いつかなかったのでメモでも保存してみますか</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Entity</span></span><br><span class="line"><span class="keyword">data</span> <span class="class"><span class="keyword">class</span> <span class="title">TestDBEntity</span></span>(</span><br><span class="line">    <span class="meta">@PrimaryKey(autoGenerate = true)</span> <span class="keyword">val</span> id: <span class="built_in">Int</span> = <span class="number">0</span>, <span class="comment">// 主キー</span></span><br><span class="line">    <span class="meta">@ColumnInfo(name = <span class="meta-string">"memo"</span>)</span> <span class="keyword">val</span> memo: String</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<h3 id="PrimaryKeyと-ColumnInfoについて"><a href="#PrimaryKeyと-ColumnInfoについて" class="headerlink" title="@PrimaryKeyと@ColumnInfoについて"></a>@PrimaryKeyと@ColumnInfoについて</h3><p>@Entityはおまじないです（テーブルですよって目印）<br><code>@PrimaryKey</code>は主キーの設定の時に指定します。主キーが何なのかあんまよく分かってませんが多分消す時に便利です（他とは被らない）。<br>後ろの<code>autoGenerate = true</code>は主キーを自動で生成しますよってことだと思います。<br><code>@ColumnInfo(name = &quot;memo&quot;)</code>ってのはデータベースの中ではnameに指定した値（今回は<code>memo</code>ですが、多分スネークケースで書く）を使うけど、<br>プログラムから扱う時はデータクラスの変数名で書けるよってことだと思います。</p>
+<h2 id="Dao"><a href="#Dao" class="headerlink" title="Dao"></a>Dao</h2><p>ここではデータベースにアクセスする時に使う関数たちを書いていきます。<br>SQLite時代の<code>query()</code>みたいな役割です（それにしてもquery()の引数の後半null何個書くんだよって毎回思いますね）。</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Dao</span></span><br><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">TestDBDao</span> </span>&#123;</span><br><span class="line">    <span class="comment">/** 全データ取得 */</span></span><br><span class="line">    <span class="meta">@Query(<span class="meta-string">"SELECT * FROM TestDBEntity"</span>)</span></span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">getAll</span><span class="params">()</span></span>: List&lt;TestDBEntity&gt;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/** データ更新 */</span></span><br><span class="line">    <span class="meta">@Update</span></span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">update</span><span class="params">(testDBEntity: <span class="type">TestDBEntity</span>)</span></span></span><br><span class="line"></span><br><span class="line">    <span class="comment">/** データ追加 */</span></span><br><span class="line">    <span class="meta">@Insert</span></span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">insert</span><span class="params">(testDBEntity: <span class="type">TestDBEntity</span>)</span></span></span><br><span class="line"></span><br><span class="line">    <span class="comment">/** データ削除 */</span></span><br><span class="line">    <span class="meta">@Delete</span></span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">delete</span><span class="params">(testDBEntity: <span class="type">TestDBEntity</span>)</span></span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>getAll()</code>のクエリ、ちゃんとFROMの<code>TestDBEntity</code>、ちゃんと補充されたのすごい<br>基本的なもの（@Insertとか）は最初からあるようです。<br>複雑なものはクエリを書けばできます。</p>
+<h2 id="データベース"><a href="#データベース" class="headerlink" title="データベース"></a>データベース</h2><p>説明が難しいからなしで</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Database(entities = [TestDBEntity::class], version = 1)</span></span><br><span class="line"><span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">TestDB</span> : <span class="type">RoomDatabase</span></span>() &#123;</span><br><span class="line">    <span class="keyword">abstract</span> <span class="function"><span class="keyword">fun</span> <span class="title">testDao</span><span class="params">()</span></span>: TestDBDao</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>これで用意ができました。</p>
+<h1 id="Activityからデータベースにアクセスする"><a href="#Activityからデータベースにアクセスする" class="headerlink" title="Activityからデータベースにアクセスする"></a>Activityからデータベースにアクセスする</h1><h2 id="activity-main-xml"><a href="#activity-main-xml" class="headerlink" title="activity_main.xml"></a>activity_main.xml</h2><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">LinearLayout</span> <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">xmlns:app</span>=<span class="string">"http://schemas.android.com/apk/res-auto"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">xmlns:tools</span>=<span class="string">"http://schemas.android.com/tools"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:layout_height</span>=<span class="string">"match_parent"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:orientation</span>=<span class="string">"vertical"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">tools:context</span>=<span class="string">".MainActivity"</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">EditText</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:id</span>=<span class="string">"@+id/editText"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:ems</span>=<span class="string">"10"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:inputType</span>=<span class="string">"textPersonName"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:hint</span>=<span class="string">"メモ入れてね"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:text</span>=<span class="string">""</span> /&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">LinearLayout</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:orientation</span>=<span class="string">"horizontal"</span>&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="tag">&lt;<span class="name">Button</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:id</span>=<span class="string">"@+id/add_button"</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:layout_weight</span>=<span class="string">"1"</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:text</span>=<span class="string">"追加"</span> /&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="tag">&lt;<span class="name">Button</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:id</span>=<span class="string">"@+id/load_button"</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:layout_weight</span>=<span class="string">"1"</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:text</span>=<span class="string">"読み込み"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">LinearLayout</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">TextView</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:id</span>=<span class="string">"@+id/memo_textview"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_height</span>=<span class="string">"match_parent"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">app:layout_constraintBottom_toBottomOf</span>=<span class="string">"parent"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">app:layout_constraintLeft_toLeftOf</span>=<span class="string">"parent"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">app:layout_constraintRight_toRightOf</span>=<span class="string">"parent"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">app:layout_constraintTop_toTopOf</span>=<span class="string">"parent"</span> /&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">LinearLayout</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="MainActivity-kt"><a href="#MainActivity-kt" class="headerlink" title="MainActivity.kt"></a>MainActivity.kt</h2><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> : <span class="type">AppCompatActivity</span></span>() &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onCreate</span><span class="params">(savedInstanceState: <span class="type">Bundle</span>?)</span></span> &#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState)</span><br><span class="line">        setContentView(R.layout.activity_main)</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 読み込み</span></span><br><span class="line">        loadDB()</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 読み込みボタン押したら読み込む</span></span><br><span class="line">        load_button.setOnClickListener &#123;</span><br><span class="line">            loadDB()</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 書き込む</span></span><br><span class="line">        add_button.setOnClickListener &#123;</span><br><span class="line">            writeDB()</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/** データクラスに追加する */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="function"><span class="keyword">fun</span> <span class="title">writeDB</span><span class="params">()</span></span> &#123;</span><br><span class="line">        <span class="keyword">val</span> text = editText.text.toString()</span><br><span class="line">        GlobalScope.launch &#123;</span><br><span class="line">            <span class="comment">// データベース用意。「TestDB」は実際に作られるデータベースのファイルの名前</span></span><br><span class="line">            <span class="keyword">val</span> database =</span><br><span class="line">                Room.databaseBuilder(<span class="keyword">this</span><span class="symbol">@MainActivity</span>, TestDB::<span class="class"><span class="keyword">class</span>.<span class="title">java</span>, <span class="type">"TestDB").build</span></span>()</span><br><span class="line">            <span class="keyword">val</span> dao = database.testDao()</span><br><span class="line">            <span class="comment">// 書き込むデータクラス作る</span></span><br><span class="line">            <span class="keyword">val</span> <span class="keyword">data</span> = TestDBEntity(memo = text)</span><br><span class="line">            <span class="comment">// 書き込む</span></span><br><span class="line">            dao.insert(<span class="keyword">data</span>)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/** データベースから読み込む */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="function"><span class="keyword">fun</span> <span class="title">loadDB</span><span class="params">()</span></span> &#123;</span><br><span class="line">        GlobalScope.launch(Dispatchers.Main) &#123;</span><br><span class="line">            <span class="comment">// まっさらに</span></span><br><span class="line">            memo_textview.text = <span class="string">""</span></span><br><span class="line">            <span class="comment">// UIスレッドでは実行できないためコルーチン</span></span><br><span class="line">            <span class="keyword">val</span> list = withContext(Dispatchers.IO) &#123;</span><br><span class="line">                <span class="comment">// データベース用意</span></span><br><span class="line">                <span class="keyword">val</span> database =</span><br><span class="line">                    Room.databaseBuilder(<span class="keyword">this</span><span class="symbol">@MainActivity</span>, TestDB::<span class="class"><span class="keyword">class</span>.<span class="title">java</span>, <span class="type">"TestDB").build</span></span>()</span><br><span class="line">                <span class="keyword">val</span> dao = database.testDao()</span><br><span class="line">                dao.getAll()</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">// TextViewに表示</span></span><br><span class="line">            list.forEach &#123;</span><br><span class="line">                memo_textview.append(<span class="string">"<span class="subst">$&#123;it.memo&#125;</span>\n"</span>)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>起動して→メモを入力して→追加を押す→読み込み押す<br>と下に入力した内容が表示されているはずです。やったね８８８８８８</p>
+<img src="/Bibouroku/2020/05/27/Android%E3%81%AERoom%E3%82%92%E8%A7%A6%E3%81%A3%E3%81%A6%E3%81%BF%E3%81%9F/add.png" class="" title="add">
+
+<p>SQLite時代の追加と比べて分かりやすくなってることがわかりますね～</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> contentValues = ContentValues()</span><br><span class="line">contentValues.put(<span class="string">"memo"</span>, <span class="string">"めもだよー"</span>)</span><br><span class="line">sqLiteDatabase.insert(<span class="string">"table_name"</span>, <span class="literal">null</span>, contentValues)</span><br></pre></td></tr></table></figure>
+
+<h1 id="少し凝ったことをやる"><a href="#少し凝ったことをやる" class="headerlink" title="少し凝ったことをやる"></a>少し凝ったことをやる</h1><p>削除に関する関数を書き足してみる。<br>というわけで<code>TestDBDao.kt</code>に書き足します。</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/** 指定したidのデータを消す */</span></span><br><span class="line"><span class="meta">@Query(<span class="meta-string">"DELETE FROM TestDBEntity WHERE id = :id"</span>)</span></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">deleteById</span><span class="params">(id: <span class="type">Int</span>)</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">/** 指定したメモのデータを消す */</span></span><br><span class="line"><span class="meta">@Query(<span class="meta-string">"DELETE FROM TestDBEntity WHERE memo = :memo"</span>)</span></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">deleteByMemo</span><span class="params">(memo:<span class="type">String</span>)</span></span></span><br></pre></td></tr></table></figure>
+
+<p>SQLite時代ではこんな感じに書いてましたね</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">delete(<span class="string">"table_name"</span>, <span class="string">"memo=?"</span>, arrayOf(memo))</span><br></pre></td></tr></table></figure>
+
+<p>これはidが引数と同じ時に消すというクエリです（多分）  </p>
+<p>あとは消すボタンをActivityに置いて</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">LinearLayout</span> <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">xmlns:app</span>=<span class="string">"http://schemas.android.com/apk/res-auto"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">xmlns:tools</span>=<span class="string">"http://schemas.android.com/tools"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:layout_height</span>=<span class="string">"match_parent"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:orientation</span>=<span class="string">"vertical"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">tools:context</span>=<span class="string">".MainActivity"</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">EditText</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:id</span>=<span class="string">"@+id/editText"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:ems</span>=<span class="string">"10"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:hint</span>=<span class="string">"メモ入れてね"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:inputType</span>=<span class="string">"textPersonName"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:text</span>=<span class="string">""</span> /&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">LinearLayout</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:orientation</span>=<span class="string">"horizontal"</span>&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="tag">&lt;<span class="name">Button</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:id</span>=<span class="string">"@+id/add_button"</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:layout_weight</span>=<span class="string">"1"</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:text</span>=<span class="string">"追加"</span> /&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="tag">&lt;<span class="name">Button</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:id</span>=<span class="string">"@+id/load_button"</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:layout_weight</span>=<span class="string">"1"</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:text</span>=<span class="string">"読み込み"</span> /&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="tag">&lt;<span class="name">Button</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:id</span>=<span class="string">"@+id/delete_button"</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:layout_weight</span>=<span class="string">"1"</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:text</span>=<span class="string">"削除"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">LinearLayout</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">TextView</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:id</span>=<span class="string">"@+id/memo_textview"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_height</span>=<span class="string">"match_parent"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">app:layout_constraintBottom_toBottomOf</span>=<span class="string">"parent"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">app:layout_constraintLeft_toLeftOf</span>=<span class="string">"parent"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">app:layout_constraintRight_toRightOf</span>=<span class="string">"parent"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">app:layout_constraintTop_toTopOf</span>=<span class="string">"parent"</span> /&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">LinearLayout</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> : <span class="type">AppCompatActivity</span></span>() &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onCreate</span><span class="params">(savedInstanceState: <span class="type">Bundle</span>?)</span></span> &#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState)</span><br><span class="line">        setContentView(R.layout.activity_main)</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 読み込み</span></span><br><span class="line">        loadDB()</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 読み込みボタン押したら読み込む</span></span><br><span class="line">        load_button.setOnClickListener &#123;</span><br><span class="line">            loadDB()</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 書き込む</span></span><br><span class="line">        add_button.setOnClickListener &#123;</span><br><span class="line">            writeDB()</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 削除する</span></span><br><span class="line">        delete_button.setOnClickListener &#123;</span><br><span class="line">            deleteDB()</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="function"><span class="keyword">fun</span> <span class="title">deleteDB</span><span class="params">()</span></span> &#123;</span><br><span class="line">        <span class="keyword">val</span> text = editText.text.toString()</span><br><span class="line">        GlobalScope.launch &#123;</span><br><span class="line">            <span class="comment">// データベース用意。「TestDB」は実際に作られるデータベースのファイルの名前</span></span><br><span class="line">            <span class="keyword">val</span> database =</span><br><span class="line">                Room.databaseBuilder(<span class="keyword">this</span><span class="symbol">@MainActivity</span>, TestDB::<span class="class"><span class="keyword">class</span>.<span class="title">java</span>, <span class="type">"TestDB").build</span></span>()</span><br><span class="line">            <span class="keyword">val</span> dao = database.testDao()</span><br><span class="line">            <span class="comment">// 削除する</span></span><br><span class="line">            dao.deleteByMemo(text)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/** データクラスに追加する */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="function"><span class="keyword">fun</span> <span class="title">writeDB</span><span class="params">()</span></span> &#123;</span><br><span class="line">        <span class="keyword">val</span> text = editText.text.toString()</span><br><span class="line">        GlobalScope.launch &#123;</span><br><span class="line">            <span class="comment">// データベース用意。「TestDB」は実際に作られるデータベースのファイルの名前</span></span><br><span class="line">            <span class="keyword">val</span> database =</span><br><span class="line">                Room.databaseBuilder(<span class="keyword">this</span><span class="symbol">@MainActivity</span>, TestDB::<span class="class"><span class="keyword">class</span>.<span class="title">java</span>, <span class="type">"TestDB").build</span></span>()</span><br><span class="line">            <span class="keyword">val</span> dao = database.testDao()</span><br><span class="line">            <span class="comment">// 書き込むデータクラス作る</span></span><br><span class="line">            <span class="keyword">val</span> <span class="keyword">data</span> = TestDBEntity(memo = text)</span><br><span class="line">            <span class="comment">// 書き込む</span></span><br><span class="line">            dao.insert(<span class="keyword">data</span>)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/** データベースから読み込む */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="function"><span class="keyword">fun</span> <span class="title">loadDB</span><span class="params">()</span></span> &#123;</span><br><span class="line">        GlobalScope.launch(Dispatchers.Main) &#123;</span><br><span class="line">            <span class="comment">// まっさらに</span></span><br><span class="line">            memo_textview.text = <span class="string">""</span></span><br><span class="line">            <span class="comment">// UIスレッドでは実行できないためコルーチン</span></span><br><span class="line">            <span class="keyword">val</span> list = withContext(Dispatchers.IO) &#123;</span><br><span class="line">                <span class="comment">// データベース用意</span></span><br><span class="line">                <span class="keyword">val</span> database =</span><br><span class="line">                    Room.databaseBuilder(<span class="keyword">this</span><span class="symbol">@MainActivity</span>, TestDB::<span class="class"><span class="keyword">class</span>.<span class="title">java</span>, <span class="type">"TestDB").build</span></span>()</span><br><span class="line">                <span class="keyword">val</span> dao = database.testDao()</span><br><span class="line">                dao.getAll()</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">// TextViewに表示</span></span><br><span class="line">            list.forEach &#123;</span><br><span class="line">                memo_textview.append(<span class="string">"id=<span class="subst">$&#123;it.id&#125;</span> | memo=<span class="subst">$&#123;it.memo&#125;</span>\n"</span>)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>これですでにあるメモの内容を入れたら削除できる機能が追加されました。</p>
+<img src="/Bibouroku/2020/05/27/Android%E3%81%AERoom%E3%82%92%E8%A7%A6%E3%81%A3%E3%81%A6%E3%81%BF%E3%81%9F/delete.png" class="" title="delete">
+
+<h1 id="Root取得済み環境でデータベースを覗く"><a href="#Root取得済み環境でデータベースを覗く" class="headerlink" title="Root取得済み環境でデータベースを覗く"></a>Root取得済み環境でデータベースを覗く</h1><p>最近はAndroidのRoot化の話題あんま聞かないですね（XperiaはZ4から国内版はまじで取れなくなったし。）<br>それどころか最近のdocomo版XperiaはFlashTool使ってもdocomo版のROMしか焼けないようになったそうです。  </p>
+<p>それはそうとして、データベースのファイルはRoot権限が必要な領域（<code>/data/data/${packageName}/databases/TestDB</code>）に有るのでRoot権限あるかAndroid StudioのDevice Explolerで見る（開発中アプリなら見れる）しか無いと思います多分。  </p>
+<p>今回はデータベースが見れるアプリ（Root権限必須）を利用して作成したデータベースを覗いてみます。  </p>
+<p><a href="https://play.google.com/store/apps/details?id=com.tomminosoftware.sqliteeditor&amp;hl=ja" target="_blank" rel="noopener">https://play.google.com/store/apps/details?id=com.tomminosoftware.sqliteeditor&amp;hl=ja</a></p>
+<img src="/Bibouroku/2020/05/27/Android%E3%81%AERoom%E3%82%92%E8%A7%A6%E3%81%A3%E3%81%A6%E3%81%BF%E3%81%9F/root.png" class="" title="root">
+
+<h1 id="おわりに"><a href="#おわりに" class="headerlink" title="おわりに"></a>おわりに</h1><p>もっと早くからRoom使ってればよかった感。便利。<br>ソースコード→ <a href="https://github.com/takusan23/AndroidRoomSample" target="_blank" rel="noopener">https://github.com/takusan23/AndroidRoomSample</a></p>
+<p>Android Beamが４んだせいでNexus7から写真送るの大変だった（）</p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最終更新：<time datetime="2020-05-27T10:48:54.015Z" itemprop="dateUpdated">2020年05月27日 19時48分54秒 19:48:54</time>
+</span><br>
+
+
+        
+         
+        
+        <p><span id="text_count"></span></p>
+    </div>
+    
+    <footer>
+        <a href="https://takusan23.github.io/Bibouroku">
+            <img src="/Bibouroku/img/avatar.gif" alt="takusan23">
+            takusan23
+        </a>
+    </footer>
+</blockquote>
+<script>
+    window.onload = () => {
+        const page = document.getElementById('post-content')
+        let mozisuu = 0
+        // pタグを探す
+        Array.from(page.getElementsByTagName('p')).forEach(element => {
+            // aタグは外す
+            if (element.getElementsByTagName('a').length == 0) {
+                mozisuu += element.innerText.length
+            }
+        })
+        // 文字数表示
+        document.getElementById('text_count').innerText = `文字数（だいたい）：${mozisuu} 文字`
+    }
+</script>
+        
+<!-- <div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div> -->
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/Bibouroku/tags/Android/" rel="tag">Android</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/Bibouroku/tags/Kotlin/" rel="tag">Kotlin</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/Bibouroku/tags/Room/" rel="tag">Room</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/Bibouroku/tags/%E3%83%87%E3%83%BC%E3%82%BF%E3%83%99%E3%83%BC%E3%82%B9/" rel="tag">データベース</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://takusan23.github.io/Bibouroku/2020/05/27/Android%E3%81%AERoom%E3%82%92%E8%A7%A6%E3%81%A3%E3%81%A6%E3%81%BF%E3%81%9F/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《AndroidのRoomを触ってみた》 — たくさんの備忘録&url=https://takusan23.github.io/Bibouroku/2020/05/27/Android%E3%81%AERoom%E3%82%92%E8%A7%A6%E3%81%A3%E3%81%A6%E3%81%BF%E3%81%9F/&via=https://takusan23.github.io/Bibouroku" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="line share-sns" target="_blank" href="https://social-plugins.line.me/lineit/share?text=《AndroidのRoomを触ってみた》 — たくさんの備忘録&url=https://takusan23.github.io/Bibouroku/2020/05/27/Android%E3%81%AERoom%E3%82%92%E8%A7%A6%E3%81%A3%E3%81%A6%E3%81%BF%E3%81%9F/&via=https://takusan23.github.io/Bibouroku" data-title=" LINE">
+          <i class="icon custom-icon-line"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between flex-row-reverse">
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/Bibouroku/2020/05/20/%E5%85%A8%E3%82%B3%E3%83%A1%E3%83%B3%E3%83%88%E3%81%8D%E3%81%97%E3%82%81%E3%82%93%E3%82%84%E3%82%8A%E3%81%9F%E3%81%84/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">全コメントきしめんやりたい</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/Bibouroku/" alt="打赏二维码">
+        </div>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <!-- <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        総サイトユーザー：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        総サイトアクセス：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+            <span> </span>
+        </p>
+    </div> -->
+    <div class="bottom">
+        <p><span>takusan23 &copy; 2020</span>
+            <span>
+                
+                Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://takusan23.github.io/Bibouroku/2020/05/27/Android%E3%81%AERoom%E3%82%92%E8%A7%A6%E3%81%A3%E3%81%A6%E3%81%BF%E3%81%9F/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《AndroidのRoomを触ってみた》 — たくさんの備忘録&url=https://takusan23.github.io/Bibouroku/2020/05/27/Android%E3%81%AERoom%E3%82%92%E8%A7%A6%E3%81%A3%E3%81%A6%E3%81%BF%E3%81%9F/&via=https://takusan23.github.io/Bibouroku" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="line share-sns" target="_blank" href="https://social-plugins.line.me/lineit/share?text=《AndroidのRoomを触ってみた》 — たくさんの備忘録&url=https://takusan23.github.io/Bibouroku/2020/05/27/Android%E3%81%AERoom%E3%82%92%E8%A7%A6%E3%81%A3%E3%81%A6%E3%81%BF%E3%81%9F/&via=https://takusan23.github.io/Bibouroku" data-title=" LINE">
+          <i class="icon custom-icon-line"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/Bibouroku/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<!-- <script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script> -->
+
+
+
+</body>
+</html>
